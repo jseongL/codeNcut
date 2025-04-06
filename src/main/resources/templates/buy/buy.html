@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>코드네컷</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/stylesheet.css">
+</head>
+<body>
+
+	 <section class="buyMain d-flex justify-content-center">
+        	
+			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
+				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center">
+					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userNickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
+					<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
+					<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
+				</header>
+				<div class="d-flex">
+					<input id="searchInput" type="text" class="form-control mt-2" placeholder="검색">
+					<nav class="menu">
+						<ul class="navi">	
+							<li><a href="#">악기</a>
+								<ul class="submenu">
+									<li><a href="#">통기타</a></li>
+									<li><a href="#">일렉기타</a></li>
+									<li><a href="#">키보드</a></li>
+									<li><a href="#">베이스</a></li>
+									<li><a href="#">드럼</a></li>
+								</ul>
+							</li>
+							<li><a href="#">엠프</a>
+								<ul class="submenu">
+									<li><a href="#">마샬</a></li>
+									<li><a href="#">복스</a></li>
+									<li><a href="#">펜더</a></li>
+									<li><a href="#">오렌지</a></li>
+								</ul>
+							</li>
+							<li><a href="#">장비</a>
+								<ul class="submenu">
+									<li><a href="#">케이블</a></li>
+									<li><a href="#">오인페</a></li>
+									<li><a href="#">이펙터</a></li>
+									<li><a href="#">페달보드</a></li>
+								</ul>
+							</li>
+							<li><a href="#">부속품</a>
+							<ul class="submenu">
+									<li><a href="#">피크</a></li>
+									<li><a href="#">튜너</a></li>
+									<li><a href="#">스텐드</a></li>
+									<li><a href="#">카포</a></li>
+								</ul>
+							</li>
+<!-- 로그인 되어있을때만 보이기 -->	<li><a href="#">더보기</a>
+							<ul class="submenu">
+									<li><a href="/buy/newBuy-view">새 게시물</a></li>
+		<!-- 수정, 삭제 -->			<li><a href="#">내 게시물</a></li>
+									<li><a href="#">탈퇴하기</a></li>
+								</ul>
+							</li>
+						</ul>
+						
+					</nav>
+				</div>
+				
+				<div class="border border-white user-box my-2 p-2 rounded-lg">
+				<div class="d-flex">
+					<span class="font-weight-bold">닉네임</span>
+<!-- 게시자 정보 -->	<span class="ml-4">설명</span>
+				</div>
+				<main class="d-flex align-items-center">
+					<article class="buyImg"></article>
+					<div class="buyInfo">
+						<span>모델명 : <span>fander</span></span><br>
+						<span>구입연도 : <span>2015년</span></span><br>
+						<span>가격 : <span class="text-danger">100만원</span></span><br>
+						<span>판매상태 : <span>fander</span></span>
+						<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
+					</div>				
+				</main>
+				</div>
+				
+			</div>
+       </section>
+
+
+
+
+
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+		
+		<script>
+		
+		
+		$(function(){
+			
+			
+			
+			
+			$("#logoutBtn").on("click", function(){
+				if(confirm("로그아웃 하겠습니까?")){
+					location.href = "/user/logout";
+				}
+				
+			});
+				
+			$('.navi>li').mouseover(function(){
+  				$(this).find('.submenu').stop().slideDown(500);
+  			}).mouseout(function(){
+  				$(this).find('.submenu').stop().slideUp(500);
+  			});
+		});
+			
+			
+		
+		</script>
+	
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+*{
+	text-decoration:none !important;
+	list-style:none !important;
+	margin:0;
+	padding:0;
+}
+body{
+	background:black;
+	color:white;
+}
+.userHeader{
+	font-family:"맑은고딕";
+	font-weight:bold;
+	margin-top:40px;
+}
+.mainHeader{
+	width:800px;
+	height:100px;
+	line-height:100px;
+	font-size:40px;
+	margin-bottom:10px;
+}
+.mainHeader .userName{
+	margin-left:20px;
+	font-size:30px;
+	margin-top:30px;
+}
+.mainHeader h1{
+	position:absolute;
+	margin-left:320px;
+}
+.mainHeader a{
+	font-size:16px;
+	margin-top:40px;
+	margin-right:10px;
+}
+.loginBtn{
+	margin-left:730px;
+}
+.main1{
+	width:380px;
+	height:320px;
+	font-weight:bold;
+	font-size:40px;
+}
+.main2{
+	width:380px;
+	height:320px;
+	margin-left:40px;
+	font-weight:bold;
+	font-size:40px;
+}
+.main3{
+	width:380px;
+	height:320px;
+	margin-top:20px;
+	font-weight:bold;
+	font-size:40px;
+}
+.main4{
+	width:380px;
+	height:320px;
+	margin-left:40px;
+	margin-top:20px;
+	font-weight:bold;
+	font-size:40px;
+}
+.main1:hover{
+	opacity:0.7;
+}
+.main2:hover{
+	opacity:0.7;
+}
+.main3:hover{
+	opacity:0.7;
+}
+.main4:hover{
+	opacity:0.7;
+}
+
+.buyMain h3{
+	position:absolute;
+	margin-left:180px;
+}
+.navi {
+    margin-top: 7px;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+/* 메인 메뉴 스타일 */
+.navi{
+	margin-left:10px;
+}
+.navi > li {
+	
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: black;
+    position: relative;
+}
+
+/* 메인 메뉴 글자 스타일 */
+.navi > li > a {
+    color: white !important;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 호버 시 메인 메뉴 스타일 변경 */
+.navi > li:hover {
+    background-color: white;
+}
+
+.navi > li:hover > a {
+    color: black !important;
+}
+/* 서브메뉴 스타일 */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%; /* 메뉴 아래에 위치 */
+    left: 0; /* 부모 기준으로 왼쪽 절반 위치 */
+    
+    width: 100%; /* 부모 메뉴와 동일한 너비 */
+    background-color: brown;
+    z-index: 10;
+    box-sizing: border-box;
+    border-top: 1px solid #555;
+    text-align: center;
+}
+
+/* 서브메뉴 항목 스타일 */
+.submenu li {
+    width: 100%;
+    line-height: 40px;
+}
+
+/* 서브메뉴 글자 스타일 */
+.submenu li a {
+    color: white !important;
+    text-decoration: none;
+    display: block;
+}
+
+/* 서브메뉴 호버 시 스타일 변경 */
+.submenu li:hover {
+    background-color: yellow;
+}
+.submenu>li:hover>a{
+	font-weight:bold;
+	color:black !important;
+}
+.buyImg{
+	width:400px;
+	height:400px;
+	background-color:#cccccc;
+}
+.buyInfo{
+	margin-left:50px;
+	font-size:40px;
+	font-weight:bold;
+}
+.descriptionInput {
+    width: 80%;
+    max-width: 500px;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.descriptionInput::placeholder {
+    color: #cccccc;
+}
+
+.descriptionInput:focus {
+    border-color: violet;
+    box-shadow: 0 0 10px violet;
+    background-color: #2a2a2a;
+    outline: none;
+    color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
