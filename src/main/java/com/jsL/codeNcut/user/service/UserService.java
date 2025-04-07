@@ -2,6 +2,7 @@ package com.jsL.codeNcut.user.service;
 
 import org.springframework.stereotype.Service;
 
+import com.jsL.codeNcut.user.common.Encrypt;
 import com.jsL.codeNcut.user.common.MD5HashingEncoder;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.repository.UserRepository;
@@ -18,11 +19,13 @@ public class UserService {
 	
 	public boolean addUser(String loginId, String password, String phoneNumber, String nickname, String email) {
 		
-		String encyptPassword = MD5HashingEncoder.encode(password);
+		//String encyptPassword = MD5HashingEncoder.encode(password);
+		
+		String saltedPassword = Encrypt.main(password);//회원가입할 때 입력받은 비밀번호
 		
 		User user = User.builder()
 				.loginId(loginId)
-				.password(encyptPassword)
+				.password(saltedPassword)
 				.phoneNumber(phoneNumber)
 				.nickname(nickname)
 				.email(email)
@@ -37,9 +40,13 @@ public class UserService {
 		return true;
 	}
 		
-	public User getUser(String loginId, String password) {	
-		String encyptPassword = MD5HashingEncoder.encode(password);
-		User user = userRepository.findByLoginIdAndPassword(loginId, encyptPassword);	
+	public User getUser(String loginId, String password) {//로그인할 때 입력받은 비밀번호
+		//String encyptPassword = MD5HashingEncoder.encode(password);
+		String saltedPassword = Encrypt.main(password);//수행과정에서 비밀번호 바뀜
+		
+		
+		
+		User user = userRepository.findByLoginIdAndPassword(loginId, saltedPassword);	
 		return user;	
 	}
 	
@@ -53,10 +60,7 @@ public class UserService {
 	}
 	
 	
-	public User getUserByUserId(int userId) {
-		User user = userRepository.findById(userId);
-		return user;
-	}
+	
 	
 	
 	

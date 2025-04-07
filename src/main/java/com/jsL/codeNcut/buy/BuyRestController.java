@@ -34,8 +34,9 @@ public class BuyRestController {
 			){
 		
 		int userId = (Integer)session.getAttribute("userId");
+		String nickname = (String)session.getAttribute("userNickname");
 		
-		boolean result = buyService.insertBuy(userId, description, model, buyYear, price, imgPath ,status);
+		boolean result = buyService.insertBuy(userId, nickname, description, model, buyYear, price, imgPath ,status);
 		
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {

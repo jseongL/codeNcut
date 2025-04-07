@@ -14,22 +14,20 @@ import jakarta.persistence.PersistenceException;
 @Service
 public class BuyService {
 	private final BuyRepository buyRepository;
-	private final UserService userService;
-	public BuyService(BuyRepository buyRepository, UserService userService) {
+
+	public BuyService(BuyRepository buyRepository) {
 		this.buyRepository = buyRepository;
-		this.userService = userService;
 	}
 	
 	
-	public boolean insertBuy(int userId, String description, String model, int buyYear, int price, MultipartFile file, String status) {
+	public boolean insertBuy(int userId, String nickname, String description, String model, int buyYear, int price, MultipartFile file, String status) {
 		
 		String urlPath = FileManager.saveFile(userId, file);
-		User user = userService.getUserByUserId(userId);
 		
 		
 		Buy buy = Buy.builder()
 				.userId(userId)
-				.nickname(user.getNickname())
+				.nickname(nickname)
 				.description(description)
 				.model(model)
 				.buyYear(buyYear)
