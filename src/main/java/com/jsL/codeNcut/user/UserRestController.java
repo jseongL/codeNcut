@@ -62,7 +62,6 @@ public class UserRestController {
 		if(user != null) {
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userLoginId", user.getLoginId());
-			session.setAttribute("userNickname", user.getNickname());
 			resultMap.put("result", "success");
 		}
 		else {

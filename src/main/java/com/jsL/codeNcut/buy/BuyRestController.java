@@ -34,6 +34,7 @@ public class BuyRestController {
 			){
 		
 		int userId = (Integer)session.getAttribute("userId");
+
 		
 		boolean result = buyService.insertBuy(userId, description, model, buyYear, price, imgPath ,status);
 		

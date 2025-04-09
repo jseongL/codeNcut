@@ -28,10 +28,7 @@ public class BuyController {
 			Model model
 			
 			) {
-		
-		
-		
-		
+	
 		List<BuyCardView>buyCardList = buyService.getBuyList();
 		
 		model.addAttribute("buyCardList", buyCardList);
