@@ -14,11 +14,11 @@
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
 				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center">		
-					<i class="bi bi-arrow-left-short mt-5"></i>	
+					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
 					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userNickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userNickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
@@ -72,22 +72,27 @@
 					</nav>
 				</div>
 				
-				<div class="border border-white user-box my-2 p-2 rounded-lg">
+				
+				<div class="border border-white user-box my-2 p-2 rounded-lg" th:each="buyCard:${buyCardList}">
 				<div class="d-flex">
-					<span class="font-weight-bold">닉네임</span>
-<!-- 게시자 정보 -->	<span class="ml-4">설명</span>
+					<span th:text="${buyCard.nickname}" class="font-weight-bold">닉네임</span>
+	<!-- 게시자 정보 --><span th:text="${buyCard.description}" class="ml-4">설명</span>
 				</div>
 				<main class="d-flex align-items-center">
-					<article class="buyImg"></article>
-					<div class="buyInfo">
-						<span>모델명 : <span>fander</span></span><br>
-						<span>구입연도 : <span>2015년</span></span><br>
-						<span>가격 : <span class="text-danger">100만원</span></span><br>
-						<span>판매상태 : <span>fander</span></span>
-						<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
-					</div>				
+						<article class="buyImg">
+							<img th:src="${buyCard.imgPath}">
+						</article>
+						<div class="buyInfo">
+							<span>모델명 : <span th:text="${buyCard.model}">fander</span></span><br>
+							<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span></span><br>
+							<span>가격 : <span th:text="${buyCard.price}" class="text-danger">100만원</span></span><br>
+							<span>판매상태 : <span th:text="${buyCard.status}">fander</span></span>
+							<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
+						</div>				
 				</main>
 				</div>
+				
+				
 				
 			</div>
        </section>
@@ -123,7 +128,10 @@
   			});
 		});
 			
-			
+		
+		$("#backBtn").on("click", function(){
+			location.href="/main-view";
+		});
 		
 		</script>
 	

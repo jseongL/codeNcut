@@ -26,7 +26,6 @@ public class Buy {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private int userId;
-	private String nickname;
 	private String description;
 	private String model;
 	private int buyYear;
