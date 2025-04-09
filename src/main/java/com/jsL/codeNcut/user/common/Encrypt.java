@@ -4,6 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import com.jsL.codeNcut.user.domain.User;
+
+import jakarta.persistence.PersistenceException;
+
 public class Encrypt {
 
 	public static String main(String password) {
@@ -12,7 +16,7 @@ public class Encrypt {
 		//Salt 생성
                 // 현재 랜덤으로 Salt값을 생성하였지만, 실제 구현시 고정시키거나 Salt값을 저장해 두어야합니다.
 		String salt = en.getSalt();
-		
+			
 		//최종 비밀번호 생성
 		String res = en.getEncrypt(password, salt);
 		

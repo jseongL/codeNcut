@@ -14,7 +14,10 @@
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg">
 				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center">
-					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userNickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+					<div>
+						<i id="backBtn" class="bi bi-arrow-left-short"></i>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+					</div>
 					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
 					<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 					<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
@@ -124,7 +127,9 @@
 			
 			
 			
-			
+			$("#backBtn").on("click", function(){
+				location.href="/buy/buy-view";
+			});
 			
 			
 			

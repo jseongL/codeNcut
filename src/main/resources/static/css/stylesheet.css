@@ -169,11 +169,18 @@ body{
 	height:400px;
 	background-color:#cccccc;
 }
+.buyImg img{
+	width:400px;
+	height:400px;
+}
 .buyInfo{
 	margin-left:50px;
 	font-size:40px;
 	font-weight:bold;
 }
+
+
+
 .descriptionInput {
     width: 80%;
     max-width: 500px;

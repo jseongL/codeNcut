@@ -18,7 +18,7 @@
 					
 					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userNickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
@@ -62,7 +62,7 @@
 							</li>
 <!-- 로그인 되어있을때만 보이기 -->	<li><a href="#">더보기</a>
 							<ul class="submenu">
-									<li><a href="/buy/newBuy-view">새 게시물</a></li>
+									<li><a th:data-user-id="${session.userId}" id="newBuy" href="#">새 게시물</a></li>
 		<!-- 수정, 삭제 -->			<li><a href="#">내 게시물</a></li>
 									<li><a href="#">탈퇴하기</a></li>
 								</ul>
@@ -111,6 +111,21 @@
 		
 		$(function(){
 			
+			$("#newBuy").on("click", function(){
+				
+				let userId = $(this).data("user-id");
+				
+				console.log("사용자 아이디 : " + userId);
+				
+				if(userId == null){
+				
+					if(confirm("게시물을 올리시려면 로그인 하세요.")){
+						location.href="/user/login-view";
+					}
+					return ;
+				}
+				location.href="/buy/newBuy-view";
+			});
 			
 			
 			
