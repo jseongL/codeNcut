@@ -60,10 +60,10 @@
 									<li><a href="#">카포</a></li>
 								</ul>
 							</li>
-<!-- 로그인 되어있을때만 보이기 -->	<li><a href="#">더보기</a>
+<!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>
 							<ul class="submenu">
 									<li><a th:data-user-id="${session.userId}" id="newBuy" href="#">새 게시물</a></li>
-		<!-- 수정, 삭제 -->			<li><a href="#">내 게시물</a></li>
+		<!-- 수정, 삭제 -->			<li><a href="/buy/myBuy-view">내 게시물</a></li>
 									<li><a href="#">탈퇴하기</a></li>
 								</ul>
 							</li>
@@ -75,8 +75,8 @@
 				
 				<div class="border border-white user-box my-2 p-2 rounded-lg" th:each="buyCard:${buyCardList}">
 				<div class="d-flex">
-					<span th:text="${buyCard.nickname}" class="font-weight-bold">닉네임</span>
-	<!-- 게시자 정보 --><span th:text="${buyCard.description}" class="ml-4">설명</span>
+					<span th:text="${buyCard.nickname}" class="font-weight-bold" style="font-size: 25px">닉네임</span>
+	<!-- 게시자 정보 --><span th:text="${buyCard.description}" class="ml-4 mt-2">설명</span>
 				</div>
 				<main class="d-flex align-items-center">
 						<article class="buyImg">
@@ -84,9 +84,9 @@
 						</article>
 						<div class="buyInfo">
 							<span>모델명 : <span th:text="${buyCard.model}">fander</span></span><br>
-							<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span></span><br>
-							<span>가격 : <span th:text="${buyCard.price}" class="text-danger">100만원</span></span><br>
-							<span>판매상태 : <span th:text="${buyCard.status}">fander</span></span>
+							<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span>년</span><br>
+							<span>가격 : <span th:text="${buyCard.price}" class="text-success">100만원</span>만원</span><br>
+							<span>판매상태 : <span class="text-danger" th:text="${buyCard.status}">fander</span></span>
 							<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
 						</div>				
 				</main>

@@ -72,7 +72,27 @@ public class BuyService {
 	}
 	
 	
-	
+	public List<BuyCardView>getMyBuyList(int userId){//내 악기구매 게시물 리스트 가져오기
+		List<Buy>myBuyList = buyRepository.findByUserId(userId);
+		
+		List<BuyCardView>buyCardList = new ArrayList<>();
+		for(Buy buy:myBuyList) {
+			User user = userService.getUserByUserId(buy.getUserId());
+			
+			BuyCardView buyCardView = BuyCardView.builder()
+					.buyId(buy.getId())
+					.nickname(user.getNickname())
+					.description(buy.getDescription())
+					.model(buy.getModel())
+					.buyYear(buy.getBuyYear())
+					.price(buy.getPrice())
+					.imgPath(buy.getImgPath())
+					.status(buy.getStatus())
+					.build();
+			buyCardList.add(buyCardView);
+		}
+		return buyCardList;
+	}
 	
 	
 	

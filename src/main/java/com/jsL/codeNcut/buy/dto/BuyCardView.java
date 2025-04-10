@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class BuyCardView {
 	
+
 	private int buyId;
 	private String nickname;
 	private String description;
