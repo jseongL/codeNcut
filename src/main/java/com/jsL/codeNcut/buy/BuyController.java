@@ -1,16 +1,18 @@
 package com.jsL.codeNcut.buy;
  
  import java.util.List;
- 
- import org.springframework.stereotype.Controller;
- import org.springframework.ui.Model;
- import org.springframework.web.bind.annotation.GetMapping;
- import org.springframework.web.bind.annotation.RequestMapping;
- 
- import com.jsL.codeNcut.buy.dto.BuyCardView;
- import com.jsL.codeNcut.buy.service.BuyService;
- 
- import jakarta.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.jsL.codeNcut.buy.domain.Buy;
+import com.jsL.codeNcut.buy.dto.BuyCardView;
+import com.jsL.codeNcut.buy.service.BuyService;
+
+import jakarta.servlet.http.HttpSession;
  
  @Controller
  @RequestMapping("/buy")
@@ -51,11 +53,26 @@ package com.jsL.codeNcut.buy;
  		List<BuyCardView>myBuyCardList = buyService.getMyBuyList(userId);
  		
  		model.addAttribute("myBuyCardList", myBuyCardList);
- 		
- 		
- 		
+ 				
  		return "buy/myBuy";
  	}
+ 	
+ 	
+ 	@GetMapping("/modify-view")
+ 	public String modify(
+ 			@RequestParam int id
+ 			,HttpSession session
+ 			,Model model
+ 			) {
+ 		
+ 		Buy buy = buyService.getBuy(id);
+ 		
+ 		model.addAttribute("buy", buy);
+ 		
+ 		return "/buy/modify";
+ 	}
+ 	
+ 	
  	
  	
  	

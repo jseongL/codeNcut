@@ -1,8 +1,11 @@
 package com.jsL.codeNcut.user.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
-import com.jsL.codeNcut.user.common.Encrypt;
+import com.jsL.codeNcut.buy.domain.Buy;
 import com.jsL.codeNcut.user.common.MD5HashingEncoder;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.repository.UserRepository;
@@ -65,8 +68,27 @@ public class UserService {
 		return user;
 	}
 	
-	
-	
+	/*
+	public boolean withdrawUser(int userId) {
+		Optional<User> optionalUser = userRepository.findByUserId(userId);
+		
+		if(optionalUser.isPresent()) {
+			
+			User user = optionalUser.get();
+			
+			try {
+				userRepository.delete(user);
+			}catch(PersistenceException e) {
+				return false;
+			}
+			
+		}else {
+			return false;
+		}
+		
+		return true;
+	}
+	*/
 	
 	
 	

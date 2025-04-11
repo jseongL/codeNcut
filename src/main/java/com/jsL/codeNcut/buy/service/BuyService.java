@@ -2,6 +2,7 @@ package com.jsL.codeNcut.buy.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -93,6 +94,70 @@ public class BuyService {
 		}
 		return buyCardList;
 	}
+	
+	
+	public Buy getBuy(int id){
+		Optional<Buy>optionalBuy = buyRepository.findById(id);
+		
+		return optionalBuy.orElse(null);
+	}
+	
+	public boolean updateBuy(int buyId, int userId, String description, String model, int buyYear, int price, MultipartFile file) {
+		Optional<Buy> optionalBuy = buyRepository.findById(buyId);
+		
+		String urlPath = FileManager.saveFile(userId, file);
+		
+		if(optionalBuy.isPresent()) {
+			
+			Buy buy = optionalBuy.get();
+			
+			buy = buy.toBuilder()
+					.description(description)
+					.model(model)
+					.buyYear(buyYear)
+					.price(price)
+					.imgPath(urlPath)
+					.build();
+			
+			
+			try {
+				buyRepository.save(buy);//포스트 객체가 파라메터로 전달
+			}catch(PersistenceException e){
+				return false;
+			}
+			
+		}else {
+			return false;
+		}
+		return true;
+		
+	}
+	
+	
+	public boolean deleteBuy(int buyId) {
+		Optional<Buy> optionalBuy = buyRepository.findById(buyId);
+		
+		if(optionalBuy.isPresent()) {
+			
+			Buy buy = optionalBuy.get();
+			
+			try {
+				buyRepository.delete(buy);
+			}catch(PersistenceException e) {
+				return false;
+			}
+			
+		}else {
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	
+	
+	
 	
 	
 	

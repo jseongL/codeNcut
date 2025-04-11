@@ -34,8 +34,8 @@
 							<ul class="navi">
 								<li><a href="#">더보기</a>
 								<ul class="submenu">			
-		<!-- 수정, 삭제 -->			<li><a href="#">수정하기</a></li>
-									<li><a href="#">삭제하기</a></li>
+		<!-- 수정, 삭제 -->			<li><a th:href="|/buy/modify-view?id=${buyCard.buyId}|">수정하기</a></li>
+									<li><a class="deleteBtn" th:data-buy-id="${buyCard.buyId}" href="#">삭제하기</a></li>
 								</ul>
 							</li>
 							</ul>
@@ -98,6 +98,39 @@
 		$("#backBtn").on("click", function(){
 			location.href="/buy/buy-view";
 		});
+		
+		
+		$(".deleteBtn").on("click", function(){
+			let buyId = $(this).data("buy-id");
+			
+			console.log("buyId : " + buyId);
+			
+			$.ajax({
+				type:`delete`
+				,url:"/buy/deleteProfile"
+				,data:{"buyId":buyId}
+				,success(response){
+					if(response.result == "success"){
+						if(confirm("게시물을 삭제 하시겠습니까?")){
+	      					
+							alert("삭제 완료되었습니다.");
+							location.reload();
+						}
+						
+					}else{
+						alert("삭제 실패")
+					}
+				}
+				,error(){
+					alert("삭제 에러")
+				}
+			});
+			
+			
+		});
+		
+		
+		
 		
 		</script>
 	

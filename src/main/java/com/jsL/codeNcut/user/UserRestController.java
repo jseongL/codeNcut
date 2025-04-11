@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.service.UserService;
@@ -87,9 +88,20 @@ public class UserRestController {
 		return resultMap;
 	}
 	
-	
-	
-	
+	/*
+	@GetMapping("/deleteUser")
+	public RedirectView withdraw(HttpSession session) {
+		int userId = (Integer)session.getAttribute("userId");
+		
+		boolean result = userService.withdrawUser(userId);
+		
+		
+		if(result) {
+			return new RedirectView("/user/login-view");
+		}
+		return new RedirectView("/user/fail");
+	}
+	*/
 	
 	
 	

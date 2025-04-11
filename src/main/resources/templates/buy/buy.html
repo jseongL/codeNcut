@@ -64,7 +64,7 @@
 							<ul class="submenu">
 									<li><a th:data-user-id="${session.userId}" id="newBuy" href="#">새 게시물</a></li>
 		<!-- 수정, 삭제 -->			<li><a href="/buy/myBuy-view">내 게시물</a></li>
-									<li><a href="#">탈퇴하기</a></li>
+									<li><a id="deleteUserBtn" href="#">탈퇴하기</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -147,6 +147,16 @@
 		$("#backBtn").on("click", function(){
 			location.href="/main-view";
 		});
+		
+		
+		/*
+		$("#deleteUserBtn").on("click", function(){
+			if(confirm("계정을 탈퇴하시겠습니까?")){
+				alert("탈퇴완료되었습니다.");
+				location.href = "/user/deleteUser";
+			}
+		});
+		*/
 		
 		</script>
 	
