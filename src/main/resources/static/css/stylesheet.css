@@ -210,8 +210,15 @@ body{
     color:white;
 }
 
-
-
+.dailyAddImg{
+	width:800px;
+	height:300px;
+}
+.dailyListSlider img{
+	
+	width:780px;
+	height:400px;
+}
 
 
 

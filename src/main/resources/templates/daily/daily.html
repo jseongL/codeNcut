@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>코드네컷</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/stylesheet.css">
+</head>
+<body>
+
+	 <section class="buyMain d-flex justify-content-center">
+        	
+			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
+				<header class="mainHeader bg-success d-flex justify-content-between align-items-center">		
+					<i id="backBtn" class="bi bi-arrow-left-short"></i>
+					
+					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">음악 일상 나눔</h3>
+					<div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
+						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
+					</div>
+				</header>
+				<div class="mt-2 d-flex justify-content-end">
+			      			<ul class="navi">
+			        			<li class="bg-info"><a href="#">더보기</a>
+			        				<ul class="submenu">
+			<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a href="/daily/newDaily-view" class="text-white">새 게시물</a></li>
+			        					<li><a href="#"  id="deleteBtn"  class="text-white deleteBtn">내 게시물</a></li>
+			        				</ul>
+			        			</li>
+			        		</ul>
+			        	</div>
+				<div th:each="dailyCard:${dailyCardList}" class="border border-white user-box my-2 p-2 rounded-lg">
+					<div style="font-size:25px; font-weight:bold;" th:text="${dailyCard.nickname}"></div>
+					<div class="input-box border rounded" >
+						
+			      		<article class="dailyListSlider">
+			      			<img th:src="${dailyCard.imgPath}" alt="게시물 사진">   			
+			      		</article>
+			      		
+				
+				
+				
+					<!-- 타임리프 -->	<div th:text="${dailyCard.title}" class="title" style="font-size:20px; font-weight:bold">게시물 제목</div>
+      		<!-- 타임리프 -->	<div th:text="${dailyCard.contents}" class="titleContents">게시물 내용</div>
+      		<!-- 에러? 	<span th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd')}" class="sliderText">4시간 전</span> -->
+      	<!-- ----------------------------------- -->
+      		<div class="listBottom d-flex justify-content-between">
+      			<div>
+      				
+						<i th:unless="${dailyCard.isLike}" class="bi bi-heart text-danger likeBtn" th:data-daily-id="${dailyCard.dailyId}"></i> 
+						<i th:if="${dailyCard.isLike}" class="bi bi-heart-fill text-danger disLikeBtn" th:data-daily-id="${dailyCard.dailyId}"></i>
+						<!-- th:text="${card.likeCount}" -->
+ 				
+					<span th:text="${dailyCard.likeCount}" class="likeCount">좋아요 <span>11</span>개</span>      				
+      			</div>
+      		</div>
+      		
+      	<!-- ----------------------------------- -->
+      		<div class="d-flex mb-3">
+      			<h4>dlawltjd</h4>
+      			<span class="ml-3">우하하</span>
+      		</div>
+      	
+	
+      	
+      		<div class="d-flex">
+      			<input type="text" class="form-control">
+      			<button  class="btn btn-info col-2 comment-btn">게시</button>
+      		</div>  	
+				</div>
+			</div>
+			
+			</div>
+       </section>
+
+
+
+
+
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+		
+		<script>
+		
+		
+		$(function(){
+			
+			
+			
+			
+			
+			$("#logoutBtn").on("click", function(){
+				if(confirm("로그아웃 하겠습니까?")){
+					location.href = "/user/logout";
+				}
+				
+			});
+				
+			$('.navi>li').mouseover(function(){
+  				$(this).find('.submenu').stop().slideDown(500);
+  			}).mouseout(function(){
+  				$(this).find('.submenu').stop().slideUp(500);
+  			});
+		});
+			
+		
+		$("#backBtn").on("click", function(){
+			location.href="/main-view";
+		});
+		
+		
+		  $(".likeBtn").on("click", function(){
+    		  
+			   
+	    		 
+	    		 let dailyId = $(this).data("daily-id");
+	    		 
+	    		 console.log("daily 아이디 : " + dailyId);
+	    		  
+	    		  $.ajax({
+	    			 type:`post`
+	    			 ,url:"/daily/like"
+	    			 ,data:{"dailyId":dailyId}
+	    		  ,success:function(response){
+	    			  if(response.result == "success"){
+	    				  location.reload();
+	    			  }
+	    			  else{
+	    				  alert("좋아요 실패");
+	    			  }
+	    		  }
+	    		  ,error:function(){
+	    			  alert("좋아요 에러");
+	    		  }
+	    		  });
+	    	  });
+			  $(".disLikeBtn").on("click", function(){
+			     		  
+			     		 
+			     		 let dailyId = $(this).data("daily-id");
+			     		 
+			     		 console.log("daily 아이디 : " + dailyId);
+			     		  
+			     		  $.ajax({
+			     			 type:`post`
+			     			 ,url:"/daily/dislike"
+			     			 ,data:{"dailyId":dailyId}
+			     		  ,success:function(response){
+			     			  if(response.result == "success"){
+			     				  location.reload();
+			     			  }
+			     			  else{
+			     				  alert("좋아요 실패");
+			     			  }
+			     		  }
+			     		  ,error:function(){
+			     			  alert("좋아요 에러");
+			     		  }
+			     		  });
+			     	  });
+		
+		
+		/*
+		$("#deleteUserBtn").on("click", function(){
+			if(confirm("계정을 탈퇴하시겠습니까?")){
+				alert("탈퇴완료되었습니다.");
+				location.href = "/user/deleteUser";
+			}
+		});
+		*/
+		
+		</script>
+	
+
+
+
+
+
+
+
+</body>
+</html>
