@@ -23,19 +23,28 @@
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
 				</header>
-				<div class="mt-2 d-flex justify-content-end">
-			      			<ul class="navi">
-			        			<li class="bg-info"><a href="#">더보기</a>
-			        				<ul class="submenu">
-			<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a href="/daily/newDaily-view" class="text-white">새 게시물</a></li>
-			        					<li><a href="/daily/myDaily-view" class="text-white deleteBtn">내 게시물</a></li>
-			        				</ul>
-			        			</li>
-			        		</ul>
-			        	</div>
-				<div th:each="dailyCard:${dailyCardList}" class="border border-white user-box my-2 p-2 rounded-lg">
+				
+				
+				
+				
+		
+				<div th:each="dailyCard:${myDailyCardList}" class="border border-white user-box my-2 p-2 rounded-lg">
+					<div class="d-flex">
 					<div style="font-size:25px; font-weight:bold;" th:text="${dailyCard.nickname}"></div>
-					<div class="input-box border rounded" >
+					<div class="buyMoreMenu">
+							<ul class="navi">
+								<li><a href="#">더보기</a>
+								<ul class="submenu">			
+									<li><a th:href="|/daily/modify-view?id=${dailyCard.dailyId}|">수정하기</a></li>
+									<li><a class="deleteBtn" th:data-buy-id="${dailyCard.dailyId}" href="#">삭제하기</a></li>
+								</ul>
+							</li>
+							</ul>
+						</div>
+					</div>
+					
+					
+					<div class="input-box border rounded mt-4">
 						
 			      		<article class="dailyListSlider">
 			      			<img th:src="${dailyCard.imgPath}" alt="게시물 사진">   			
@@ -71,9 +80,14 @@
       			<input th:id="|commentInput${dailyCard.dailyId}|" type="text" class="form-control">
       			<button th:data-daily-id="${dailyCard.dailyId}" class="btn btn-info col-2 comment-btn">게시</button>
       		</div>  	
+	
+      	
+      		
 				</div>
 			</div>
-			
+				
+				
+				
 			</div>
        </section>
 
@@ -117,29 +131,7 @@
 				
 			});
 			
-			
-			
-			$("#logoutBtn").on("click", function(){
-				if(confirm("로그아웃 하겠습니까?")){
-					location.href = "/user/logout";
-				}
-				
-			});
-				
-			$('.navi>li').mouseover(function(){
-  				$(this).find('.submenu').stop().slideDown(500);
-  			}).mouseout(function(){
-  				$(this).find('.submenu').stop().slideUp(500);
-  			});
-		});
-			
-		
-		$("#backBtn").on("click", function(){
-			location.href="/main-view";
-		});
-		
-		
-		  $(".likeBtn").on("click", function(){
+ $(".likeBtn").on("click", function(){
     		  
 			   
 	    		 
@@ -188,16 +180,61 @@
 			     		  }
 			     		  });
 			     	  });
-		
-		
-		/*
-		$("#deleteUserBtn").on("click", function(){
-			if(confirm("계정을 탈퇴하시겠습니까?")){
-				alert("탈퇴완료되었습니다.");
-				location.href = "/user/deleteUser";
-			}
+			
+			
+			
+			
+			$("#logoutBtn").on("click", function(){
+				if(confirm("로그아웃 하겠습니까?")){
+					location.href = "/user/logout";
+				}
+				
+			});
+				
+			$('.navi>li').mouseover(function(){
+  				$(this).find('.submenu').stop().slideDown(500);
+  			}).mouseout(function(){
+  				$(this).find('.submenu').stop().slideUp(500);
+  			});
 		});
-		*/
+			
+		
+		$("#backBtn").on("click", function(){
+			location.href="/daily/daily-view";
+		});
+		
+		
+		$(".deleteBtn").on("click", function(){
+			let buyId = $(this).data("buy-id");
+			
+			console.log("buyId : " + buyId);
+			
+			$.ajax({
+				type:`delete`
+				,url:"/buy/deleteProfile"
+				,data:{"buyId":buyId}
+				,success(response){
+					if(response.result == "success"){
+						if(confirm("게시물을 삭제 하시겠습니까?")){
+	      					
+							alert("삭제 완료되었습니다.");
+							location.reload();
+						}
+						
+					}else{
+						alert("삭제 실패")
+					}
+				}
+				,error(){
+					alert("삭제 에러")
+				}
+			});
+			
+			
+		});
+		
+		
+		
 		
 		</script>
 	

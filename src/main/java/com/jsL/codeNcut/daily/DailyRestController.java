@@ -46,7 +46,26 @@ public class DailyRestController {
 	}
 
 	
-	
+	@PostMapping("/updateDaily")
+	public Map<String, String>updateDaily(
+			@RequestParam int dailyId
+			,@RequestParam String title
+			,@RequestParam String contents
+			,@RequestParam MultipartFile imgPath 
+			,HttpSession session
+			){
+		int userId = (Integer)session.getAttribute("userId");
+		boolean result = dailyService.updateDaily(dailyId, userId, title, contents, imgPath);
+		
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
 	

@@ -1,5 +1,9 @@
 package com.jsL.codeNcut.daily.dto;
 
+import java.util.List;
+
+import com.jsL.codeNcut.daily.comment.dto.CommentView;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,7 +17,7 @@ public class DailyCardView {
 	private String imgPath;
 	private String nickname;
 	
-	
+	private List<CommentView>commentList;
 
  	private boolean isLike;
  	private int likeCount;

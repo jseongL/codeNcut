@@ -1,4 +1,4 @@
-package com.jsL.codeNcut.daily.domain;
+package com.jsL.codeNcut.daily.comment.domain;
 
 import java.time.LocalDateTime;
 
@@ -12,27 +12,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-@Builder(toBuilder=true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="`daily`")
+@Table(name="`dailycomment`")
 @Entity
-public class Daily {
-	
+public class Comment {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private int dailyId;
 	private int userId;
-	private String title;
 	private String contents;
-	private String imgPath;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	
-	
-	
-	
-	
+
 }
