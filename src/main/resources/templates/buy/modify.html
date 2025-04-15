@@ -16,7 +16,7 @@
 				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center">
 					<div>
 						<i id="backBtn" class="bi bi-arrow-left-short"></i>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
 					</div>
 					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
 					<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>

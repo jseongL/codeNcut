@@ -14,7 +14,7 @@
         	
 			<div class="border border-white user-box my-2 p-2 rounded-lg ">
 				<header class="mainHeader bg-white d-flex justify-content-between align-items-center">
-					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
 					<h1 class="text-center text-dark font-weight-bolder">코드네컷</h1>
 					<a class="text-warning" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 					<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
@@ -25,7 +25,11 @@
 					<a class="text-white" th:unless="${session.userId != null}" href="#" id="logoutDaily"><div class="main2 bg-success text-white d-flex justify-content-center align-items-center"><span>음악일상</span></div></a>
 				</div>
 				<div class="d-flex">
-					<div class="main3 bg-info text-white d-flex justify-content-center align-items-center">악보공유</div>
+					<a class="text-white" href="/akbo/akbo-view"><div class="main3 bg-info text-white d-flex justify-content-center align-items-center">악보태평양</div></a>
+					
+					
+					
+					
 					<div class="main4 bg-danger text-white d-flex justify-content-center align-items-center">밴드구인</div>
 				</div>
 			</div>

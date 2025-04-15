@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.jsL.codeNcut.buy.domain.Buy;
 import com.jsL.codeNcut.config.FileManager;
 import com.jsL.codeNcut.daily.comment.dto.CommentView;
 import com.jsL.codeNcut.daily.comment.service.CommentService;
@@ -156,6 +155,30 @@ public class DailyService {
 		}
 		return true;
 	}
+	
+	
+	public boolean deleteDaily(int dailyId) {
+		Optional<Daily> optionalDaily = dailyRepository.findById(dailyId);
+		
+		if(optionalDaily.isPresent()) {
+			Daily daily = optionalDaily.get();
+			
+			
+			try {
+				dailyRepository.delete(daily);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+		
+	}
+	
+	
+	
 	
 	
 	

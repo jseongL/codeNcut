@@ -18,7 +18,7 @@
 					
 					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
@@ -49,9 +49,9 @@
 							<div class="buyInfo">
 								
 								<span>모델명 : <span th:text="${buyCard.model}">fander</span></span><br>
-								<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span></span><br>
-								<span>가격 : <span th:text="${buyCard.price}" class="text-danger">100만원</span></span><br>
-								<span>판매상태 : <span th:text="${buyCard.status}">fander</span></span>
+								<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span><span>년</span></span><br>
+								<span>가격 : <span th:text="${buyCard.price}" class="text-success">100만원</span><span>만원</span></span><br>
+								<span>판매상태 : <span th:text="${buyCard.status}" class="text-danger">fander</span></span>
 								<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
 							</div>				
 					</main>
@@ -105,26 +105,30 @@
 			
 			console.log("buyId : " + buyId);
 			
-			$.ajax({
-				type:`delete`
-				,url:"/buy/deleteProfile"
-				,data:{"buyId":buyId}
-				,success(response){
-					if(response.result == "success"){
-						if(confirm("게시물을 삭제 하시겠습니까?")){
-	      					
-							alert("삭제 완료되었습니다.");
-							location.reload();
+			if(confirm("게시물을 삭제 하시겠습니까?")){
+	
+				$.ajax({
+					type:`delete`
+					,url:"/buy/deleteProfile"
+					,data:{"buyId":buyId}
+					,success(response){
+						if(response.result == "success"){
+			
+								alert("삭제 완료되었습니다.");
+								location.reload();
+							
+						}else{
+							alert("삭제 실패")
 						}
-						
-					}else{
-						alert("삭제 실패")
 					}
-				}
-				,error(){
-					alert("삭제 에러")
-				}
-			});
+					,error(){
+						alert("삭제 에러")
+					}
+				});
+			
+			}
+			
+			
 			
 			
 		});

@@ -1,9 +1,9 @@
 package com.jsL.codeNcut.daily.comment;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +40,20 @@ public class CommentRestController {
 	}
 	
 	
-	
+	@DeleteMapping("/deleteComment")
+	public Map<String, String> commentDelete(
+			@RequestParam int commentId
+			){
+		boolean result = commentService.deleteComment(commentId);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
 	

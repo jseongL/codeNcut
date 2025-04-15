@@ -2,12 +2,14 @@ package com.jsL.codeNcut.daily.comment.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.jsL.codeNcut.daily.comment.domain.Comment;
 import com.jsL.codeNcut.daily.comment.dto.CommentView;
 import com.jsL.codeNcut.daily.comment.repository.CommentRepository;
+import com.jsL.codeNcut.daily.domain.Daily;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.service.UserService;
 
@@ -61,7 +63,22 @@ public class CommentService {
 	
 	
 	
-	
+	public boolean deleteComment(int commentId) {
+		Optional<Comment> optionalComment = commentRepository.findById(commentId);
+		
+		if(optionalComment.isPresent()) {
+			Comment comment = optionalComment.get();
+			
+			try {
+				commentRepository.delete(comment);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}else {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	

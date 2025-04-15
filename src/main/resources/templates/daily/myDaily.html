@@ -18,7 +18,7 @@
 					
 					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">음악 일상 나눔</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.userId}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
@@ -36,7 +36,7 @@
 								<li><a href="#">더보기</a>
 								<ul class="submenu">			
 									<li><a th:href="|/daily/modify-view?id=${dailyCard.dailyId}|">수정하기</a></li>
-									<li><a class="deleteBtn" th:data-buy-id="${dailyCard.dailyId}" href="#">삭제하기</a></li>
+									<li><a class="deleteBtn" th:data-daily-id="${dailyCard.dailyId}" href="#">삭제하기</a></li>
 								</ul>
 							</li>
 							</ul>
@@ -72,6 +72,7 @@
       		<div th:each="comment:${dailyCard.commentList}" class="d-flex mb-3">
       			<h4 th:text="${comment.nickname}">dlawltjd</h4>
       			<span th:text="${comment.contents}" class="ml-3">우하하</span>
+      			<i th:if="${session.userId == comment.userId}" th:data-comment-id="${comment.commentId}" class="bi bi-trash ml-4 commentDelete"></i>
       		</div>
       	
 	
@@ -104,6 +105,32 @@
 		
 		
 		$(function(){
+			
+			
+			$(".commentDelete").on("click", function(){
+				let commentId = $(this).data("comment-id");
+				
+				console.log("commentId : " + commentId); 
+				if(confirm("댓글을 삭제하시겠습니까?")){				
+					$.ajax({
+						type:`delete`
+						,url:"/daily/deleteComment"
+						,data:{"commentId":commentId}
+						,success(response){
+							if(response.result == "success"){
+								location.reload();
+							}
+							else{
+								alert("삭제 실패");
+							}
+						}
+						,error(){
+							alert("댓글 삭제 에러");
+						}
+					});
+				}
+			});
+			
 			
 			$(".comment-btn").on("click", function(){
 				let dailyId = $(this).data("daily-id");
@@ -205,21 +232,21 @@
 		
 		
 		$(".deleteBtn").on("click", function(){
-			let buyId = $(this).data("buy-id");
+			let dailyId = $(this).data("daily-id");
 			
-			console.log("buyId : " + buyId);
+			console.log("daily : " + dailyId);
 			
+			if(confirm("게시물을 삭제 하시겠습니까?")){
+				
 			$.ajax({
 				type:`delete`
-				,url:"/buy/deleteProfile"
-				,data:{"buyId":buyId}
+				,url:"/daily/deleteProfile"
+				,data:{"dailyId":dailyId}
 				,success(response){
 					if(response.result == "success"){
-						if(confirm("게시물을 삭제 하시겠습니까?")){
-	      					
 							alert("삭제 완료되었습니다.");
 							location.reload();
-						}
+						
 						
 					}else{
 						alert("삭제 실패")
@@ -230,7 +257,7 @@
 				}
 			});
 			
-			
+			}
 		});
 		
 		

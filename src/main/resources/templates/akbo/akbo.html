@@ -13,35 +13,57 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-success d-flex justify-content-between align-items-center">		
+				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
 					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
-					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">음악 일상 나눔</h3>
+					<h3 class="text-white font-weight-bold" style="margin-left:320px;">악보태평양</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
 				</header>
-				
-				
-		
-        	<!-- ---------- -->
-        	<div class="writeSlider ">
-        		<article class="dailyAddImg text-secondary d-flex justify-content-center align-items-center">       			
-        <!--사진 추가--><input id="fileInput" type="file">
-        		</article>
-        		<div>
-	        		<input id="titleInput" class="titleText rounded-lg form-control" type="text" placeHolder="제목 입력">
-	        		<textarea id="contentsInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="문구추가..."></textarea>
-        		</div>
-        	</div>
-        	<!-- ---------- -->
-        	
-        	<button id="shareBtn" class="mt-3 btn btn-danger btn-block">공유하기</button>
-				
-				
-			
+							
+				<div class="border border-white user-box my-2 p-2 rounded-lg">
+						<input id="searchInput" type="text" class="form-control mt-4" placeholder="악보검색">
+						
+		        		<table class="table text-center mt-4 text-white">
+		        			<thead>
+		        				<tr style="font-size:20px;">
+		        					<th>사진</th>
+		        					<th>곡명</th>
+		        					<th>아티스트</th>
+		        					<th>다운로드</th>
+		        				</tr>
+		        			</thead>
+		        			
+		        			<tbody>
+		        				<tr>
+		        					<td>사진</td>
+		        					<td>한 페이지가 될 수 있게</td>
+		        					<td>데이식스</td>
+		        					<td><button class="btn btn-success" type="button">다운로드</button></td>
+		        				</tr>
+		        				<tr>
+		        					<td>사진</td>
+		        					<td>밤편지</td>
+		        					<td>아이유</td>
+		        					<td><button class="btn btn-success" type="button">다운로드</button></td>
+		        				</tr>
+		        				<tr>
+		        					<td>사진</td>
+		        					<td>사건의 지평선</td>
+		        					<td>윤하</td>
+		        					<td><button class="btn btn-success" type="button">다운로드</button></td>
+		        				</tr>
+		        				
+		        			</tbody>
+		        		</table>
+		        		
+		  
+							
+				</div>
+	
 			</div>
        </section>
 
@@ -59,55 +81,21 @@
 		
 		$(function(){
 			
-			$("#shareBtn").on("click", function(){
-				let title = $("#titleInput").val();
-				let contents = $("#contentsInput").val();
-				let file = $("#fileInput")[0].files[0];
+			$("#newBuy").on("click", function(){
 				
-				let formData = new FormData();
-				formData.append("title", title);
-				formData.append("contents", contents);
-				formData.append("imgPath", file);
+				let userId = $(this).data("user-id");
 				
-				if(title == ""){
-					alert("제목을 입력하세요.");
-					return ;
-				}
-				if(contents == ""){
-					alert("문구를 추가해주세요.");
-					return ;
-				}
-				if(file == null){
-					alert("사진을 추가하세요.");
-					return ;
-				}
+				console.log("사용자 아이디 : " + userId);
 				
-				console.log("제목 : " + title + " 내용 : " + contents + " 사진 : " + file);
+				if(userId == null){
 				
-				$.ajax({
-					type:`post`
-					,url:"/daily/createDaily"
-					,data:formData
-					,enctype:"multipart/form-data"
-					,processData:false
-					,contentType:false
-					,success(response){
-						if(response.result == "success"){
-							alert("게시물이 업로드 되었습니다.");
-							location.href = "/daily/daily-view";
-						}
-						else{
-							alert("게시물 업로드 실패");
-						}
+					if(confirm("게시물을 올리시려면 로그인 하세요.")){
+						location.href="/user/login-view";
 					}
-					,error(){
-						alert("게시물 업로드 에러");
-					}
-				});
-				
-				
+					return ;
+				}
+				location.href="/buy/newBuy-view";
 			});
-			
 			
 			
 			
@@ -127,7 +115,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/daily/daily-view";
+			location.href="/main-view";
 		});
 		
 		
