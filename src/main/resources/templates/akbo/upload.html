@@ -16,49 +16,32 @@
 				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
 					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
-					<h3 class="text-white font-weight-bold" style="margin-left:320px;">악보태평양</h3>
+					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">악보태평양</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
 				</header>
-							
-				<div class="border border-white user-box my-2 p-2 rounded-lg">
-					<ul class="navi">
-			        			<li class="bg-info"><a href="#">더보기</a>
-			        				<ul class="submenu">
-			<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a href="/akbo/newAkbo-view" class="text-white">새 게시물</a></li>
-			        					<li><a href="/akbo/myAkbo-view" class="text-white deleteBtn">내 게시물</a></li>
-			        				</ul>
-			        			</li>
-			        </ul>
-					
 				
-						<input id="searchInput" type="text" class="form-control mt-4" placeholder="악보검색">
-						
-		        		<table class="table text-center mt-4 text-white">
-		        			<thead>
-		        				<tr style="font-size:20px;">
-		        					<th>곡명</th>
-		        					<th>아티스트</th>
-		        					<th>다운로드</th>
-		        				</tr>
-		        			</thead>
-		        			
-		        			<tbody th:each="akboCard:${akboCardList}">
-		        				<tr>					
-		        					<td th:text="${akboCard.songName}">한 페이지가 될 수 있게</td>
-		        					<td th:text="${akboCard.artist}">데이식스</td>
-		        					<td><button th:attr="data-path=${akboCard.imgPath}" class="btn btn-success downloadBtn" type="button">다운로드</button></td>
-		        				</tr>	        				
-		        			</tbody>
-		        		</table>
-		        		
-		  
-							
-				</div>
-	
+				
+		
+        	<!-- ---------- -->
+        	<div class="writeSlider ">
+        		<article class="dailyAddImg text-secondary d-flex justify-content-center align-items-center">       			
+        <!--사진 추가--><input id="fileInput" type="file">
+        		</article>
+        		<div>
+	        		<input id="songNameInput" class="titleText rounded-lg form-control" type="text" placeHolder="곡명">
+	        		<textarea id="artistInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="아티스트"></textarea>
+        		</div>
+        	</div>
+        	<!-- ---------- -->
+        	
+        	<button id="shareBtn" class="mt-3 btn btn-danger btn-block">공유하기</button>
+				
+				
+			
 			</div>
        </section>
 
@@ -76,31 +59,55 @@
 		
 		$(function(){
 			
-			$(".downloadBtn").on("click", function(){
-				let filePath = $(this).data("path");
+			$("#shareBtn").on("click", function(){
+				let songName = $("#songNameInput").val();
+				let artist = $("#artistInput").val();
+				let file = $("#fileInput")[0].files[0];
 				
-				location.href = filePath;
-				  
+				let formData = new FormData();
+				formData.append("songName", songName);
+				formData.append("artist", artist);
+				formData.append("imgPath", file);
 				
-			});
-			
-			
-			
-			$("#newBuy").on("click", function(){
-				
-				let userId = $(this).data("user-id");
-				
-				console.log("사용자 아이디 : " + userId);
-				
-				if(userId == null){
-				
-					if(confirm("게시물을 올리시려면 로그인 하세요.")){
-						location.href="/user/login-view";
-					}
+				if(songName == ""){
+					alert("곡명을 입력하세요.");
 					return ;
 				}
-				location.href="/buy/newBuy-view";
+				if(artist == ""){
+					alert("아티스트 이름을 추가해주세요.");
+					return ;
+				}
+				if(file == null){
+					alert("파일을 추가하세요.");
+					return ;
+				}
+				
+				console.log("곡명 : " + songName + " 아티스트 : " + artist + " 사진 : " + file);
+				
+				$.ajax({
+					type:`post`
+					,url:"/akbo/createAkbo"
+					,data:formData
+					,enctype:"multipart/form-data"
+					,processData:false
+					,contentType:false
+					,success(response){
+						if(response.result == "success"){
+							alert("게시물이 업로드 되었습니다.");
+							location.href = "/akbo/akbo-view";
+						}
+						else{
+							alert("게시물 업로드 실패");
+						}
+					}
+					,error(){
+						alert("게시물 업로드 에러");
+					}
+				});
+				
+				
 			});
+			
 			
 			
 			
@@ -120,7 +127,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/main-view";
+			location.href="/akbo/akbo-view";
 		});
 		
 		
