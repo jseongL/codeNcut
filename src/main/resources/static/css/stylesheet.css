@@ -97,6 +97,7 @@ body{
     justify-content: flex-end; /* 오른쪽 정렬 */
 }
 
+
 /* 메인 메뉴 스타일 */
 .navi{
 	margin-left:10px;
@@ -224,7 +225,25 @@ body{
 
 
 
+.custom-card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
 
+.custom-buy-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 10px 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.custom-buy-btn:hover {
+  background-color: #bb2d3b;
+}
 
 
 

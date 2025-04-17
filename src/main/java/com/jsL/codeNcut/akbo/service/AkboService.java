@@ -2,6 +2,7 @@ package com.jsL.codeNcut.akbo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class AkboService {
 		return true;
 	}
 	
-	public List<AkboCardView>getAkboList(int akboId){
+	public List<AkboCardView>getAkboList(){
 		List<Akbo>akboList = akboRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 		
 		List<AkboCardView>akboCardList = new ArrayList<>();
@@ -57,7 +58,74 @@ public class AkboService {
 	}
 	
 	
+	public List<AkboCardView> getMyAkboList(int userId){
+		List<Akbo> myAkboList = akboRepository.findByUserId(userId);
+		List<AkboCardView> myAkboCardList = new ArrayList<>();
+		
+		for(Akbo akbo:myAkboList) {
+			
+			AkboCardView myAkboCardView = AkboCardView.builder()
+					.akboId(akbo.getId())
+					.songName(akbo.getSongName())
+					.artist(akbo.getArtist())
+					.imgPath(akbo.getImgPath())
+					.build();
+			myAkboCardList.add(myAkboCardView);	
+					
+		}
+		return myAkboCardList;
+	}
 	
+	public Akbo getAkbo(int id) {
+		Optional<Akbo> optionalAkbo = akboRepository.findById(id);
+		return optionalAkbo.orElse(null);
+	}
+	
+	
+	
+	public boolean updateAkbo(int akboId, int userId, String songName, String artist, MultipartFile file) {
+		Optional<Akbo> optionalAkbo = akboRepository.findById(akboId);
+		String urlPath = FileManager.saveFile(userId, file);
+		
+		if(optionalAkbo.isPresent()) {
+			
+			Akbo akbo = optionalAkbo.get();
+			akbo = akbo.toBuilder()
+					.songName(songName)
+					.artist(artist)
+					.imgPath(urlPath)
+					.build();
+			try {
+				akboRepository.save(akbo);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public boolean deleteAkbo(int akboId) {
+		Optional<Akbo> optionalAkbo = akboRepository.findById(akboId);
+		
+		if(optionalAkbo.isPresent()) {
+			
+			Akbo akbo  = optionalAkbo.get();
+			
+			try {
+				akboRepository.delete(akbo);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	

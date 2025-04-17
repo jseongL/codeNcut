@@ -13,12 +13,12 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-success d-flex justify-content-between align-items-center">		
+				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
 					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
-					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">음악 일상 나눔</h3>
+					<h3 class="text-white font-weight-bold" style="margin-left:320px;">악보태평양</h3>
 					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
+						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
@@ -27,13 +27,13 @@
 				
 		
         	<!-- ---------- -->
-        	<div th:data-id="${daily.id}" id="dailyId" class="writeSlider">
-        		<article class="dailyAddImg text-secondary d-flex justify-content-center align-items-center" style="width:800px; height:300px;">       			
+        	<div th:data-id="${akbo.id}" id="akboId" class="writeSlider">
+        		<article class="addAkboFile text-secondary d-flex justify-content-center align-items-center" style="width:800px; height:300px;">       			
         <!--사진 추가--><input id="fileInput" type="file">
         		</article>
         		<div>
-	        		<input id="titleInput" class="titleText rounded-lg form-control" type="text" placeHolder="제목 입력">
-	        		<textarea id="contentsInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="문구추가..."></textarea>
+	        		<input id="songNameInput" class="titleText rounded-lg form-control" type="text" placeHolder="곡명 입력">
+	        		<textarea id="artistInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="아티스트 입력"></textarea>
         		</div>
         	</div>
         	<!-- ---------- -->
@@ -60,35 +60,35 @@
 		$(function(){
 			
 			$("#updateBtn").on("click", function(){
-				let dailyId = $("#dailyId").data("id");
-				let title = $("#titleInput").val();
-				let contents = $("#contentsInput").val();
+				let akboId = $("#akboId").data("id");
+				let songName = $("#songNameInput").val();
+				let artist = $("#artistInput").val();
 				let file = $("#fileInput")[0].files[0];
 				
 				let formData = new FormData();
-				formData.append("dailyId", dailyId);
-				formData.append("title", title);
-				formData.append("contents", contents);
+				formData.append("akboId", akboId);
+				formData.append("songName", songName);
+				formData.append("artist", artist);
 				formData.append("imgPath", file);
 				
-				if(title == ""){
-					alert("제목을 입력하세요.");
+				if(songName == ""){
+					alert("곡명을 입력하세요.");
 					return ;
 				}
-				if(contents == ""){
-					alert("문구를 추가해주세요.");
+				if(artist == ""){
+					alert("아티스트를 추가해주세요.");
 					return ;
 				}
 				if(file == null){
-					alert("사진을 추가하세요.");
+					alert("파일을 추가하세요.");
 					return ;
 				}
 				
-				console.log("dailyId : " + dailyId + "제목 : " + title + " 내용 : " + contents + " 사진 : " + file);
+				console.log("akboId : " + akboId + "제목 : " + songName + " 내용 : " + artist + " 사진 : " + file);
 				
 				$.ajax({
 					type:`post`
-					,url:"/daily/updateDaily"
+					,url:"/akbo/updateAkbo"
 					,data:formData
 					,enctype:"multipart/form-data"
 					,processData:false
@@ -96,7 +96,7 @@
 					,success(response){
 						if(response.result == "success"){
 							alert("게시물이 수정 되었습니다.");
-							location.href = "/daily/daily-view";
+							location.href = "/akbo/myAkbo-view";
 						}
 						else{
 							alert("게시물 수정 실패");
@@ -129,7 +129,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/daily/myDaily-view";
+			location.href="/akbo/myAkbo-view";
 		});
 		
 		

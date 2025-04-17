@@ -1,22 +1,9 @@
 package com.jsL.codeNcut.akbo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,7 +43,42 @@ public class AkboRestController {
 		return resultMap;
 	}
 	
+	@PostMapping("/updateAkbo")
+	public Map<String, String>modifyAkbo(
+			@RequestParam int akboId
+			,@RequestParam String songName
+			,@RequestParam String artist
+			,@RequestParam MultipartFile imgPath
+			,HttpSession session
+			){
+		int userId = (Integer)session.getAttribute("userId");
+		
+		boolean result = akboService.updateAkbo(akboId, userId, songName, artist, imgPath);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
+	
+	@DeleteMapping("/deleteAkbo")
+	public Map<String, String>akboDelete(
+			@RequestParam int akboId
+			){
+		boolean result = akboService.deleteAkbo(akboId);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
 	
