@@ -30,7 +30,7 @@
       <!-- 더보기 메뉴 원래 유지 -->
       <div class="mt-2 d-flex justify-content-end">
         <ul class="navi">
-          <li class="bg-info"><a href="#">더보기</a>
+          <li class="bg-success"><a href="#">더보기</a>
             <ul class="submenu">
               <li><a href="/daily/newDaily-view" class="text-white">새 게시물</a></li>
               <li><a href="/daily/myDaily-view" class="text-white deleteBtn">내 게시물</a></li>
@@ -67,7 +67,7 @@
 
           <div class="d-flex mt-2">
             <input th:id="|commentInput${dailyCard.dailyId}|" type="text" class="form-control" style="background-color:#1f1f1f; color:white; border:1px solid #444;">
-            <button th:data-daily-id="${dailyCard.dailyId}" class="btn btn-info col-2 comment-btn">게시</button>
+            <button th:data-daily-id="${dailyCard.dailyId}" class="btn btn-success col-2 comment-btn">게시</button>
           </div>
 
         </div>
