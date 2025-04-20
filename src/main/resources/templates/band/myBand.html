@@ -25,61 +25,35 @@
 				</header>
 							
 				<div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
-
-					  <!-- 네비게이션 메뉴 (더보기) -->
-					  	<div class="d-flex">
-					 <div class="mb-4">
-					    <input id="searchInput" type="text" class="form-control descriptionInput mt-2" placeholder="검색" style="width:400px;">
-					  </div>
-					<nav class="menu ml-5">
-						<ul class="navi">	
-							<li><a href="#">지역</a>
-								<ul class="submenu">
-									<li><a href="#">서울</a></li>
-									<li><a href="#">수원</a></li>
-									<li><a href="#">인천</a></li>
-									<li><a href="#">성남</a></li>
-								</ul>
-							</li>
-							<li><a href="#">모집파트</a>
-								<ul class="submenu">
-									<li><a href="#">보컬</a></li>
-									<li><a href="#">기타</a></li>
-									<li><a href="#">베이스</a></li>
-									<li><a href="#">드럼</a></li>
-									<li><a href="#">건반</a></li>
-								</ul>
-							</li>
-<!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>
-							<ul class="submenu">
-									<li><a href="/band/newBand">새 게시물</a></li>
-		<!-- 수정, 삭제 -->			<li><a href="/band/myBand-view">내 게시물</a></li>
-									<li><a id="deleteUserBtn" href="#">탈퇴하기</a></li>
-								</ul>
-							</li>
-						</ul>
-						
-					</nav>
-				</div>
-					
-					  <!-- 검색창 -->
-					 
 					
 					  <!-- 악보 목록 테이블 -->
 					  <div class="table-responsive">
 					    <table class="table  text-white text-center">
+					    	    
+					    
 					      <thead class="thead-light">
 					        <tr class="bg-secondary" style="font-size:18px;">
 					          <th>지역</th>
 					          <th>소개</th>
 					          <th>모집파트</th>
+					          <th></th>
 					        </tr>
 					      </thead>
 					      <tbody>
-					        <tr th:each="bandCard : ${bandCardList}">
-					          	<td th:text="${bandCard.place}">서울</td>
-					          	<td><a th:text="${bandCard.title}" th:href="|/band/bandMore?id=${bandCard.bandId}|" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
-					          	<td th:text="${bandCard.part}">전부다</td>
+					        <tr th:each="myBandCard : ${myBandCardList}">
+					          	<td th:text="${myBandCard.place}">서울</td>
+					          	<td><a th:text="${myBandCard.title}" th:href="|/band/bandMore?id=${myBandCard.bandId}|" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
+					          	<td th:text="${myBandCard.part}">전부다</td>
+					          	<td>
+					          		<ul class="navi">
+										<li><a href="#">더보기</a>
+											<ul class="submenu">			
+												<li><a th:href="|/band/modify-view?id=${myBandCard.bandId}|">수정하기</a></li>
+												<li><a class="deleteBtn" th:data-band-id="${myBandCard.bandId}" href="#">삭제하기</a></li>
+											</ul>
+										</li>
+									</ul>
+					          	</td>
 					        </tr>
 					      </tbody>
 					    </table>
@@ -104,7 +78,31 @@
 		
 		$(function(){
 			
-
+			$(".deleteBtn").on("click", function(){
+				let bandId = $(this).data("band-id");
+				
+				console.log("밴드 아이디 : " + bandId);
+				
+				if(confirm("게시물을 삭제하시겠습니까?")){
+					$.ajax({
+						type:`delete`
+						,url:"/band/deleteBand"
+						,data:{"bandId":bandId}
+						,success(response){
+							if(response.result == "success"){
+								alert("삭제되었습니다.");
+								location.href = "/band/myBand-view";
+							}
+							else{
+								alert("삭제 실패");
+							}
+						}
+						,error(){
+							alert("게시물 삭제 에러");
+						}
+					});
+				}
+			});
 			
 			
 		
@@ -127,7 +125,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/main-view";
+			location.href="/band/band-view";
 		});
 		
 		

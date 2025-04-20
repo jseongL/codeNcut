@@ -23,70 +23,25 @@
 						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
 					</div>
 				</header>
-							
-				<div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
-
-					  <!-- 네비게이션 메뉴 (더보기) -->
-					  	<div class="d-flex">
-					 <div class="mb-4">
-					    <input id="searchInput" type="text" class="form-control descriptionInput mt-2" placeholder="검색" style="width:400px;">
-					  </div>
-					<nav class="menu ml-5">
-						<ul class="navi">	
-							<li><a href="#">지역</a>
-								<ul class="submenu">
-									<li><a href="#">서울</a></li>
-									<li><a href="#">수원</a></li>
-									<li><a href="#">인천</a></li>
-									<li><a href="#">성남</a></li>
-								</ul>
-							</li>
-							<li><a href="#">모집파트</a>
-								<ul class="submenu">
-									<li><a href="#">보컬</a></li>
-									<li><a href="#">기타</a></li>
-									<li><a href="#">베이스</a></li>
-									<li><a href="#">드럼</a></li>
-									<li><a href="#">건반</a></li>
-								</ul>
-							</li>
-<!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>
-							<ul class="submenu">
-									<li><a href="/band/newBand">새 게시물</a></li>
-		<!-- 수정, 삭제 -->			<li><a href="/band/myBand-view">내 게시물</a></li>
-									<li><a id="deleteUserBtn" href="#">탈퇴하기</a></li>
-								</ul>
-							</li>
-						</ul>
-						
-					</nav>
-				</div>
-					
-					  <!-- 검색창 -->
-					 
-					
-					  <!-- 악보 목록 테이블 -->
-					  <div class="table-responsive">
-					    <table class="table  text-white text-center">
-					      <thead class="thead-light">
-					        <tr class="bg-secondary" style="font-size:18px;">
-					          <th>지역</th>
-					          <th>소개</th>
-					          <th>모집파트</th>
-					        </tr>
-					      </thead>
-					      <tbody>
-					        <tr th:each="bandCard : ${bandCardList}">
-					          	<td th:text="${bandCard.place}">서울</td>
-					          	<td><a th:text="${bandCard.title}" th:href="|/band/bandMore?id=${bandCard.bandId}|" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
-					          	<td th:text="${bandCard.part}">전부다</td>
-					        </tr>
-					      </tbody>
-					    </table>
-					  </div>
-					</div>
-
-	
+				
+				
+		
+        	<!-- ---------- -->
+        	<div th:data-id="${band.id}" id="bandId" class="writeSlider">
+        
+        		<div>
+	        		<input id="titleInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="간단한 소개">
+	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="지역">
+	        		<input id="partInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="구하는 파트">
+	        		<textarea id="descriptionInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="내용입력..."></textarea>
+        		</div>
+        	</div>
+        	<!-- ---------- -->
+        	
+        	<button id="shareBtn" class="mt-3 btn btn-success btn-block">수정하기</button>
+				
+				
+			
 			</div>
        </section>
 
@@ -104,10 +59,63 @@
 		
 		$(function(){
 			
-
+			$("#shareBtn").on("click", function(){
+				let bandId = $("#bandId").data("id");
+				let title = $("#titleInput").val();
+				let place = $("#placeInput").val();
+				let part = $("#partInput").val();
+				let description = $("#descriptionInput").val();
+				
+				let formData = new FormData();
+				formData.append("bandId", bandId);
+				formData.append("title", title);
+				formData.append("place", place);
+				formData.append("part", part);
+				formData.append("description", description);
+				
+				if(title == ""){
+					alert("간단한 소개를 입력해주세요.");
+					return ;
+				}
+				if(place == ""){
+					alert("장소를 추가해주세요.");
+					return ;
+				}
+				if(part == ""){
+					alert("모집파트를 추가해주세요.");
+					return ;
+				}
+				if(description == ""){
+					alert("사람들에게 바라는 점을 입력해야 좋은 사람들이 오겠죠?");
+					return ;
+				}
+				
+				console.log("bandId : " + bandId + " title : " + title + " place : " + place + "part" + part + " description : " + description);
+				
+				$.ajax({
+					type:`post`
+					,url:"/band/updateBand"
+					,data:formData
+					,enctype:"multipart/form-data"
+					,processData:false
+					,contentType:false
+					,success(response){
+						if(response.result == "success"){
+							alert("게시물이 수정 되었습니다.");
+							location.href = "/band/myBand-view";
+						}
+						else{
+							alert("게시물 수정 실패");
+						}
+					}
+					,error(){
+						alert("게시물 수정 에러");
+					}
+				});
+				
+				
+			});
 			
-			
-		
 			
 			
 			
@@ -127,7 +135,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/main-view";
+			location.href="/band/myBand-view";
 		});
 		
 		

@@ -64,6 +64,70 @@ public class BandService {
 	
 	
 	
+	public List<BandCardView> getMyBandList(int userId){
+		List<Band> myBand = bandRepository.findByUserId(userId);
+		List<BandCardView> myBandList = new ArrayList<>();
+		for(Band band:myBand) {
+			BandCardView bandCardView = BandCardView.builder()
+					.bandId(band.getId())
+					.title(band.getTitle())
+					.place(band.getPlace())
+					.part(band.getPart())
+					.description(band.getDescription())
+					.build();
+			myBandList.add(bandCardView);
+		}
+		return myBandList;
+	}
+	
+
+	public boolean updateBand(int bandId, String title, String place, String part, String description) {
+		Optional<Band> optionalBand = bandRepository.findById(bandId);
+		if(optionalBand.isPresent()) {
+			Band band = optionalBand.get();
+			band = band.toBuilder()
+					.title(title)
+					.place(place)
+					.part(part)
+					.description(description)
+					.build();
+			try {
+				bandRepository.save(band);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public boolean deleteBand(int bandId) {
+		Optional<Band> optionalBand = bandRepository.findById(bandId);
+		if(optionalBand.isPresent()) {
+			try {
+				Band band = optionalBand.get();
+				bandRepository.delete(band);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

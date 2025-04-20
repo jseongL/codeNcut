@@ -156,7 +156,25 @@ public class BuyService {
 	}
 	
 	
-	
+	public boolean modifyStatus(int buyId) {
+		Optional<Buy>optionalBuy = buyRepository.findById(buyId);
+		
+		if(optionalBuy.isPresent()) {
+			Buy buy = optionalBuy.get();
+			buy = buy.toBuilder()
+					.status("판매완료")
+					.build();
+			try {
+				buyRepository.save(buy);
+			}catch(PersistenceException e) {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	

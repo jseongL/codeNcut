@@ -94,6 +94,23 @@ public class BuyRestController {
 	}
 	
 	
+	@PostMapping("/solded")
+	public Map<String, String>solded(
+			@RequestParam int buyId
+			){
+		boolean result = buyService.modifyStatus(buyId);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	
 	
 	
 

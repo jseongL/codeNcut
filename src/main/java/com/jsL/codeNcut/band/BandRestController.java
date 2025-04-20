@@ -3,6 +3,7 @@ package com.jsL.codeNcut.band;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,44 @@ public class BandRestController {
 			){
 		int userId = (Integer)session.getAttribute("userId");
 		boolean result = bandService.addBand(userId, title, place, part, description);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	
+	
+	@PostMapping("/updateBand")
+	public Map<String, String>modifyBand(
+			@RequestParam int bandId
+			,@RequestParam String title
+			,@RequestParam String place
+			,@RequestParam String part
+			,@RequestParam String description
+			){
+		boolean result = bandService.updateBand(bandId, title, place, part, description);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	@DeleteMapping("/deleteBand")
+	public Map<String, String> bandDelete(
+			@RequestParam int bandId
+			){
+		boolean result = bandService.deleteBand(bandId);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");

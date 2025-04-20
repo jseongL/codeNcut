@@ -12,6 +12,8 @@ import com.jsL.codeNcut.band.domain.Band;
 import com.jsL.codeNcut.band.dto.BandCardView;
 import com.jsL.codeNcut.band.service.BandService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/band")
 public class BandController {
@@ -50,9 +52,27 @@ public class BandController {
 	
 	
 	
+	@GetMapping("/myBand-view")
+	public String myBand(
+			HttpSession session
+			,Model model
+			) {
+		int userId = (Integer)session.getAttribute("userId");
+		List<BandCardView>myBandCardList = bandService.getMyBandList(userId);
+		model.addAttribute("myBandCardList", myBandCardList);
+		return "band/myBand";
+	}
 	
 	
-	
+	@GetMapping("/modify-view")
+	public String modifyBand(
+			@RequestParam int id
+			,Model model
+			) {
+		Band band = bandService.getBand(id);
+		model.addAttribute("band", band);
+		return "band/modify";
+	}
 	
 	
 	
