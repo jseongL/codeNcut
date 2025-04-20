@@ -76,7 +76,10 @@ public class BandController {
 	
 	
 	
-	
+	@GetMapping("/map-view")
+	public String mapView() {
+		return "/band/map";
+	}
 	
 	
 	
