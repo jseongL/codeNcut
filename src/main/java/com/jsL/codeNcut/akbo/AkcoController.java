@@ -65,5 +65,24 @@ public class AkcoController {
 	}
 	
 	
+	@GetMapping("/search")
+	public String akboSearch(
+			@RequestParam String text
+			,Model model
+			) {
+		List<AkboCardView> akboCardList = akboService.searchAkbo(text);
+		model.addAttribute("akboCardList", akboCardList);
+		return "akbo/akboSearch";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

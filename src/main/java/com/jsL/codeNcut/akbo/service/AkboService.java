@@ -128,6 +128,35 @@ public class AkboService {
 	}
 	
 	
+	public List<AkboCardView> searchAkbo(String text){
+		List<Akbo> akboList = akboRepository.findBySongNameContainingOrArtistContaining(text, text);
+		List<AkboCardView> akboSearchCardList = new ArrayList<>();
+		for(Akbo akbo:akboList) {
+			AkboCardView akboCardView = AkboCardView.builder()
+					.akboId(akbo.getId())
+					.songName(akbo.getSongName())
+					.artist(akbo.getArtist())
+					.imgPath(akbo.getImgPath())
+					.build();
+			akboSearchCardList.add(akboCardView);
+		}
+		return akboSearchCardList;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

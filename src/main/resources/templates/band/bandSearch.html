@@ -13,10 +13,10 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
+				<header class="mainHeader bg-danger d-flex justify-content-between align-items-center" style="width:880px;">		
 					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
-					<h3 class="text-white font-weight-bold" style="margin-left:320px;">악보태평양</h3>
+					<h3 class="text-white font-weight-bold" style="margin-left:320px;">같이 합주 오인큐 하실 분?</h3>
 					<div>
 						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
 						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
@@ -27,46 +27,68 @@
 				<div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
 
 					  <!-- 네비게이션 메뉴 (더보기) -->
-					  <div th:if="${session.userId != null}" class="mb-3">
-					    <ul class="navi">
-					      <li class="bg-info">
-					        <a href="#" class="text-white font-weight-bold">더보기</a>
-					        <ul class="submenu">
-					          <li><a href="/akbo/newAkbo-view" class="text-white">새 악보 공유</a></li>
-					          <li><a href="/akbo/myAkbo-view" class="text-white deleteBtn">내가 올린 악보</a></li>
-					        </ul>
-					      </li>
-					    </ul>
-					  </div>
-					
-					 
-					  <div class="mb-4" >
-					    <form action="/akbo/search" method="get">
-					   		<input id="searchInput" type="text" name="text" class="form-control descriptionInput" placeholder="🎼 악보 검색">
+					  	<div class="d-flex">
+					  	
+					  	
+					 <div class="mb-4" >
+					    <form action="/band/search" method="get">
+					   		<input id="searchInput" type="text" name="text" class="form-control descriptionInput" placeholder="검색" style="width:400px; margin-top:8px;">
 						</form>
 					  </div> 
 					  
-  
+					  
+					  
+					  
+					<nav class="menu ml-5">
+						<ul class="navi">	
+							<li><a href="#">지역</a>
+								<ul class="submenu">
+									<li><a href="/band/search?text=서울">서울</a></li>
+									<li><a href="/band/search?text=경기">경기</a></li>
+									<li><a href="/band/search?text=수원">수원</a></li>
+									<li><a href="/band/search?text=인천">인천</a></li>
+									<li><a href="/band/search?text=성남">성남</a></li>
+								</ul>
+							</li>
+							<li><a href="#">모집파트</a>
+								<ul class="submenu">
+									<li><a href="/band/search?text=보컬">보컬</a></li>
+									<li><a href="/band/search?text=일렉기타">일렉기타</a></li>
+									<li><a href="/band/search?text=베이스">베이스</a></li>
+									<li><a href="/band/search?text=드럼">드럼</a></li>
+									<li><a href="/band/search?text=건반">건반</a></li>
+								</ul>
+							</li>
+<!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>
+							<ul class="submenu">
+									<li><a href="/band/newBand">새 게시물</a></li>
+		<!-- 수정, 삭제 -->			<li><a href="/band/myBand-view">내 게시물</a></li>
+									<li><a id="deleteUserBtn" href="#">탈퇴하기</a></li>
+								</ul>
+							</li>
+						</ul>
+						
+					</nav>
+				</div>
+					
+					  <!-- 검색창 -->
+					 
 					
 					  <!-- 악보 목록 테이블 -->
 					  <div class="table-responsive">
 					    <table class="table  text-white text-center">
 					      <thead class="thead-light">
 					        <tr class="bg-secondary" style="font-size:18px;">
-					          <th>🎵 곡명</th>
-					          <th>👤 아티스트</th>
-					          <th>⬇️ 다운로드</th>
+					          <th>지역</th>
+					          <th>소개</th>
+					          <th>모집파트</th>
 					        </tr>
 					      </thead>
-					      <tbody th:each="akboCard : ${akboCardList}">
-					        <tr>
-					          <td th:text="${akboCard.songName}">한 페이지가 될 수 있게</td>
-					          <td th:text="${akboCard.artist}">데이식스</td>
-					          <td>
-					            <a th:href="${akboCard.imgPath}" target="_blank" class="btn btn-outline-success btn-sm downloadBtn" type="button">
-					             	다운로드
-					            </a>
-					          </td>
+					      <tbody>
+					        <tr th:each="bandCard : ${bandCardList}">
+					          	<td th:text="${bandCard.place}">서울</td>
+					          	<td><a th:text="${bandCard.title}" th:href="|/band/bandMore?id=${bandCard.bandId}|" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
+					          	<td th:text="${bandCard.part}">전부다</td>
 					        </tr>
 					      </tbody>
 					    </table>
@@ -91,6 +113,11 @@
 		
 		$(function(){
 			
+
+			
+			
+		
+			
 			
 			
 			$("#logoutBtn").on("click", function(){
@@ -109,7 +136,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/main-view";
+			location.href="/band/band-view";
 		});
 		
 		

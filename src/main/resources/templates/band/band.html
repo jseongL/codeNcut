@@ -28,26 +28,35 @@
 
 					  <!-- 네비게이션 메뉴 (더보기) -->
 					  	<div class="d-flex">
-					 <div class="mb-4">
-					    <input id="searchInput" type="text" class="form-control descriptionInput mt-2" placeholder="검색" style="width:400px;">
-					  </div>
+					  	
+					  	
+					 <div class="mb-4" >
+					    <form action="/band/search" method="get">
+					   		<input id="searchInput" type="text" name="text" class="form-control descriptionInput" placeholder="검색" style="width:400px; margin-top:8px;">
+						</form>
+					  </div> 
+					  
+					  
+					  
+					  
 					<nav class="menu ml-5">
 						<ul class="navi">	
 							<li><a href="#">지역</a>
 								<ul class="submenu">
-									<li><a href="#">서울</a></li>
-									<li><a href="#">수원</a></li>
-									<li><a href="#">인천</a></li>
-									<li><a href="#">성남</a></li>
+									<li><a href="/band/search?text=서울">서울</a></li>
+									<li><a href="/band/search?text=경기">경기</a></li>
+									<li><a href="/band/search?text=수원">수원</a></li>
+									<li><a href="/band/search?text=인천">인천</a></li>
+									<li><a href="/band/search?text=성남">성남</a></li>
 								</ul>
 							</li>
 							<li><a href="#">모집파트</a>
 								<ul class="submenu">
-									<li><a href="#">보컬</a></li>
-									<li><a href="#">기타</a></li>
-									<li><a href="#">베이스</a></li>
-									<li><a href="#">드럼</a></li>
-									<li><a href="#">건반</a></li>
+									<li><a href="/band/search?text=보컬">보컬</a></li>
+									<li><a href="/band/search?text=일렉기타">일렉기타</a></li>
+									<li><a href="/band/search?text=베이스">베이스</a></li>
+									<li><a href="/band/search?text=드럼">드럼</a></li>
+									<li><a href="/band/search?text=건반">건반</a></li>
 								</ul>
 							</li>
 <!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>

@@ -122,6 +122,23 @@ public class BandService {
 	
 	
 	
+	public List<BandCardView> searchBand(String text){
+		List<Band>bandList = bandRepository.findByPlaceContainingOrTitleContainingOrPartContaining(text, text, text);
+		List<BandCardView> bandSearchCardList = new ArrayList<>();
+		for(Band band:bandList) {
+			BandCardView bandCardView = BandCardView.builder()
+					.bandId(band.getId())
+					.title(band.getTitle())
+					.place(band.getPlace())
+					.part(band.getPart())
+					.description(band.getDescription())
+					.build();
+			bandSearchCardList.add(bandCardView);
+		}
+		return bandSearchCardList;
+	}
+	
+	
 	
 	
 	

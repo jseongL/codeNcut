@@ -8,5 +8,6 @@ import com.jsL.codeNcut.akbo.domain.Akbo;
 
 public interface AkboRepository extends JpaRepository<Akbo, Integer>{
 	public List<Akbo>findByUserId(int userId);
+	public List<Akbo>findBySongNameContainingOrArtistContaining(String text1, String text2);
 
 }

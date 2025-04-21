@@ -81,6 +81,24 @@ public class BandController {
 		return "/band/map";
 	}
 	
+	@GetMapping("/search")
+	public String bandSearch(
+			@RequestParam String text
+			,Model model
+			) {
+		List<BandCardView> bandCardList = bandService.searchBand(text);
+		model.addAttribute("bandCardList", bandCardList);
+		return "band/bandSearch";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

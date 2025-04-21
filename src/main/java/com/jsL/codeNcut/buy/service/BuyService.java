@@ -177,6 +177,31 @@ public class BuyService {
 	}
 	
 	
+	public List<BuyCardView> searchBuy(String text) {
+		List<Buy> searchBuyList = buyRepository.findByModelContainingOrDescriptionContaining(text, text);
+		List<BuyCardView> buySearchCardView = new ArrayList<>();
+		for(Buy buy:searchBuyList) {
+			User user = userService.getUserByUserId(buy.getUserId());
+			BuyCardView buyCardView = BuyCardView.builder()
+					.buyId(buy.getId())
+					.nickname(user.getNickname())
+					.description(buy.getDescription())
+					.model(buy.getModel())
+					.buyYear(buy.getBuyYear())
+					.price(buy.getPrice())
+					.imgPath(buy.getImgPath())
+					.status(buy.getStatus())
+					.build();
+			buySearchCardView.add(buyCardView);
+		}
+		return buySearchCardView;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
