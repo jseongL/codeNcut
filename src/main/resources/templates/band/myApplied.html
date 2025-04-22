@@ -24,13 +24,12 @@
 					</div>
 				</header>
 				
-				<div>
-					<h1 th:text="${moreBand.title}">같이 합주하실 분</h1>
-					<span style="font-size:30px;">지역 : <span th:text="${moreBand.place}">서울</span></span><br>
-					<span>모집파트 : </span><span th:text="${moreBand.part}">베이스</span><br>
-					<span>소개 : </span>
-					<span th:text="${moreBand.description}">초보자 대 환영합니다</span>
-					<button id="applyBtn" th:data-band-id="${moreBand.id}" class="mt-3 btn btn-danger btn-block">폼 적성하기</button>
+				<div th:each="formCard:${formCardList}">
+					<h1 th:text="${formCard.introduce}">안녕하세요</h1>
+					<span style="font-size:30px;">지역 : <span th:text="${formCard.place}">서울</span></span><br>
+					<span>밴드경험 : </span><span th:text="${formCard.experience}">많이</span><br>
+					<span>전화번호 : </span>
+					<span th:text="${formCard.phoneNumber}">010-1111-2222</span>
 				</div>
 		
         	
@@ -54,10 +53,7 @@
 		
 		$(function(){
 			
-			$("#applyBtn").on("click", function(){
-				let bandId = $(this).data("band-id");
-				location.href = "/band/writeForm-view?id=" + bandId;
-			});
+			
 			
 		
 			
@@ -78,7 +74,7 @@
 			
 		
 		$("#backBtn").on("click", function(){
-			location.href="/band/band-view";
+			location.href="/band/myBand-view";
 		});
 		
 		

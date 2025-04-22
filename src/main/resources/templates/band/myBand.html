@@ -42,7 +42,7 @@
 					      <tbody>
 					        <tr th:each="myBandCard : ${myBandCardList}">
 					          	<td th:text="${myBandCard.place}">서울</td>
-					          	<td><a th:text="${myBandCard.title}" th:href="|/band/bandMore?id=${myBandCard.bandId}|" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
+					          	<td><a th:text="${myBandCard.title}" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
 					          	<td th:text="${myBandCard.part}">전부다</td>
 					          	<td>
 					          		<ul class="navi">
@@ -50,6 +50,7 @@
 											<ul class="submenu">			
 												<li><a th:href="|/band/modify-view?id=${myBandCard.bandId}|">수정하기</a></li>
 												<li><a class="deleteBtn" th:data-band-id="${myBandCard.bandId}" href="#">삭제하기</a></li>
+												<li><a th:href="|/band/applied-view?id=${myBandCard.bandId}|">지원내역</a></li>
 											</ul>
 										</li>
 									</ul>
