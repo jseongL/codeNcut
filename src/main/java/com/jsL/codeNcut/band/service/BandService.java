@@ -20,13 +20,15 @@ public class BandService {
 		this.bandRepository = bandRepository;
 	}
 	
-	public boolean addBand(int userId, String title, String place, String part, String description) {
+	public boolean addBand(int userId, String title, String place, String part, String description, double lat,  double lng) {
 		Band band = Band.builder()
 				.userId(userId)
 				.title(title)
 				.place(place)
 				.part(part)
 				.description(description)
+				.lat(lat)
+				.lng(lng)
 				.build();
 		
 		try {
@@ -50,6 +52,8 @@ public class BandService {
 					.place(band.getPlace())
 					.part(band.getPart())
 					.description(band.getDescription())
+					.lat(band.getLat())
+					.lng(band.getLng())
 					.build();
 			bandCardList.add(bandCardView);
 		}
@@ -81,7 +85,7 @@ public class BandService {
 	}
 	
 
-	public boolean updateBand(int bandId, String title, String place, String part, String description) {
+	public boolean updateBand(int bandId, String title, String place, String part, String description, double lat, double lng) {
 		Optional<Band> optionalBand = bandRepository.findById(bandId);
 		if(optionalBand.isPresent()) {
 			Band band = optionalBand.get();
@@ -90,6 +94,8 @@ public class BandService {
 					.place(place)
 					.part(part)
 					.description(description)
+					.lat(lat)
+					.lng(lng)
 					.build();
 			try {
 				bandRepository.save(band);

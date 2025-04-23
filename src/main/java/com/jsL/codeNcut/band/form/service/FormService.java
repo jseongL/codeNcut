@@ -19,8 +19,9 @@ public class FormService {
 		this.formRepository = formRepository;
 	}
 	
-	public boolean addForm(int bandId, String phoneNumber, String place, String experience, String introduce) {
+	public boolean addForm(int userId, int bandId, String phoneNumber, String place, String experience, String introduce) {
 		Form form = Form.builder()
+				.userId(userId)
 				.bandId(bandId)
 				.phoneNumber(phoneNumber)
 				.place(place)
@@ -41,6 +42,7 @@ public class FormService {
 		List<FormCardView> formCardList = new ArrayList<>();
 		for(Form form:formList) {
 			FormCardView formCardView = FormCardView.builder()
+					.bandId(form.getBandId())
 					.phoneNumber(form.getPhoneNumber())
 					.place(form.getPlace())
 					.experience(form.getExperience())
@@ -52,7 +54,21 @@ public class FormService {
 	}
 	
 	
-	
+	public List<FormCardView> getMyFormList(int userId) {
+		List<Form> formList = formRepository.findByUserId(userId);
+		List<FormCardView> myFormCardList = new ArrayList<>();
+		for(Form form:formList) {
+			FormCardView formCardview = FormCardView.builder()
+					.bandId(form.getBandId())
+					.phoneNumber(form.getPhoneNumber())
+					.place(form.getPlace())
+					.experience(form.getExperience())
+					.introduce(form.getIntroduce())
+					.build();
+			myFormCardList.add(formCardview);
+		}
+		return myFormCardList;
+	}
 	
 	
 	

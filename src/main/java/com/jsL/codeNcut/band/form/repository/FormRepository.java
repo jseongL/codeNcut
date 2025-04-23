@@ -9,4 +9,5 @@ import com.jsL.codeNcut.band.form.domain.Form;
 
 public interface FormRepository extends JpaRepository<Form, Integer>{
 	public List<Form>findByBandId(int id);
+	public List<Form>findByUserId(int userId);
 }

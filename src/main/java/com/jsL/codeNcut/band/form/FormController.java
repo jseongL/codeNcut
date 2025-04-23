@@ -8,16 +8,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jsL.codeNcut.band.dto.BandCardView;
 import com.jsL.codeNcut.band.form.dto.FormCardView;
 import com.jsL.codeNcut.band.form.service.FormService;
+import com.jsL.codeNcut.band.service.BandService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/band")
 public class FormController {
 	
 	private final FormService formService;
-	public FormController(FormService formService) {
+	private final BandService bandService;
+	public FormController(FormService formService, BandService bandService) {
 		this.formService = formService;
+		this.bandService = bandService;
 	}
 	
 	
@@ -42,6 +48,24 @@ public class FormController {
 		model.addAttribute("formCardList", formCardList);
 		return "band/myApplied";
 	}
+	
+	
+	
+	
+	@GetMapping("/myForm-view")
+	public String myFormView(
+			HttpSession session
+			,Model model
+			) {
+		int userId = (Integer)session.getAttribute("userId");
+		List<FormCardView> myFormCardList = formService.getMyFormList(userId);
+		List<BandCardView> BandCardList = bandService.getBandCardList();
+		model.addAttribute("myFormCardList", myFormCardList);
+		model.addAttribute("BandCardList", BandCardList);
+		return "/band/myForm";
+	}
+	
+	
 	
 	
 	

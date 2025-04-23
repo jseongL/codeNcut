@@ -28,10 +28,12 @@ public class BandRestController {
 			,@RequestParam String place
 			,@RequestParam String part
 			,@RequestParam String description
+			,@RequestParam Double lat
+			,@RequestParam Double lng
 			,HttpSession session
 			){
 		int userId = (Integer)session.getAttribute("userId");
-		boolean result = bandService.addBand(userId, title, place, part, description);
+		boolean result = bandService.addBand(userId, title, place, part, description, lat, lng);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");
@@ -52,8 +54,10 @@ public class BandRestController {
 			,@RequestParam String place
 			,@RequestParam String part
 			,@RequestParam String description
+			,@RequestParam Double lat
+			,@RequestParam Double lng
 			){
-		boolean result = bandService.updateBand(bandId, title, place, part, description);
+		boolean result = bandService.updateBand(bandId, title, place, part, description, lat, lng);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");

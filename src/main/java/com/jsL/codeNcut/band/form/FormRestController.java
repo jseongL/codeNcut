@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jsL.codeNcut.band.form.service.FormService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/band")
 public class FormRestController {
@@ -29,8 +31,10 @@ public class FormRestController {
 			,@RequestParam String place
 			,@RequestParam String experience
 			,@RequestParam String introduce
+			,HttpSession session
 			){
-		boolean result = formService.addForm(bandId, phoneNumber, place, experience, introduce);
+		int userId = (Integer)session.getAttribute("userId");
+		boolean result = formService.addForm(userId, bandId, phoneNumber, place, experience, introduce);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");

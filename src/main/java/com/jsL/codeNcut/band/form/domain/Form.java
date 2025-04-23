@@ -24,6 +24,7 @@ public class Form {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private int userId;
 	private int bandId;
 	private String phoneNumber;
 	private String place;

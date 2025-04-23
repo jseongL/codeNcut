@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class FormCardView {
 	
+	private int bandId;
 	private String phoneNumber;
 	private String place;
 	private String experience;

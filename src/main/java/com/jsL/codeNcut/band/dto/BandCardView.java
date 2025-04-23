@@ -12,5 +12,7 @@ public class BandCardView {
 	private String place;
 	private String part;
 	private String description;
+	private double lat;
+	private double lng;
 	
 }

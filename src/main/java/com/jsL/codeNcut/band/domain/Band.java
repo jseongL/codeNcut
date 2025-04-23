@@ -28,6 +28,8 @@ public class Band {
 	private String place;
 	private String part;
 	private String description;
+	private double lat;
+	private double lng;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
