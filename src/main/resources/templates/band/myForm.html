@@ -39,7 +39,7 @@
 					        </tr>
 					      </thead>
 					      <tbody>
-					        <tr th:if="${formCard.bandId == bandCard.bandId}" th:each="bandCard : ${BandCardList}">
+					        <tr th:if="${formCard.bandId == bandCard.bandId}" th:each="bandCard : ${bandCardList}">
 					          	<td th:text="${bandCard.place}">서울</td>
 					          	<td><a th:text="${bandCard.title}" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
 					          	<td th:text="${bandCard.part}">전부다</td>
@@ -62,7 +62,7 @@
 					
 				</div>
 		
-        	
+        <!-- 타임리프 받아오는 거 처리 -->	<span >합불여부 : <span>합격</span></span>
 				
 				
 			

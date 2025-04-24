@@ -27,6 +27,7 @@ public class FormRestController {
 	@PostMapping("/createForm")
 	public Map<String, String> formCreate(
 			@RequestParam int bandId
+			,@RequestParam String name
 			,@RequestParam String phoneNumber
 			,@RequestParam String place
 			,@RequestParam String experience
@@ -34,7 +35,7 @@ public class FormRestController {
 			,HttpSession session
 			){
 		int userId = (Integer)session.getAttribute("userId");
-		boolean result = formService.addForm(userId, bandId, phoneNumber, place, experience, introduce);
+		boolean result = formService.addForm(userId, bandId, name, phoneNumber, place, experience, introduce);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");
@@ -44,5 +45,38 @@ public class FormRestController {
 		}
 		return resultMap;
 	}
+	
+	
+	
+	@PostMapping("/pnp")
+	public Map<String, String> changePnp(
+			@RequestParam int userId
+			,@RequestParam int bandId
+			,@RequestParam String pnp
+			){
+		boolean result = formService.updatePnp(userId, bandId, pnp);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

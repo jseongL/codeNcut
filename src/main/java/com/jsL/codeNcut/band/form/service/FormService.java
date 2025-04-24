@@ -19,10 +19,11 @@ public class FormService {
 		this.formRepository = formRepository;
 	}
 	
-	public boolean addForm(int userId, int bandId, String phoneNumber, String place, String experience, String introduce) {
+	public boolean addForm(int userId, int bandId, String name, String phoneNumber, String place, String experience, String introduce) {
 		Form form = Form.builder()
 				.userId(userId)
 				.bandId(bandId)
+				.name(name)
 				.phoneNumber(phoneNumber)
 				.place(place)
 				.experience(experience)
@@ -42,11 +43,14 @@ public class FormService {
 		List<FormCardView> formCardList = new ArrayList<>();
 		for(Form form:formList) {
 			FormCardView formCardView = FormCardView.builder()
+					.userId(form.getUserId())
 					.bandId(form.getBandId())
+					.name(form.getName())
 					.phoneNumber(form.getPhoneNumber())
 					.place(form.getPlace())
 					.experience(form.getExperience())
 					.introduce(form.getIntroduce())
+					.pnp(form.getPnp())
 					.build();
 			formCardList.add(formCardView);
 		}
@@ -64,11 +68,29 @@ public class FormService {
 					.place(form.getPlace())
 					.experience(form.getExperience())
 					.introduce(form.getIntroduce())
+					.pnp(form.getPnp())
 					.build();
 			myFormCardList.add(formCardview);
 		}
 		return myFormCardList;
 	}
+	
+	
+	public boolean updatePnp(int userId, int bandId, String pnp) {
+		Form form = formRepository.findByUserIdAndBandId(userId, bandId);
+		Form updatedForm = form.toBuilder()
+			.pnp(pnp)
+			.build();
+		try {
+			formRepository.save(updatedForm);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	
 	
 	

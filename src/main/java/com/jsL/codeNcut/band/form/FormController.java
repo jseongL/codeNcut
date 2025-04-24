@@ -59,9 +59,9 @@ public class FormController {
 			) {
 		int userId = (Integer)session.getAttribute("userId");
 		List<FormCardView> myFormCardList = formService.getMyFormList(userId);
-		List<BandCardView> BandCardList = bandService.getBandCardList();
+		List<BandCardView> bandCardList = bandService.getBandCardList();
 		model.addAttribute("myFormCardList", myFormCardList);
-		model.addAttribute("BandCardList", BandCardList);
+		model.addAttribute("bandCardList", bandCardList);
 		return "/band/myForm";
 	}
 	

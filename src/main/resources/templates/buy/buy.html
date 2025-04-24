@@ -94,7 +94,7 @@
 							<span>가격 : <span th:text="${buyCard.price}" class="text-success">100만원</span>만원</span><br>
 							<span th:if="${buyCard.status == '판매중'}">판매상태 : <span class="text-danger" th:text="${buyCard.status}">판매중</span></span>
 							<span th:unless="${buyCard.status == '판매중'}">판매상태 : <span class="text-success" th:text="${buyCard.status}">판매완료</span></span>
-							<button th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
+							<button th:if="${buyCard.status != '판매완료'}" th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
 							<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 						</div>				
 				</main>
@@ -127,7 +127,7 @@
 		
 			$(".buyBtn").on("click", function(){
 				   IMP.init("imp20361011"); //고객사 식별코드
-				   let priceGet = $(this).data("buy-price");
+				   let priceGet = $(this).data("buy-price") * 10000;
 				   let modelGet = $(this).data("buy-model");
 				   let buyId = $(this).data("buy-id");
 

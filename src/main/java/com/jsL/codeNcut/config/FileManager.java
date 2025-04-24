@@ -9,8 +9,8 @@ import java.nio.file.Paths;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileManager {
-	//public static final String FILE_UPLOAD_PATH = "C:\\Users\\user\\Desktop\\jh\\codeNcut\\upload\\codeNcut";
-	public static final String FILE_UPLOAD_PATH = "C:\\Users\\imi90\\OneDrive\\Desktop\\js\\codeNcut_project\\upload\\codeNcut";
+	public static final String FILE_UPLOAD_PATH = "C:\\Users\\user\\Desktop\\jh\\codeNcut\\upload\\codeNcut";
+	//public static final String FILE_UPLOAD_PATH = "C:\\Users\\imi90\\OneDrive\\Desktop\\js\\codeNcut_project\\upload\\codeNcut";
 	
 	public static String saveFile(int userId, MultipartFile file) {
 			

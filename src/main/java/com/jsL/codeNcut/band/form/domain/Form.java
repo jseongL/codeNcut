@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Builder
+@Builder(toBuilder=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -26,10 +26,12 @@ public class Form {
 	private int id;
 	private int userId;
 	private int bandId;
+	private String name;
 	private String phoneNumber;
 	private String place;
 	private String experience;
 	private String introduce;
+	private String pnp;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	

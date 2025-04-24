@@ -30,6 +30,7 @@
         	<div class="writeSlider">
         
         		<div>
+        			<input id="nameInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="이름">
 	        		<input id="phoneNumberInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="전화번호">
 	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="사는 곳">
 	        		<input id="experienceInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="밴드 경험">
@@ -76,6 +77,7 @@
 			
 			$("#shareBtn").on("click", function(){
 				let bandId = $(this).data("id");
+				let name = $("#nameInput").val();
 				let phoneNumber = $("#phoneNumberInput").val();
 				let place = $("#placeInput").val();
 				let experience = $("#experienceInput").val();
@@ -83,11 +85,16 @@
 				
 				let formData = new FormData();
 				formData.append("bandId", bandId);
+				formData.append("name", name);
 				formData.append("phoneNumber", phoneNumber);
 				formData.append("place", place);
 				formData.append("experience", experience);
 				formData.append("introduce", introduce);
 				
+				if(name == ""){
+					alert("이름을 입력하세요");
+					return ;
+				}
 				if(phoneNumber == ""){
 					alert("전화번호를 입력해주세요.");
 					return ;
@@ -105,7 +112,7 @@
 					return ;
 				}
 				
-				console.log("bandId : " + bandId + " phoneNumber : " + phoneNumber + " place : " + place + " experience : " + experience + "introduce" + introduce);
+				console.log("name : " + name +  " bandId : " + bandId + " phoneNumber : " + phoneNumber + " place : " + place + " experience : " + experience + "introduce" + introduce);
 				
 				$.ajax({
 					type:`post`
