@@ -25,44 +25,42 @@
 				</header>
 				
 				
-				<div th:each="formCard:${myFormCardList}">
-				 
-				 
-				 
-				 <div class="table-responsive">
-					    <table class="table  text-white text-center">
-					      <thead class="thead-light">
-					        <tr class="bg-secondary" style="font-size:18px;">
-					          <th>지역</th>
-					          <th>소개</th>
-					          <th>모집파트</th>
-					        </tr>
-					      </thead>
-					      <tbody>
-					        <tr th:if="${formCard.bandId == bandCard.bandId}" th:each="bandCard : ${bandCardList}">
-					          	<td th:text="${bandCard.place}">서울</td>
-					          	<td><a th:text="${bandCard.title}" style="color:rgb(128, 255, 128) !important; font-weight:bold;">같이 합주해요</a></td>
-					          	<td th:text="${bandCard.part}">전부다</td>
-					        </tr>
-					      </tbody>
-					    </table>
-					  </div>
-				
-				
-				
-				
-				
-				
-					<h1 th:text="${formCard.introduce}">안녕하세요</h1>
-					<span style="font-size:30px;">지역 : <span th:text="${formCard.place}">서울</span></span><br>
-					<span>밴드경험 : </span><span th:text="${formCard.experience}">많이</span><br>
-					<span>전화번호 : </span>
-					<span th:text="${formCard.phoneNumber}">010-1111-2222</span>
+				<div class="border border-white user-box my-2 p-2 rounded-lg" th:each="item : ${formBandList}">
+					<h1>지원 게시물</h1>
+				    <div class="table-responsive">
+				        <table class="table text-white text-center">
+				            <thead class="thead-light">
+				                <tr class="bg-secondary" style="font-size:18px;">
+				                    <th>지역</th>
+				                    <th>소개</th>
+				                    <th>모집파트</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                <tr>
+				                    <td th:text="${item.bandCard.place}">서울</td>
+				                    <td>
+				                        <a th:text="${item.bandCard.title}" style="color:rgb(128, 255, 128) !important; font-weight:bold;">
+				                            같이 합주해요
+				                        </a>
+				                    </td>
+				                    <td th:text="${item.bandCard.part}">전부다</td>
+				                </tr>
+				            </tbody>
+				        </table>
+				    </div>
 					
-					
+					<br>
+					<h1>내가 작성한 폼</h1>
+				    <h1 th:text="${item.formCard.introduce}">안녕하세요</h1>
+				    <span style="font-size:30px;">지역 : <span th:text="${item.formCard.place}">서울</span></span><br>
+				    <span>밴드경험 : </span><span th:text="${item.formCard.experience}">많이</span><br>
+				    <span>전화번호 : </span><span th:text="${item.formCard.phoneNumber}">010-1111-2222</span><br>
+				
+				    <span th:if="${item.formCard.pnp == '합격'}">합불여부 : <span class="text-info" th:text="${item.formCard.pnp}">합격</span></span>
+				    <span th:unless="${item.formCard.pnp == '합격'}">합불여부 : <span class="text-danger" th:text="${item.formCard.pnp}">불합격</span></span>
 				</div>
 		
-        <!-- 타임리프 받아오는 거 처리 -->	<span >합불여부 : <span>합격</span></span>
 				
 				
 			

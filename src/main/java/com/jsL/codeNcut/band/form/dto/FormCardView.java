@@ -15,6 +15,5 @@ public class FormCardView {
 	private String experience;
 	private String introduce;
 	private String pnp;
-	
 
 }

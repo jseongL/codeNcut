@@ -94,7 +94,14 @@ public class BandController {
 	
 	
 	
-	
+	@GetMapping("/calender-view")
+	public String calenderView(
+			Model model
+			) {//밴드테이블의 날짜, 소개, 세션, 장소 정보 전체 가져오기
+		List<BandCardView> bandCalenderList = bandService.getBandForCalender();
+		model.addAttribute("bandCalenderList", bandCalenderList);
+		return "band/calender";
+	}
 	
 	
 	

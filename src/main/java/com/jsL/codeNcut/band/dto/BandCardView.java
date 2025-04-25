@@ -14,5 +14,5 @@ public class BandCardView {
 	private String description;
 	private double lat;
 	private double lng;
-	
+	private String date;
 }

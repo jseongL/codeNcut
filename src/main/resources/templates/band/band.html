@@ -61,6 +61,7 @@
 							</li>
 <!-- 로그인 되어있을때만 보이기 --><li th:if="${session.userId != null}"><a href="#">더보기</a>
 							<ul class="submenu">
+									<li><a href="/band/calender-view">일정보기</a></li>
 									<li><a href="/band/newBand">새 게시물</a></li>
 		<!-- 수정, 삭제 -->			<li><a href="/band/myBand-view">내 게시물</a></li>
 									<li><a href="/band/myForm-view">내 지원내역</a></li>

@@ -30,10 +30,11 @@ public class BandRestController {
 			,@RequestParam String description
 			,@RequestParam Double lat
 			,@RequestParam Double lng
+			,@RequestParam String date
 			,HttpSession session
 			){
 		int userId = (Integer)session.getAttribute("userId");
-		boolean result = bandService.addBand(userId, title, place, part, description, lat, lng);
+		boolean result = bandService.addBand(userId, title, place, part, description, lat, lng, date);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");

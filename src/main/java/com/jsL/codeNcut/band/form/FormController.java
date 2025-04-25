@@ -1,5 +1,6 @@
 package com.jsL.codeNcut.band.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jsL.codeNcut.band.dto.BandCardView;
 import com.jsL.codeNcut.band.form.dto.FormCardView;
+import com.jsL.codeNcut.band.form.dto.FormCardWithBandCardView;
 import com.jsL.codeNcut.band.form.service.FormService;
 import com.jsL.codeNcut.band.service.BandService;
 
@@ -53,25 +55,31 @@ public class FormController {
 	
 	
 	@GetMapping("/myForm-view")
-	public String myFormView(
-			HttpSession session
-			,Model model
-			) {
-		int userId = (Integer)session.getAttribute("userId");
-		List<FormCardView> myFormCardList = formService.getMyFormList(userId);
-		List<BandCardView> bandCardList = bandService.getBandCardList();
-		model.addAttribute("myFormCardList", myFormCardList);
-		model.addAttribute("bandCardList", bandCardList);
-		return "/band/myForm";
+	public String myFormView(HttpSession session, Model model) {
+	    int userId = (Integer) session.getAttribute("userId");
+
+	    List<FormCardView> myFormCardList = formService.getMyFormList(userId);
+	    List<BandCardView> bandCardList = bandService.getBandCardList();
+
+	    // bandId가 일치하는 Form + Band 묶기
+	    List<FormCardWithBandCardView> resultList = new ArrayList<>();
+	    for (FormCardView form : myFormCardList) {
+	        for (BandCardView band : bandCardList) {
+	            if (form.getBandId() == band.getBandId()) {
+	                resultList.add(
+	                		FormCardWithBandCardView.builder()
+	                		.formCard(form)
+	                		.bandCard(band)
+	                		.build()
+	                		);
+	                break;
+	            }
+	        }
+	    }
+	    model.addAttribute("formBandList", resultList);
+	    return "/band/myForm";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 
 }

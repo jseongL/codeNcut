@@ -41,18 +41,22 @@
         		
         	
         	<!-- ---------- -->
+        	<div class="mt-5">합주실 위치</div>
         	<div id="map" style="width:100%;height:400px; margin-top:20px;"></div>
         	
         	
         	
         	
+			<div class="form-group mt-5">
+			   <label for="dateInput" class="font-weight-bold">합주 날짜 선택</label>
+			   <input id="dateInput" type="date" class="form-control">
+			</div>
         	
-        	<div id='calendar' class="text-white"></div>
         	
         	
         	
        
-        	<button id="shareBtn" class="mt-3 btn btn-danger btn-block">공유하기</button>
+        	<button id="shareBtn" class="mt-5 btn btn-danger btn-block">공유하기</button>
 				
 				
 			
@@ -71,23 +75,10 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
  <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=ooppvwcr86"></script>
-  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.17/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.17/index.global.min.js'></script>
-	
-	
+
 	
 		
 		<script>
-		
-		document.addEventListener('DOMContentLoaded', function() {
-	        var calendarEl = document.getElementById('calendar');
-	        var calendar = new FullCalendar.Calendar(calendarEl, {
-	          initialView: 'dayGridMonth'
-	        });
-	        calendar.render();
-	      });
-	
-
 
 		
 		
@@ -134,6 +125,7 @@
 				let description = $("#descriptionInput").val();	
 				let lat = selectedLatLng.lat();
 				let lng = selectedLatLng.lng();
+				let date = $("#dateInput").val();
 				
 						
 				if(title == ""){
@@ -152,8 +144,12 @@
 					alert("사람들에게 바라는 점을 입력해야 좋은 사람들이 오겠죠?");
 					return ;
 				}
+				if(date == ""){
+					alert("합주일정을 입력하세요.");
+					return ;
+				}
 				
-				console.log("title : " + title + " place : " + place + "part" + part + " description : " + description + " 위도 : " + lat + " 경도 : " + lng);
+				console.log("title : " + title + " place : " + place + "part" + part + " description : " + description + " 위도 : " + lat + " 경도 : " + lng + " 날짜 : " + date);
 				
 				let formData = new FormData();
 				formData.append("title", title);
@@ -162,6 +158,7 @@
 				formData.append("description", description);
 				formData.append("lat", lat);
 				formData.append("lng", lng);
+				formData.append("date", date);
 		
 				
 				$.ajax({

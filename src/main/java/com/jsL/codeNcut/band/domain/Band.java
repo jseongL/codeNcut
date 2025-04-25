@@ -30,6 +30,7 @@ public class Band {
 	private String description;
 	private double lat;
 	private double lng;
+	private String date;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	

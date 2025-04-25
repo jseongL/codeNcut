@@ -20,7 +20,7 @@ public class BandService {
 		this.bandRepository = bandRepository;
 	}
 	
-	public boolean addBand(int userId, String title, String place, String part, String description, double lat,  double lng) {
+	public boolean addBand(int userId, String title, String place, String part, String description, double lat,  double lng, String date) {
 		Band band = Band.builder()
 				.userId(userId)
 				.title(title)
@@ -29,6 +29,7 @@ public class BandService {
 				.description(description)
 				.lat(lat)
 				.lng(lng)
+				.date(date)
 				.build();
 		
 		try {
@@ -145,8 +146,22 @@ public class BandService {
 	}
 	
 	
-
 	
+	public List<BandCardView>getBandForCalender(){//밴드아이디, 제목, 파트, 장소, 날짜 정보만 저장
+		List<Band> bandList = bandRepository.findAll();
+		List<BandCardView> bandCalenderList = new ArrayList<>();
+		for(Band band:bandList) {
+			BandCardView bandCardView = BandCardView.builder()
+					.bandId(band.getId())
+					.title(band.getTitle())
+					.part(band.getPart())
+					.place(band.getPlace())
+					.date(band.getDate())
+					.build();
+			bandCalenderList.add(bandCardView);
+		}
+		return bandCalenderList;
+	}
 	
 	
 	
