@@ -14,7 +14,7 @@
         	
 			<div class="border border-white user-box my-2 p-2 rounded-lg ">
 				<header class="mainHeader bg-white d-flex justify-content-between align-items-center">
-					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">임지성</span><span class="text-secondary">님</span></div>
+					<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">임지성</span><span class="text-secondary">님<i id="setting" class="bi bi-gear text-dark ml-2"></i></span></div>
 					<h1 class="text-center text-dark font-weight-bolder">코드네컷</h1>
 					<a class="text-warning" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
 					<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
@@ -35,8 +35,17 @@
 			</div>
        </section>
 
-
-
+		<div id="modalOverlay">
+		<div id="modal">
+			<div class="modal_up d-flex justify-content-center">
+				<ul>
+					<li><a href="/user/confirm-view">계정변경</a></li>
+					<li><a href="/user/deleteConfirm-view">계정탈퇴</a></li>
+				</ul>
+			</div>
+			<button class="btn btn-danger btn-block deleteBtn">닫기</button>
+		</div>
+		</div>
 
 
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -48,6 +57,17 @@
 		
 		
 		$(function(){
+			
+			$("#setting").on("click", function(){
+				$("#modalOverlay").show();
+			});
+			$(".deleteBtn").on("click", function(){
+				$("#modalOverlay").hide();
+			});
+			
+			
+			
+			
 			$("#logoutBtn").on("click", function(){
 				if(confirm("로그아웃 하겠습니까?")){
 					location.href = "/user/logout";

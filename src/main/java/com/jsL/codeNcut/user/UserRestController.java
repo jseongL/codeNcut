@@ -89,7 +89,70 @@ public class UserRestController {
 		return resultMap;
 	}
 	
-	/*
+	
+	@PostMapping("/confirm")
+	public Map<String, String>confirmUser(
+			@RequestParam String loginId
+			,@RequestParam String password
+			,HttpSession session
+			){
+		int userId = (Integer)session.getAttribute("userId");
+		boolean result = userService.userConfirm(userId, loginId, password);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	@PostMapping("/change")
+	public Map<String, String> changeUser(
+			@RequestParam String loginId
+			,@RequestParam String password
+			,@RequestParam String phoneNumber
+			,@RequestParam String nickname
+			,@RequestParam String email
+			,HttpSession session
+			){
+		int userId = (Integer)session.getAttribute("userId");
+		boolean result = userService.updateUser(userId, loginId, password, phoneNumber, nickname, email);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	@PostMapping("/deleteConfirm")
+	public Map<String, String>deleteConfirm(@RequestParam String loginId
+			,@RequestParam String password
+			,HttpSession session){
+		int userId = (Integer)session.getAttribute("userId");
+		boolean result = userService.userConfirm(userId, loginId, password);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+
+	
+	
+	
+	
 	@GetMapping("/deleteUser")
 	public RedirectView withdraw(HttpSession session) {
 		int userId = (Integer)session.getAttribute("userId");
@@ -102,7 +165,7 @@ public class UserRestController {
 		}
 		return new RedirectView("/user/fail");
 	}
-	*/
+	
 	
 	
 	

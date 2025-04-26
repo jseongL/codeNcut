@@ -32,6 +32,26 @@ public class UserController {
 	}
 	
 	
+	@GetMapping("/confirm-view")
+	public String confirmView() {
+		return "user/confirm";
+	}
+	
+	
+	@GetMapping("/change-view")
+	public String changView() {
+		return "user/change";
+	}
+	
+	
+	@GetMapping("/deleteConfirm-view")
+	public String deleteConfirmView() {
+		return "user/deleteConfirm";
+	}
+	
+	
+	
+	
 	
 
 }

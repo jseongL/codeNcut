@@ -1,0 +1,76 @@
+<html lang="ko" 
+    xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+        
+        
+        <section layout:fragment="contents" class="contents d-flex justify-content-center">
+        	
+			<div class="border border-info user-box my-5 p-5 rounded-lg ">
+				<h1 class="text-center">계정변경</h1>
+				<span class="text-secondary">악기거래, 음악일상공유, 악보검색, 밴드구인을 한번에!</span>
+				<form id="loginForm"> <!--  페이지 새로고침 없이 요청이 들어가야됌 -->
+					<input id="loginIdInput" type="text" class="form-control mt-4" placeholder="아이디">
+					<input id="passwordInput" type="password" class="form-control mt-2" placeholder="비밀번호">
+					<button id="loginBtn" type="submit" class="btn btn-danger btn-block mt-3">변경하기</button>
+				</form>
+			</div>
+        </section>
+        
+        
+        <script layout:fragment="script">
+        	$(function(){
+        		$("#loginForm").on("submit", function(e){
+    				
+					//form테그의 원래 기능 제거하고 엔터기능만
+					e.preventDefault();
+        			
+        			let loginId = $("#loginIdInput").val();
+        			let password = $("#passwordInput").val();
+        			
+        			if(loginId == ""){
+        				alert("아이디를 입력하세요.");
+        				return ;
+        			}
+        			if(password == ""){
+        				alert("비밀번호를 입력하세요.");
+        				return ;
+        			}
+        			
+        			console.log("아이디 : " + loginId + " 비밀번호 : " +password);
+        			
+        			
+        			$.ajax({
+        				type:`post`
+        				,url:"/user/confirm"
+        				,data:{"loginId":loginId, "password":password}
+        				,success(response){
+        					if(response.result == "success"){
+        						location.href = "/user/change-view";
+        					}
+        					else{
+        						alert("아이디 또는 비밀번호를 확인하세요.");
+        					}
+        				}
+        				,error(){
+        					alert("사용자확인 에러");
+        				}
+        			});
+        			
+        		});
+        	});
+        </script>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
