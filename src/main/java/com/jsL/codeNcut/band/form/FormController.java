@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jsL.codeNcut.band.dto.BandCardView;
+import com.jsL.codeNcut.band.form.domain.Form;
 import com.jsL.codeNcut.band.form.dto.FormCardView;
 import com.jsL.codeNcut.band.form.dto.FormCardWithBandCardView;
 import com.jsL.codeNcut.band.form.service.FormService;
@@ -61,6 +62,7 @@ public class FormController {
 	    List<FormCardView> myFormCardList = formService.getMyFormList(userId);
 	    List<BandCardView> bandCardList = bandService.getBandCardList();
 
+	    
 	    // bandId가 일치하는 Form + Band 묶기
 	    List<FormCardWithBandCardView> resultList = new ArrayList<>();
 	    for (FormCardView form : myFormCardList) {
@@ -80,6 +82,18 @@ public class FormController {
 	    return "/band/myForm";
 	}
 
+	
+	@GetMapping("/modifyForm-view")
+	public String modifyForm(
+			@RequestParam int id
+			,Model model
+			) {	
+		model.addAttribute("bandId", id);		
+		return "band/modifyForm"; 
+	}
+	
+	
+	
 	
 
 }

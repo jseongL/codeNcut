@@ -67,7 +67,25 @@ public class FormRestController {
 	
 	
 	
-	
+	@PostMapping("/modifyForm")
+	public Map<String, String> modifyForm(
+			@RequestParam int bandId
+			,@RequestParam String name
+			,@RequestParam String phoneNumber
+			,@RequestParam String place
+			,@RequestParam String experience
+			,@RequestParam String introduce
+			){
+		boolean result = formService.updateFrom(bandId, name, phoneNumber, place, experience, introduce);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
 	

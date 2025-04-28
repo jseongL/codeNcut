@@ -40,6 +40,10 @@ public class FormService {
 	
 	public List<FormCardView> getAppliedForm(int id){
 		List<Form> formList = formRepository.findByBandId(id);
+		
+		
+		
+		
 		List<FormCardView> formCardList = new ArrayList<>();
 		for(Form form:formList) {
 			FormCardView formCardView = FormCardView.builder()
@@ -90,6 +94,22 @@ public class FormService {
 	}
 	
 	
+	public boolean updateFrom(int bandId, String name, String phoneNumber, String place, String experience, String introduce) {
+		Form form= formRepository.findFirstByBandId(bandId);
+		Form updateForm = form.toBuilder()
+				.name(name)
+				.phoneNumber(phoneNumber)
+				.place(place)
+				.experience(experience)
+				.introduce(introduce)
+				.build();
+		try {
+			formRepository.save(updateForm);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	

@@ -49,7 +49,14 @@
 				            </tbody>
 				        </table>
 				    </div>
-					
+					<ul class="navi">
+						<li><a href="#">더보기</a>
+							<ul class="submenu">			
+								<li><a th:href="|/band/modifyForm-view?id=${item.bandCard.bandId}|">수정하기</a></li>
+								<li><a class="deleteBtn" th:data-band-id="${item.bandCard.bandId}" href="#">삭제하기</a></li>
+							</ul>
+						</li>
+					</ul>
 					<br>
 					<h1>내가 작성한 폼</h1>
 				    <h1 th:text="${item.formCard.introduce}">안녕하세요</h1>

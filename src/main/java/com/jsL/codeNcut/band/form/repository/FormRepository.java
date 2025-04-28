@@ -11,4 +11,5 @@ public interface FormRepository extends JpaRepository<Form, Integer>{
 	public List<Form>findByBandId(int id);
 	public List<Form>findByUserId(int userId);
 	public Form findByUserIdAndBandId(int userId, int bandId);
+	public Form findFirstByBandId(int bandId);
 }
