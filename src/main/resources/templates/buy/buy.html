@@ -12,7 +12,7 @@
 
 	 <section class="buyMain d-flex justify-content-center">
         	
-			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
+			<div class="user-box my-4 p-4 rounded shadow-lg border border-secondary bg-dark">
 				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center" style="width:880px;">		
 					<i id="backBtn" class="bi bi-arrow-left-short"></i>
 					
@@ -30,7 +30,7 @@
 					</form>
 		
 					
-					<nav class="menu">
+					<nav class="menu ml-4">
 						<ul class="navi">	
 							<li><a href="#">악기</a>
 								<ul class="submenu">
@@ -78,24 +78,44 @@
 				</div>
 				
 				
-				<div class="border border-white user-box my-2 p-2 rounded-lg" th:each="buyCard:${buyCardList}">
-				<div class="d-flex">
-					<span th:text="${buyCard.nickname}" class="font-weight-bold" style="font-size: 25px">닉네임</span>
-	<!-- 게시자 정보 --><span th:text="${buyCard.description}" class="ml-4 mt-2">설명</span>
+				<div class="border border-white user-box my-2 p-2 bg-secondary rounded-lg mt-5" th:each="buyCard:${buyCardList}">
+				<div class="d-flex align-items-center mb-3 px-2">
+				  <span th:text="${buyCard.nickname}" class="font-weight-bold text-white" style="font-size: 1.5rem;">
+				    닉네임
+				  </span>
+				  <span th:text="${buyCard.description}" class="ml-4 text-white" style="font-size: 1rem;">
+				    설명
+				  </span>
 				</div>
 				<main class="d-flex align-items-center">
 						<article class="buyImg">
 							<img th:src="${buyCard.imgPath}">
 						</article>
-						<div class="buyInfo">
-							<span>모델명 : <span th:text="${buyCard.model}">fander</span></span><br>
-							<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span>년</span><br>
-							<span>가격 : <span th:text="${buyCard.price}" class="text-success">100만원</span>만원</span><br>
-							<span th:if="${buyCard.status == '판매중'}">판매상태 : <span class="text-danger" th:text="${buyCard.status}">판매중</span></span>
-							<span th:unless="${buyCard.status == '판매중'}">판매상태 : <span class="text-success" th:text="${buyCard.status}">판매완료</span></span>
-							<button th:if="${buyCard.status != '판매완료'}" th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
-							<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-						</div>				
+							<div class="buyInfo p-4 bg-dark text-light rounded shadow border border-secondary">
+  <p class="mb-2 border-bottom pb-1">
+    <i class="bi bi-guitar text-warning"></i>
+    <strong class="text-white">모델명</strong> : 
+    <span class="text-info font-weight-bold" th:text="${buyCard.model}">Fender</span>
+  </p>
+  <p class="mb-2 border-bottom pb-1">
+    <i class="bi bi-calendar text-warning"></i>
+    <strong class="text-white">구입연도</strong> : 
+    <span class="text-light font-weight-bold" th:text="${buyCard.buyYear}">2015년</span>
+  </p>
+  <p class="mb-2 border-bottom pb-1">
+    <i class="bi bi-cash-coin text-warning"></i>
+    <strong class="text-white">가격</strong> : 
+    <span class="text-success font-weight-bold" th:text="${buyCard.price}">100</span>만원
+  </p>
+  <p class="mb-2 border-bottom pb-1">
+    <i class="bi bi-box-seam text-warning"></i>
+    <strong class="text-white">판매상태</strong> : 
+    <span th:if="${buyCard.status == '판매중'}" class="text-danger font-weight-bold" th:text="${buyCard.status}">판매중</span>
+    <span th:unless="${buyCard.status == '판매중'}" class="text-success font-weight-bold" th:text="${buyCard.status}">판매완료</span>
+  </p>
+   <button th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
+   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+</div>	
 				</main>
 				</div>
 				

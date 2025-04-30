@@ -1,149 +1,161 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8">
-<title>코드네컷</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-<link rel="stylesheet" href="/static/css/stylesheet.css">
+  <meta charset="UTF-8">
+  <title>코드네컷</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/css/stylesheet.css">
 </head>
 <body>
 
-	 <section class="buyMain d-flex justify-content-center">
-        	
-			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-warning d-flex justify-content-between align-items-center">		
-					<i id="backBtn" class="bi bi-arrow-left-short"></i>
-					
-					<h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
-					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
-						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
-						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
-					</div>
-				</header>
-		
-				
-				
-				<div class="border border-white user-box my-2 p-2 rounded-lg" th:each="buyCard:${myBuyCardList}">
-					<div class="d-flex">
-						<span th:text="${buyCard.nickname}" class="font-weight-bold" style="font-size: 25px">닉네임</span>
-		<!-- 게시자 정보 --><span th:text="${buyCard.description}" class="ml-4 mt-2">설명</span>
-						<div class="buyMoreMenu">
-							<ul class="navi">
-								<li><a href="#">더보기</a>
-								<ul class="submenu">			
-		<!-- 수정, 삭제 -->			<li><a th:href="|/buy/modify-view?id=${buyCard.buyId}|">수정하기</a></li>
-									<li><a class="deleteBtn" th:data-buy-id="${buyCard.buyId}" href="#">삭제하기</a></li>
-								</ul>
-							</li>
-							</ul>
-						</div>
-					</div>
-					
-					<main class="d-flex align-items-center">
-							<article class="buyImg">
-								<img th:src="${buyCard.imgPath}">
-							</article>				
-							<div class="buyInfo">
-								
-								<span>모델명 : <span th:text="${buyCard.model}">fander</span></span><br>
-								<span>구입연도 : <span th:text="${buyCard.buyYear}">2015년</span><span>년</span></span><br>
-								<span>가격 : <span th:text="${buyCard.price}" class="text-success">100만원</span><span>만원</span></span><br>
-								<span>판매상태 : <span th:text="${buyCard.status}" class="text-danger">fander</span></span>
-								<button id="buyBtn" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold">바로구매</button>
-							</div>				
-					</main>
-				</div>
-				
-				
-				
-			</div>
-       </section>
+<section class="buyMain d-flex justify-content-center">
+  <div class="border border-secondary user-box my-4 p-4 rounded shadow-lg bg-dark">
+    <header class="mainHeader bg-warning d-flex justify-content-between align-items-center">
+      <i id="backBtn" class="bi bi-arrow-left-short"></i>
+      <h3 class="text-center text-dark font-weight-bold">국내 최고의 악기거래 플랫폼입니다.</h3>
+      <div>
+        <div class="userName" th:if="${session.userId != null}">
+          <span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span>
+        </div>
+        <a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
+        <a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
+      </div>
+    </header>
 
+    <div class="border border-light rounded-lg p-3 my-3 bg-secondary text-white" th:each="buyCard:${myBuyCardList}">
+      <div class="d-flex ">
+        <div>
+          <span th:text="${buyCard.nickname}" class="font-weight-bold text-white" style="font-size: 1.5rem;">닉네임</span>
+          <span th:text="${buyCard.description}" class="ml-3 text-light" style="font-size: 1rem;">설명</span>
+        </div>
+        <div class="buyMoreMenu pr-3">
+          <ul class="navi">
+            <li><a href="#" class="text-white">더보기</a>
+              <ul class="submenu">
+                <li><a th:href="|/buy/modify-view?id=${buyCard.buyId}|">수정하기</a></li>
+                <li><a class="deleteBtn" th:data-buy-id="${buyCard.buyId}" href="#">삭제하기</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
 
+      <main class="d-flex align-items-center mt-3">
+        <article class="buyImg">
+          <img th:src="${buyCard.imgPath}">
+        </article>
+        <div class="buyInfo p-4 bg-dark text-light rounded shadow border border-secondary ml-4">
+          <p class="mb-2 border-bottom pb-1">
+            <strong class="text-white">모델명</strong> :
+            <span class="text-info font-weight-bold" th:text="${buyCard.model}">fander</span>
+          </p>
+          <p class="mb-2 border-bottom pb-1">
+            <strong class="text-white">구입연도</strong> :
+            <span class="text-light font-weight-bold" th:text="${buyCard.buyYear}">2015년</span>
+          </p>
+          <p class="mb-2 border-bottom pb-1">
+            <strong class="text-white">가격</strong> :
+            <span class="text-success font-weight-bold" th:text="${buyCard.price}">100</span>만원
+          </p>
+          <p class="mb-2 border-bottom pb-1">
+            <strong class="text-white">판매상태</strong> :
+            <span class="text-danger font-weight-bold" th:text="${buyCard.status}">판매중</span>
+          </p>
+           <button th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
+          <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        </div>
+      </main>
+    </div>
+  </div>
+</section>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
 
+<script>
+  $(function () {
+	  
+	  
+	  $(".buyBtn").on("click", function(){
+		    IMP.init("imp20361011");
+		    let priceGet = $(this).data("buy-price");
+		    let modelGet = $(this).data("buy-model");
+		    let buyId = $(this).data("buy-id");
 
-		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+		    IMP.request_pay({
+		      pg: "kakaopay",
+		      pay_method: "card",
+		      amount: priceGet,
+		      name: modelGet,
+		      merchant_uid: "mid_" + new Date().getTime()
+		    }, function(rsp){
+		      if(rsp.success){
+		        alert("결제 성공! imp_uid: " + rsp.imp_uid);
+		        $.ajax({
+		          type: "post",
+		          url: "/buy/solded",
+		          data: { "buyId": buyId },
+		          success(responce){
+		            if(responce.result == "success"){
+		              location.reload();
+		            } else {
+		              alert("판매상태 변경 실패");
+		            }
+		          },
+		          error(){
+		            alert("판매상태 변경 에러");
+		          }
+		        });
+		      } else {
+		        alert("결제 실패: " + rsp.error_msg);
+		      }
+		    });
+		  });
+	  
+	  
+	  
+	  
+    $("#logoutBtn").on("click", function () {
+      if (confirm("로그아웃 하겠습니까?")) {
+        location.href = "/user/logout";
+      }
+    });
 
-		
-		<script>
-		
-		
-		$(function(){
-			
-			
-			
-			
-			
-			$("#logoutBtn").on("click", function(){
-				if(confirm("로그아웃 하겠습니까?")){
-					location.href = "/user/logout";
-				}
-				
-			});
-				
-			$('.navi>li').mouseover(function(){
-  				$(this).find('.submenu').stop().slideDown(500);
-  			}).mouseout(function(){
-  				$(this).find('.submenu').stop().slideUp(500);
-  			});
-		});
-			
-		
-		$("#backBtn").on("click", function(){
-			location.href="/buy/buy-view";
-		});
-		
-		
-		$(".deleteBtn").on("click", function(){
-			let buyId = $(this).data("buy-id");
-			
-			console.log("buyId : " + buyId);
-			
-			if(confirm("게시물을 삭제 하시겠습니까?")){
-	
-				$.ajax({
-					type:`delete`
-					,url:"/buy/deleteProfile"
-					,data:{"buyId":buyId}
-					,success(response){
-						if(response.result == "success"){
-			
-								alert("삭제 완료되었습니다.");
-								location.reload();
-							
-						}else{
-							alert("삭제 실패")
-						}
-					}
-					,error(){
-						alert("삭제 에러")
-					}
-				});
-			
-			}
-			
-			
-			
-			
-		});
-		
-		
-		
-		
-		</script>
-	
+    $('.navi>li').mouseover(function () {
+      $(this).find('.submenu').stop().slideDown(500);
+    }).mouseout(function () {
+      $(this).find('.submenu').stop().slideUp(500);
+    });
 
+    $(".deleteBtn").on("click", function () {
+      let buyId = $(this).data("buy-id");
+      if (confirm("게시물을 삭제 하시겠습니까?")) {
+        $.ajax({
+          type: "delete",
+          url: "/buy/deleteProfile",
+          data: { "buyId": buyId },
+          success(response) {
+            if (response.result === "success") {
+              alert("삭제 완료되었습니다.");
+              location.reload();
+            } else {
+              alert("삭제 실패");
+            }
+          },
+          error() {
+            alert("삭제 에러");
+          }
+        });
+      }
+    });
+  });
 
-
-
-
-
+  $("#backBtn").on("click", function () {
+    location.href = "/buy/buy-view";
+  });
+</script>
 
 </body>
 </html>

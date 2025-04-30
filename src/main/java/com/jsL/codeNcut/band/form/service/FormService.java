@@ -112,6 +112,19 @@ public class FormService {
 	}
 	
 	
+	public boolean deleteForm(int bandId) {
+		Form form = formRepository.findFirstByBandId(bandId);
+		try {
+			formRepository.delete(form);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
+	
 	
 	
 	

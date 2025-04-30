@@ -4,10 +4,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import com.jsL.codeNcut.user.domain.User;
-
-import jakarta.persistence.PersistenceException;
-
 public class Encrypt {
 
 	public static String main(String password) {
