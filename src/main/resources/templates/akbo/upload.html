@@ -13,16 +13,29 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
-					<i id="backBtn" class="bi bi-arrow-left-short"></i>
-					
-					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">악보태평양</h3>
-					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
-						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
-						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
-					</div>
-				</header>
+				<header class="navbar navbar-expand-lg navbar-dark bg-info rounded mb-3 shadow-sm" style="width:800px;">
+            <div class="container-fluid d-flex justify-content-between align-items-center px-3">
+                <!-- 뒤로가기 버튼 -->
+                <button id="backBtn" class="btn btn-outline-light d-flex align-items-center">
+                    <i class="bi bi-arrow-left-short" style="font-size: 1.5rem;"></i>
+                </button>
+
+                <!-- 중앙 제목 -->
+                <h3 class="mx-auto mb-0 font-weight-bold text-white text-center">
+                    악보태평양
+                </h3>
+
+                <!-- 로그인 정보 -->
+                <div class="text-right">
+                    <div th:if="${session.userId != null}" class="mb-1">
+                        <span th:text="${session.nickname}" class="text-light font-weight-bold"></span>
+                        <span class="text-light">님</span>
+                    </div>
+                    <a th:if="${session.userId != null}" id="logoutBtn" href="#" class="btn btn-sm btn-light">로그아웃</a>
+                    <a th:unless="${session.userId != null}" href="/user/login-view" class="btn btn-sm btn-outline-light">로그인</a>
+                </div>
+            </div>
+        </header>
 				
 				
 		

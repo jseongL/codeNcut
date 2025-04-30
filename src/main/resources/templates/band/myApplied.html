@@ -13,39 +13,63 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-danger d-flex justify-content-between align-items-center" style="width:880px;">		
-					<i id="backBtn" class="bi bi-arrow-left-short"></i>
-					
-					<h3 class="text-white font-weight-bold" style="margin-left:320px;">같이 합주 오인큐 하실 분?</h3>
-					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
-						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
-						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
-					</div>
+				<header class="navbar navbar-expand-lg navbar-dark bg-danger rounded mb-3 shadow-sm" style="width: 880px;">
+				    <div class="container-fluid d-flex justify-content-between align-items-center px-3">
+				        <!-- 뒤로가기 버튼 -->
+				        <button id="backBtn" class="btn btn-outline-light d-flex align-items-center">
+				            <i class="bi bi-arrow-left-short" style="font-size: 1.5rem;"></i>
+				        </button>
+				
+				        <!-- 중앙 제목 -->
+				        <h3 class="mx-auto mb-0 font-weight-bold text-white text-center">
+				            같이 합주 오인큐 하실 분?
+				        </h3>
+				
+				        <!-- 로그인 정보 -->
+				        <div class="text-right">
+				            <div th:if="${session.userId != null}" class="mb-1">
+				                <span th:text="${session.nickname}" class="text-light font-weight-bold"></span>
+				                <span class="text-light">님</span>
+				            </div>
+				            <a th:if="${session.userId != null}" id="logoutBtn" href="#" class="btn btn-sm btn-light">로그아웃</a>
+				            <a th:unless="${session.userId != null}" href="/user/login-view" class="btn btn-sm btn-outline-light">로그인</a>
+				        </div>
+				    </div>
 				</header>
 				
-				<div th:each="formCard:${formCardList}">
-					<span>이름 : <span th:text="${formCard.name}">이름</span></span><br>
-					<span style="font-size:30px;">자기소개 : <span th:text="${formCard.introduce}">안녕하세요</span></span><br>
-					<span style="font-size:30px;">지역 : <span th:text="${formCard.place}">서울</span></span><br>
-					<span>밴드경험 : </span><span th:text="${formCard.experience}">많이</span><br>
-					<span>전화번호 : </span>
-					<span th:text="${formCard.phoneNumber}">010-1111-2222</span><br>
-					<span>합불여부 선택 : </span>
-					<select id="pnp-${formCard.bandId}" class="form-control col-4 mb-3 selectPnp">
+				
+				
+				
+				<div th:each="formCard : ${formCardList}" class="card bg-secondary text-white mb-4 shadow-sm p-3" style="width: 880px;">
+				  <div class="card-body">
+				    <h4 class="card-title font-weight-bold mb-3" th:text="'이름: ' + ${formCard.name}">이름</h4>
+				
+				    <p class="mb-2"><strong>자기소개:</strong> <span th:text="${formCard.introduce}">안녕하세요</span></p>
+				    <p class="mb-2"><strong>지역:</strong> <span th:text="${formCard.place}">서울</span></p>
+				    <p class="mb-2"><strong>밴드 경험:</strong> <span th:text="${formCard.experience}">많이</span></p>
+				    <p class="mb-2"><strong>전화번호:</strong> <span th:text="${formCard.phoneNumber}">010-1111-2222</span></p>
+				
+				    <div class="form-group mt-3">
+				      <label for="pnp-${formCard.bandId}"><strong>합불여부 선택:</strong></label>
+				      <select id="pnp-${formCard.bandId}" class="form-control bg-dark text-white selectPnp w-50">
 				        <option value="합격">합격</option>
 				        <option value="불합격">불합격</option>
-				    </select>
-					
-					
-					<button th:data-band-id="${formCard.bandId}" th:data-user-id="${formCard.userId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold col-8 pnpBtn">저장하기</button>
-				</div>
-		
-        	
-				 <!-- 유저아이디 기반으로 지원한 사람의 폼 테이블에 불합격 문자 추가 -->
+				      </select>
+				    </div>
 				
-			
-			</div>
+				    <button th:data-band-id="${formCard.bandId}" 
+				            th:data-user-id="${formCard.userId}" 
+				            type="button" 
+				            class="btn btn-danger font-weight-bold mt-3 pnpBtn w-100">
+				      저장하기
+				    </button>
+				  	</div>
+				</div>
+				
+				
+				
+				
+				</div>
        </section>
 
 

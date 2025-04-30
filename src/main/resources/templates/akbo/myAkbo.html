@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>코드네컷</title>
@@ -10,148 +9,103 @@
 </head>
 <body>
 
-	 <section class="buyMain d-flex justify-content-center">
-        	
-			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-info d-flex justify-content-between align-items-center">		
-					<i id="backBtn" class="bi bi-arrow-left-short"></i>
-					
-					<h3 class="text-white font-weight-bold" style="margin-left:320px;">악보태평양</h3>
-					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-dark">ddd</span><span class="text-dark">님</span></div>
-						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
-						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
-					</div>
-				</header>
-							
-				<div class="border border-white user-box my-2 p-2 rounded-lg">
-					
-				
-						
-		        		<table class="table text-center mt-4 text-white">
-		        			<thead>
-		        				<tr style="font-size:20px;">
-		        					<th>곡명</th>
-		        					<th>아티스트</th>	
-		        					<th>다운로드</th>
-		        		        	<th></th>			
-		        				</tr>
-		        			</thead>
-		        			
-		        			<tbody th:each="myAkboCard:${myAkboCardList}">
-		        				<tr>					
-		        					<td th:text="${myAkboCard.songName}">한 페이지가 될 수 있게</td>
-		        					<td th:text="${myAkboCard.artist}">데이식스</td>
-		        					<td><button th:attr="data-path=${myAkboCard.imgPath}" class="btn btn-success downloadBtn" type="button">다운로드</button></td>
-		        					<td>
-			        					<ul class="navi">
-								        			<li class="bg-info"><a href="#">더보기</a>
-								        				<ul class="submenu">
-								<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a th:href="|/akbo/modify-view?id=${myAkboCard.akboId}|" class="text-white">수정하기</a></li>
-								        					<li><a th:data-akbo-id="${myAkboCard.akboId}" href="#" class="text-white deleteBtn">삭제하기</a></li>
-								        				</ul>
-								        			</li>
-								        </ul>
-		        					</td>
-		        				</tr>	        				
-		        			</tbody>
-		        		</table>
-		        		
-		  
-							
-				</div>
-	
-			</div>
-       </section>
+<section class="buyMain d-flex justify-content-center">
+    <div class="border border-danger user-box my-2 p-2 rounded-lg">
+        <header class="navbar navbar-expand-lg navbar-dark bg-info rounded mb-3 shadow-sm" style="width:800px;">
+            <div class="container-fluid d-flex justify-content-between align-items-center px-3">
+                <!-- 뒤로가기 버튼 -->
+                <button id="backBtn" class="btn btn-outline-light d-flex align-items-center">
+                    <i class="bi bi-arrow-left-short" style="font-size: 1.5rem;"></i>
+                </button>
 
+                <!-- 중앙 제목 -->
+                <h3 class="mx-auto mb-0 font-weight-bold text-white text-center">
+                    악보태평양
+                </h3>
 
+                <!-- 로그인 정보 -->
+                <div class="text-right">
+                    <div th:if="${session.userId != null}" class="mb-1">
+                        <span th:text="${session.nickname}" class="text-light font-weight-bold"></span>
+                        <span class="text-light">님</span>
+                    </div>
+                    <a th:if="${session.userId != null}" id="logoutBtn" href="#" class="btn btn-sm btn-light">로그아웃</a>
+                    <a th:unless="${session.userId != null}" href="/user/login-view" class="btn btn-sm btn-outline-light">로그인</a>
+                </div>
+            </div>
+        </header>
 
+        <div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
+            <!-- 네비게이션 메뉴 (더보기) -->
+            <div th:if="${session.userId != null}" class="mb-3">
+                <ul class="navi">
+                    <li class="bg-info">
+                        <a href="#" class="text-white font-weight-bold">더보기</a>
+                        <ul class="submenu">
+                            <li><a href="/akbo/newAkbo-view" class="text-white">새 악보 공유</a></li>
+                            <li><a href="/akbo/myAkbo-view" class="text-white deleteBtn">내가 올린 악보</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
+            <!-- 검색 폼 -->
+            <div class="mb-4">
+                <form action="/akbo/search" method="get">
+                    <input id="searchInput" type="text" name="text" class="form-control descriptionInput" placeholder="🎼 악보 검색">
+                </form>
+            </div>
 
-		<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+            <!-- 악보 목록 테이블 -->
+            <div class="table-responsive">
+                <table class="table text-white text-center">
+                    <thead class="thead-light">
+                        <tr class="bg-secondary" style="font-size:18px;">
+                            <th>🎵 곡명</th>
+                            <th>👤 아티스트</th>
+                            <th>⬇️ 다운로드</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="myAkboCard : ${myAkboCardList}">
+                        <tr>
+                            <td th:text="${myAkboCard.songName}">한 페이지가 될 수 있게</td>
+                            <td th:text="${myAkboCard.artist}">데이식스</td>
+                            <td>
+                                <a th:href="${myAkboCard.imgPath}" target="_blank" class="btn btn-outline-success btn-sm downloadBtn" type="button">
+                                    다운로드
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 
-		
-		<script>
-		
-		
-		$(function(){
-			
-			$(".deleteBtn").on("click", function(){
-				let akboId = $(this).data("akbo-id");
-				
-				console.log("악보 아이디 : " + akboId);
-				
-				if(confirm("게시물을 삭제하시겠습니까?")){
-					$.ajax({
-						type:`delete`
-						,url:"/akbo/deleteAkbo"
-						,data:{"akboId":akboId}
-						,success(response){
-							if(response.result == "success"){
-								alert("삭제되었습니다.");
-								location.href = "/akbo/myAkbo-view";
-							}
-							else{
-								alert("삭제 실패");
-							}
-						}
-						,error(){
-							alert("게시물 삭제 에러");
-						}
-					});
-				}
-			});
-			
-			
-			$(".downloadBtn").on("click", function(){
-				let filePath = $(this).data("path");
-				
-				location.href = filePath;
-				  
-				
-			});
-			
-				
-			
-			$("#logoutBtn").on("click", function(){
-				if(confirm("로그아웃 하겠습니까?")){
-					location.href = "/user/logout";
-				}
-				
-			});
-				
-			$('.navi>li').mouseover(function(){
-  				$(this).find('.submenu').stop().slideDown(500);
-  			}).mouseout(function(){
-  				$(this).find('.submenu').stop().slideUp(500);
-  			});
-		});
-			
-		
-		$("#backBtn").on("click", function(){
-			location.href="/akbo/akbo-view";
-		});
-		
-		
-		/*
-		$("#deleteUserBtn").on("click", function(){
-			if(confirm("계정을 탈퇴하시겠습니까?")){
-				alert("탈퇴완료되었습니다.");
-				location.href = "/user/deleteUser";
-			}
-		});
-		*/
-		
-		</script>
-	
+<script>
+    $(function(){
+        $("#logoutBtn").on("click", function(){
+            if(confirm("로그아웃 하겠습니까?")){
+                location.href = "/user/logout";
+            }
+        });
 
+        $('.navi>li').mouseover(function(){
+            $(this).find('.submenu').stop().slideDown(500);
+        }).mouseout(function(){
+            $(this).find('.submenu').stop().slideUp(500);
+        });
+    });
 
-
-
-
-
+    $("#backBtn").on("click", function(){
+        location.href="/akbo/akbo-view";
+    });
+</script>
 
 </body>
 </html>

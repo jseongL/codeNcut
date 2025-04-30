@@ -13,79 +13,86 @@
 	 <section class="buyMain d-flex justify-content-center">
         	
 			<div class="border border-danger user-box my-2 p-2 rounded-lg ">
-				<header class="mainHeader bg-success d-flex justify-content-between align-items-center">		
-					<i id="backBtn" class="bi bi-arrow-left-short"></i>
-					
-					<h3 class="text-center text-dark font-weight-bold" style="margin-left:300px;">음악 일상 나눔</h3>
-					<div>
-						<div class="userName" th:if="${session.userId != null}"><span th:text="${session.nickname}" class="text-secondary">ddd</span><span class="text-secondary">님</span></div>
-						<a class="text-dark" th:if="${session.userId != null}" id="logoutBtn" href="#">로그아웃</a>
-						<a class="loginBtn text-dark" th:unless="${session.userId != null}" href="/user/login-view">로그인</a>
-					</div>
+				<header class="navbar navbar-expand-lg navbar-dark bg-success rounded mb-3 shadow-sm" style="width: 100%;">
+				  <div class="container-fluid d-flex justify-content-between align-items-center px-3">
+				
+				    <!-- 뒤로가기 버튼 -->
+				    <button id="backBtn" class="btn btn-outline-light d-flex align-items-center">
+				      <i class="bi bi-arrow-left-short" style="font-size: 1.5rem;"></i>
+				    </button>
+				
+				    <!-- 중앙 제목 -->
+				    <h3 class="mx-auto mb-0 font-weight-bold text-white text-center">
+				      음악 일상 나눔
+				    </h3>
+				
+				    <!-- 로그인 정보 -->
+				    <div class="text-right">
+				      <div th:if="${session.userId != null}" class="mb-1">
+				        <span th:text="${session.nickname}" class="text-light font-weight-bold"></span>
+				        <span class="text-light">님</span>
+				      </div>
+				      <a th:if="${session.userId != null}" id="logoutBtn" href="#" class="btn btn-sm btn-light">로그아웃</a>
+				      <a th:unless="${session.userId != null}" href="/user/login-view" class="btn btn-sm btn-outline-light">로그인</a>
+				    </div>
+				
+				  </div>
 				</header>
 				
 				
 				
-				
+				<div th:each="dailyCard:${myDailyCardList}" class="border border-white user-box my-2 p-3 rounded-lg bg-dark text-white mt-5">
+
+  <!-- 상단 닉네임 및 더보기 메뉴 -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <div style="font-size: 20px; font-weight: bold;" th:text="${dailyCard.nickname}">작성자</div>
+    <div class="dailyMoreMenu">
+      <ul class="navi list-unstyled mb-0">
+        <li>
+          <a href="#" class="text-secondary">더보기</a>
+          <ul class="submenu list-unstyled mt-1">
+            <li><a th:href="|/daily/modify-view?id=${dailyCard.dailyId}|" class="text-white">수정하기</a></li>
+            <li><a class="deleteBtn text-white" th:data-daily-id="${dailyCard.dailyId}" href="#">삭제하기</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 이미지 -->
+  <article class="dailyListSlider mb-3 mt-4">
+    <img th:src="${dailyCard.imgPath}" alt="게시물 사진" class="img-fluid rounded">
+  </article>
+
+  <!-- 제목과 내용 -->
+  <div th:text="${dailyCard.title}" class="font-weight-bold h5 mb-2">게시물 제목</div>
+  <div th:text="${dailyCard.contents}" class="mb-3">게시물 내용</div>
+
+  <!-- 좋아요 영역 -->
+  <div class="d-flex align-items-center mb-3">
+    <i th:unless="${dailyCard.isLike}" class="bi bi-heart text-danger likeBtn mr-1" th:data-daily-id="${dailyCard.dailyId}"></i>
+    <i th:if="${dailyCard.isLike}" class="bi bi-heart-fill text-danger disLikeBtn mr-1" th:data-daily-id="${dailyCard.dailyId}"></i>
+    <span th:text="${dailyCard.likeCount}" class="likeCount">좋아요 0개</span>
+  </div>
+
+  <!-- 댓글 목록 -->
+  <div th:each="comment:${dailyCard.commentList}" class="d-flex align-items-center mb-2 bg-secondary bg-opacity-25 p-2 rounded">
+    <strong th:text="${comment.nickname}" class="mr-2">닉네임</strong>
+    <span th:text="${comment.contents}" class="text-light">댓글 내용</span>
+    <i th:if="${session.userId == comment.userId}" th:data-comment-id="${comment.commentId}" class="bi bi-trash ml-3 commentDelete text-light" style="cursor: pointer;"></i>
+  </div>
+
+  <!-- 댓글 입력창 + 버튼 -->
+  <div class="input-group mt-2">
+    <input th:id="|commentInput${dailyCard.dailyId}|" type="text" class="form-control bg-dark text-white border-secondary" placeholder="댓글을 입력하세요">
+    <div class="input-group-append">
+      <button th:data-daily-id="${dailyCard.dailyId}" class="btn btn-success comment-btn">게시</button>
+    </div>
+  </div>
+
+</div>
 		
-				<div th:each="dailyCard:${myDailyCardList}" class="border border-white user-box my-2 p-2 rounded-lg">
-					<div class="d-flex">
-					<div style="font-size:25px; font-weight:bold;" th:text="${dailyCard.nickname}"></div>
-					<div class="buyMoreMenu">
-							<ul class="navi">
-								<li><a href="#">더보기</a>
-								<ul class="submenu">			
-									<li><a th:href="|/daily/modify-view?id=${dailyCard.dailyId}|">수정하기</a></li>
-									<li><a class="deleteBtn" th:data-daily-id="${dailyCard.dailyId}" href="#">삭제하기</a></li>
-								</ul>
-							</li>
-							</ul>
-						</div>
-					</div>
-					
-					
-					<div class="input-box border rounded mt-4">
-						
-			      		<article class="dailyListSlider">
-			      			<img th:src="${dailyCard.imgPath}" alt="게시물 사진">   			
-			      		</article>
-			      		
 				
-				
-				
-					<!-- 타임리프 -->	<div th:text="${dailyCard.title}" class="title" style="font-size:20px; font-weight:bold">게시물 제목</div>
-      		<!-- 타임리프 -->	<div th:text="${dailyCard.contents}" class="titleContents">게시물 내용</div>
-      		<!-- 에러? 	<span th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd')}" class="sliderText">4시간 전</span> -->
-      	<!-- ----------------------------------- -->
-      		<div class="listBottom d-flex justify-content-between">
-      			<div>
-      				
-						<i th:unless="${dailyCard.isLike}" class="bi bi-heart text-danger likeBtn" th:data-daily-id="${dailyCard.dailyId}"></i> 
-						<i th:if="${dailyCard.isLike}" class="bi bi-heart-fill text-danger disLikeBtn" th:data-daily-id="${dailyCard.dailyId}"></i>
-						<!-- th:text="${card.likeCount}" -->
- 				
-					<span th:text="${dailyCard.likeCount}" class="likeCount">좋아요 <span>11</span>개</span>      				
-      			</div>
-      		</div>
-      		
-      	<!-- ----------------------------------- -->
-      		<div th:each="comment:${dailyCard.commentList}" class="d-flex mb-3">
-      			<h4 th:text="${comment.nickname}">dlawltjd</h4>
-      			<span th:text="${comment.contents}" class="ml-3">우하하</span>
-      			<i th:if="${session.userId == comment.userId}" th:data-comment-id="${comment.commentId}" class="bi bi-trash ml-4 commentDelete"></i>
-      		</div>
-      	
-	
-      	
-      		<div class="d-flex">
-      			<input th:id="|commentInput${dailyCard.dailyId}|" type="text" class="form-control">
-      			<button th:data-daily-id="${dailyCard.dailyId}" class="btn btn-info col-2 comment-btn">게시</button>
-      		</div>  	
-	
-      	
-      		
-				</div>
-			</div>
 				
 				
 				
@@ -134,7 +141,7 @@
 			
 			$(".comment-btn").on("click", function(){
 				let dailyId = $(this).data("daily-id");
-				let contents = $(this).prev().val();
+				 let contents = $(this).closest('.input-group').find('input').val();
 				
 				console.log("dailyId : " + dailyId + " contents : " + contents);
 				

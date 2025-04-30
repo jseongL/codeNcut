@@ -175,9 +175,15 @@ body{
 	font-size:40px;
 	font-weight:bold;
 }
+.buyMenu{
+	margin-left:78px;
+}
 .buyMoreMenu{
-	margin-left:650px;	
+	margin-left:711px;
 	position:absolute;
+}
+.buyFileInput{
+	margin-left:90px;
 }
 
 
@@ -216,6 +222,10 @@ body{
 	width:780px;
 	height:400px;
 }
+.dailyMoreMenu{
+	position:absolute;
+	margin-left:650px;
+}
 
 
 
@@ -241,7 +251,57 @@ body{
   background-color: #bb2d3b;
 }
 
+#calendar {
+    background-color: #343a40;
+    padding: 20px;
+    border-radius: 10px;
+}
+  .fc {
+    color: white;
+  }
 
+  .fc-toolbar-title {
+    color: white;
+  }
+
+  .fc-daygrid-day-number {
+    color: white;
+  }
+
+  .fc-daygrid-event {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 2px 4px;
+    font-size: 0.9rem;
+  }
+
+  .fc-daygrid-event:hover {
+    background-color: #bd2130;
+  }
+
+  .fc-button {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+  }
+
+  .fc-button:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+
+  .fc-button-primary:not(:disabled):active {
+    background-color: #495057;
+    border-color: #434a50;
+  }
+
+  .fc-today {
+    background-color: #495057 !important;
+  }  
+  
+  
+  
 #eventDialog {
 
 	position:fixed;
