@@ -35,19 +35,14 @@
             </div>
         </header>
 
-        <div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
-            <!-- 네비게이션 메뉴 (더보기) -->
-            <div th:if="${session.userId != null}" class="mb-3">
-                <ul class="navi">
-                    <li class="bg-info">
-                        <a href="#" class="text-white font-weight-bold">더보기</a>
-                        <ul class="submenu">
-                            <li><a href="/akbo/newAkbo-view" class="text-white">새 악보 공유</a></li>
-                            <li><a href="/akbo/myAkbo-view" class="text-white deleteBtn">내가 올린 악보</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        		
+        	<div class="border border-white user-box my-4 p-4 rounded-lg bg-dark">
+             <!-- 네비게이션 메뉴 (더보기) -->
+          
+        		
+        		
+        		
+        		
 
             <!-- 검색 폼 -->
             <div class="mb-4">
@@ -75,6 +70,16 @@
                                     다운로드
                                 </a>
                             </td>
+                            <td>
+ 			        					<ul class="navi">
+ 								        			<li class="bg-info"><a href="#">더보기</a>
+ 								        				<ul class="submenu">
+ 								<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a th:href="|/akbo/modify-view?id=${myAkboCard.akboId}|" class="text-white">수정하기</a></li>
+ 								        					<li><a th:data-akbo-id="${myAkboCard.akboId}" href="#" class="text-white deleteBtn">삭제하기</a></li>
+ 								        				</ul>
+ 								        			</li>
+ 								        </ul>
+ 		        			</td>
                         </tr>
                     </tbody>
                 </table>
@@ -89,6 +94,35 @@
 
 <script>
     $(function(){
+    	
+    	$(".deleteBtn").on("click", function(){
+				let akboId = $(this).data("akbo-id");
+				
+				console.log("악보 아이디 : " + akboId);
+				
+				if(confirm("게시물을 삭제하시겠습니까?")){
+					$.ajax({
+						type:`delete`
+						,url:"/akbo/deleteAkbo"
+						,data:{"akboId":akboId}
+						,success(response){
+							if(response.result == "success"){
+								alert("삭제되었습니다.");
+								location.href = "/akbo/myAkbo-view";
+							}
+							else{
+								alert("삭제 실패");
+							}
+						}
+						,error(){
+							alert("게시물 삭제 에러");
+						}
+					});
+				}
+			});
+    	
+    	
+    	
         $("#logoutBtn").on("click", function(){
             if(confirm("로그아웃 하겠습니까?")){
                 location.href = "/user/logout";

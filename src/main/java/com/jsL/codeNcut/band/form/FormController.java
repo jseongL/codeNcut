@@ -61,27 +61,19 @@ public class FormController {
 
 	    List<FormCardView> myFormCardList = formService.getMyFormList(userId);
 	    List<BandCardView> bandCardList = bandService.getBandCardList();
-
-	    
+    
 	    // bandId가 일치하는 Form + Band 묶기
-	    List<FormCardWithBandCardView> resultList = new ArrayList<>();
-	    for (FormCardView form : myFormCardList) {
-	        for (BandCardView band : bandCardList) {
-	            if (form.getBandId() == band.getBandId()) {
-	                resultList.add(
-	                		FormCardWithBandCardView.builder()
-	                		.formCard(form)
-	                		.bandCard(band)
-	                		.build()
-	                		);
-	                break;
-	            }
-	        }
-	    }
+	    List<FormCardWithBandCardView> resultList = formService.getFormCardWithBandCardList(myFormCardList, bandCardList);
 	    model.addAttribute("formBandList", resultList);
 	    return "/band/myForm";
 	}
 
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/modifyForm-view")
 	public String modifyForm(

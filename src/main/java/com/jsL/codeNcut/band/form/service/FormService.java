@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.jsL.codeNcut.band.dto.BandCardView;
 import com.jsL.codeNcut.band.form.domain.Form;
 import com.jsL.codeNcut.band.form.dto.FormCardView;
+import com.jsL.codeNcut.band.form.dto.FormCardWithBandCardView;
 import com.jsL.codeNcut.band.form.repository.FormRepository;
 
 import jakarta.persistence.PersistenceException;
@@ -122,8 +124,24 @@ public class FormService {
 		return true;
 	}
 	
-	
-	
+	//컨트롤러의 이중포문 서비스로 옮김
+	public List<FormCardWithBandCardView>getFormCardWithBandCardList(List<FormCardView> myFormCardList, List<BandCardView> bandCardList){
+		List<FormCardWithBandCardView>FormCardWithBandCardList = new ArrayList<>();	
+		for (FormCardView form : myFormCardList) {
+		        for (BandCardView band : bandCardList) {
+		            if (form.getBandId() == band.getBandId()) {
+		            	FormCardWithBandCardList.add(
+		                		FormCardWithBandCardView.builder()
+		                		.formCard(form)
+		                		.bandCard(band)
+		                		.build()
+		                		);
+		                break;
+		            }
+		        }
+		    }
+		return FormCardWithBandCardList;
+	}
 	
 	
 	

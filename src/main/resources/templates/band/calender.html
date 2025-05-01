@@ -48,15 +48,14 @@
   </div>
 </section>
 
-<!-- bandEvents JSON safe parsing -->
-<script th:inline="javascript">
-  let bandEvents = /*[[${bandCalenderList}]]*/ [];
-</script>
+
 
 <!-- 라이브러리 -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.7/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.7/index.global.min.js"></script>
+
+
 
 <!-- FullCalendar 초기화 -->
 <script>
@@ -67,15 +66,34 @@ document.addEventListener('DOMContentLoaded', function () {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
     locale: 'ko',
-    events: bandEvents.map(e => ({
-      title: e.title,
-      start: e.date,
-      extendedProps: {
-        part: e.part,
-        place: e.place,
-        bandId: e.bandId
-      }
-    })),
+    
+    events: function (info, successCallback, failureCallback) {
+      const start = info.startStr; 
+      const end = info.endStr;     
+
+      fetch(`/band/calendar-events?start=${start}&end=${end}`)//달의 시작, 끝 정보를 컨트롤러로
+        .then(response => {
+          if (!response.ok) throw new Error("Network error");
+          return response.json();
+        })
+        .then(data => {
+          const events = data.map(e => ({
+            title: e.title,
+            start: e.date,
+            extendedProps: {
+              part: e.part,
+              place: e.place,
+              bandId: e.bandId
+            }
+          }));
+          successCallback(events);
+        })
+        .catch(error => {
+          console.error("이벤트 불러오기 실패:", error);
+          failureCallback(error);
+        });
+    },
+
     eventClick: function (info) {
       info.jsEvent.preventDefault();
       popup.querySelector('div').innerHTML = `
@@ -106,6 +124,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
+
+
+
 
 </body>
 </html>

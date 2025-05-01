@@ -1,5 +1,6 @@
 package com.jsL.codeNcut.band.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -147,8 +148,9 @@ public class BandService {
 	
 	
 	
-	public List<BandCardView>getBandForCalender(){//밴드아이디, 제목, 파트, 장소, 날짜 정보만 저장
-		List<Band> bandList = bandRepository.findAll();
+	public List<BandCardView>getBandForCalender(String start, String end){//밴드아이디, 제목, 파트, 장소, 날짜 정보만 저장
+		List<Band> bandList = bandRepository.findByDateBetween(start, end);//날짜기준으로 조회
+		
 		List<BandCardView> bandCalenderList = new ArrayList<>();
 		for(Band band:bandList) {
 			BandCardView bandCardView = BandCardView.builder()

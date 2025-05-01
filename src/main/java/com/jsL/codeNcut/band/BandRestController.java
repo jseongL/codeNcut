@@ -1,14 +1,19 @@
 package com.jsL.codeNcut.band;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsL.codeNcut.band.dto.BandCardView;
 import com.jsL.codeNcut.band.service.BandService;
 
 import jakarta.servlet.http.HttpSession;
@@ -91,7 +96,11 @@ public class BandRestController {
 	
 	
 	
-	
+	@GetMapping("/calendar-events")
+	@ResponseBody
+	public List<BandCardView> getEvents(@RequestParam String start, @RequestParam String end) {
+	    return bandService.getBandForCalender(start, end);
+	}
 	
 	
 	
