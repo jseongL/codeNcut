@@ -43,9 +43,9 @@
         	<div th:data-id="${band.id}" id="bandId" class="writeSlider">
         
         		<div>
-	        		<input id="titleInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="간단한 소개">
-	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="지역">
-	        		<input id="partInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="구하는 파트">
+	        		<input id="titleInput" class="titleText rounded-lg form-control mt-3 " type="text" placeholder="간단한 소개" th:value="${band.title}">
+	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeholder="지역" th:value="${band.place}">
+	        		<input id="partInput" class="titleText rounded-lg form-control mt-3" type="text" placeholder="구하는 파트" th:value="${band.part}">
 	        		<textarea id="descriptionInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="내용입력..."></textarea>
         		</div>
         	</div>

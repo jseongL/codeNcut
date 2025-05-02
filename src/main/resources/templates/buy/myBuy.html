@@ -83,8 +83,7 @@
 							    <span th:if="${buyCard.status == '판매중'}" class="text-danger font-weight-bold" th:text="${buyCard.status}">판매중</span>
 							    <span th:unless="${buyCard.status == '판매중'}" class="text-success font-weight-bold" th:text="${buyCard.status}">판매완료</span>
 							  </p>
-							   <button th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
-							   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+							  
 							</div>	
 				</main>
     </div>
@@ -99,41 +98,6 @@
   $(function () {
 	  
 	  
-	  $(".buyBtn").on("click", function(){
-		    IMP.init("imp20361011");
-		    let priceGet = $(this).data("buy-price");
-		    let modelGet = $(this).data("buy-model");
-		    let buyId = $(this).data("buy-id");
-
-		    IMP.request_pay({
-		      pg: "kakaopay",
-		      pay_method: "card",
-		      amount: priceGet,
-		      name: modelGet,
-		      merchant_uid: "mid_" + new Date().getTime()
-		    }, function(rsp){
-		      if(rsp.success){
-		        alert("결제 성공! imp_uid: " + rsp.imp_uid);
-		        $.ajax({
-		          type: "post",
-		          url: "/buy/solded",
-		          data: { "buyId": buyId },
-		          success(responce){
-		            if(responce.result == "success"){
-		              location.reload();
-		            } else {
-		              alert("판매상태 변경 실패");
-		            }
-		          },
-		          error(){
-		            alert("판매상태 변경 에러");
-		          }
-		        });
-		      } else {
-		        alert("결제 실패: " + rsp.error_msg);
-		      }
-		    });
-		  });
 	  
 	  
 	  

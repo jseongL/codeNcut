@@ -79,8 +79,9 @@ public class FormController {
 	public String modifyForm(
 			@RequestParam int id
 			,Model model
-			) {	
-		model.addAttribute("bandId", id);		
+			) {
+		Form form = formService.getForm(id);
+		model.addAttribute("form", form);		
 		return "band/modifyForm"; 
 	}
 	

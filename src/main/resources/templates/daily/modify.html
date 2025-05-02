@@ -47,7 +47,7 @@
         <!--사진 추가--><input id="fileInput" type="file">
         		</article>
         		<div>
-	        		<input id="titleInput" class="titleText rounded-lg form-control" type="text" placeHolder="제목 입력">
+	        		<input id="titleInput" class="titleText rounded-lg form-control" type="text" placeHolder="제목 입력" th:value="${daily.title}">
 	        		<textarea id="contentsInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="문구추가..."></textarea>
         		</div>
         	</div>

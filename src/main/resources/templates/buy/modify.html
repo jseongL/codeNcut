@@ -30,8 +30,8 @@
     </header>
 
     <div th:data-id="${buy.id}" id="buyId" class="input-box d-flex flex-column align-items-center">
-      <input id="descriptionInput" type="text" class="form-control col-8 mb-3" th:value="${buy.description}">
-      <input id="modelInput" type="text" class="form-control col-8 mb-3" th:value="${buy.model}">
+      <input id="descriptionInput" type="text" class="form-control col-8 mb-3" placeholder="설명" th:value="${buy.description}">
+      <input id="modelInput" type="text" class="form-control col-8 mb-3" placeholder="모델명" th:value="${buy.model}">
 
       <select id="buyYearInput" class="form-control col-8 mb-3">
         <option value="">구매년도 선택</option>

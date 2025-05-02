@@ -145,7 +145,10 @@ public class FormService {
 	
 	
 	
-	
+	public Form getForm(int bandId) {
+		Form form = formRepository.findFirstByBandId(bandId);
+		return form;
+	}
 	
 	
 	

@@ -43,10 +43,10 @@
         	<div class="writeSlider">
         
         		<div>
-        			<input id="nameInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="이름">
-	        		<input id="phoneNumberInput" class="titleText rounded-lg form-control mt-3 " type="text" placeHolder="전화번호">
-	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="사는 곳">
-	        		<input id="experienceInput" class="titleText rounded-lg form-control mt-3" type="text" placeHolder="밴드 경험">
+        			<input id="nameInput" class="titleText rounded-lg form-control mt-3 " type="text" placeholder="이름" th:value="${form.name}">
+	        		<input id="phoneNumberInput" class="titleText rounded-lg form-control mt-3 " type="text" placeholder="전화번호" th:value="${form.phoneNumber}">
+	        		<input id="placeInput" class="titleText rounded-lg form-control mt-3" type="text" placeholder="사는곳" th:value="${form.place}">
+	        		<input id="experienceInput" class="titleText rounded-lg form-control mt-3" type="text" placeholder="밴드경험" th:value="${form.experience}">
 	        		<textarea id="introduceInput" class="writeText rounded-lg form-control mt-3" rows="10" type="text" placeHolder="자기소개"></textarea>
         		</div>	
         	</div>
@@ -58,7 +58,7 @@
         	
         	
         	
-        	<button id="shareBtn" th:data-id="${bandId}" class="mt-3 btn btn-danger btn-block">폼 수정하기</button>
+        	<button id="shareBtn" th:data-id="${form.bandId}" class="mt-3 btn btn-danger btn-block">폼 수정하기</button>
 				
 				
 			
