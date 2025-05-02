@@ -58,7 +58,7 @@
                         <tr class="bg-secondary" style="font-size:18px;">
                             <th>🎵 곡명</th>
                             <th>👤 아티스트</th>
-                            <th>⬇️ 다운로드</th>
+                            <th>⬇️ 더보기</th>
                         </tr>
                     </thead>
                     <tbody th:each="myAkboCard : ${myAkboCardList}">
@@ -66,15 +66,15 @@
                             <td th:text="${myAkboCard.songName}">한 페이지가 될 수 있게</td>
                             <td th:text="${myAkboCard.artist}">데이식스</td>
                             <td>
-                                <a th:href="${myAkboCard.imgPath}" target="_blank" class="btn btn-outline-success btn-sm downloadBtn" type="button">
-                                    다운로드
-                                </a>
-                            </td>
-                            <td>
  			        					<ul class="navi">
  								        			<li class="bg-info"><a href="#">더보기</a>
  								        				<ul class="submenu">
- 								<!-- 카드 리스트에서 포스트 아이디 값 보내야 함 --><li><a th:href="|/akbo/modify-view?id=${myAkboCard.akboId}|" class="text-white">수정하기</a></li>
+ 															<li>
+		 								        				<a th:href="${myAkboCard.imgPath}" target="_blank">
+								                                    다운로드
+								                                </a>
+		 								        			</li>
+ 															<li><a th:href="|/akbo/modify-view?id=${myAkboCard.akboId}|" class="text-white">수정하기</a></li>
  								        					<li><a th:data-akbo-id="${myAkboCard.akboId}" href="#" class="text-white deleteBtn">삭제하기</a></li>
  								        				</ul>
  								        			</li>

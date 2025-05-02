@@ -16,7 +16,7 @@
 					
 						
 						<button id="kakaoLogin" type="button" class="btn btn-warning btn-block mt-3">카카오로그인</button>
-						
+						<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 						
 					
 					<div class="text-center mt-4">
@@ -29,7 +29,7 @@
 
       
         
-         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+         
         <script layout:fragment="script">
         	
         	$(function(){
@@ -37,9 +37,8 @@
         		
         		$("#kakaoLogin").on("click",function(){
         			window.Kakao.init("8e21d39e384fd47832f19c8f5c977cb2");
-        			
         			window.Kakao.Auth.login({
-        				scope:'profile',
+        				scope:'	profile_nickname, profile_image',
         				success:function(authObj){
         					console.log(authObj);
         					window.Kakao.API.request({
@@ -47,11 +46,15 @@
         						success:res => {
         							const kakao_account = res.kakao_account;
         							console.log(kakao_account);
+        							
         						}
         					});
         				}
         			});
         		});
+        		
+        		
+        		
         		
 		
         		$("#loginForm").on("submit", function(e){
