@@ -30,6 +30,7 @@ public class UserService {
 				.phoneNumber(phoneNumber)
 				.nickname(nickname)
 				.email(email)
+				.loginType("LOCAL")
 				.build();
 		
 		try {
@@ -128,6 +129,32 @@ public class UserService {
 		
 		return true;
 	}
+	
+	
+	public User getUserByKakaoId(long kakaoId){
+		User user = userRepository.findByKakaoIdAndLoginType(kakaoId, "KAKAO");
+		return user;
+	}
+	
+	
+	public boolean addUserByKakao(long kakaoId, String phoneNumber, String nickname, String email) {
+		User user = User.builder()
+				.kakaoId(kakaoId)
+				.phoneNumber(phoneNumber)
+				.nickname(nickname)
+				.email(email)
+				.loginType("KAKAO")
+				.build();
+		try {
+			userRepository.save(user);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	
 	
 	

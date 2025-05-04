@@ -1,0 +1,105 @@
+<html lang="ko" 
+    xmlns:th="http://www.thymeleaf.org" 
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/default}">
+        
+        
+        <section layout:fragment="contents" class="contents d-flex justify-content-center">
+			<div class="border border-info user-box my-5 p-5 rounded-lg">
+				<h1 class="text-center text-warning">카카오 회원가입</h1>
+				<span class="text-secondary">악기거래, 음악일상공유, 악보검색, 밴드구인을 한번에!</span>
+			
+				<input id="phoneNumberInput" type="text" class="form-control mt-2" placeholder="전화번호">
+				<input id="nicknameInput" type="text" class="form-control mt-2" placeholder="닉네임">
+				<input id="emailInput" type="text" class="form-control mt-2" placeholder="이메일">
+				<button id="joinBtn" type="button" class="btn btn-warning btn-block mt-3">가입</button>
+				<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+				<div class="mt-4 d-flex justify-content-center">
+					<span>계정이 있으신가요?</span>
+					<a href="/user/login-view" class="ml-4">로그인</a>
+				</div>
+			</div>
+		</section>
+		
+		
+		
+		<script layout:fragment="script">
+		
+
+		 $(function () {
+			   window.Kakao.init("8e21d39e384fd47832f19c8f5c977cb2");
+
+			   $("#joinBtn").on("click", function () {
+				 
+				  
+			      let phoneNumber = $("#phoneNumberInput").val();
+			      let nickname = $("#nicknameInput").val();
+			      let email = $("#emailInput").val();
+
+			      if (phoneNumber == "") {
+			         alert("전화번호를 입력하세요.");
+			         return;
+			      }
+			      if (nickname == "") {
+			         alert("닉네임을 입력하세요.");
+			         return;
+			      }
+			      if (email == "") {
+			         alert("이메일을 입력하세요.");
+			         return;
+			      }
+
+			      // 카카오 로그인 → 그 후에 ajax 호출
+			      window.Kakao.Auth.login({
+			         scope: 'profile_nickname',
+			         success: function (authObj) {
+			            window.Kakao.API.request({
+			               url: '/v2/user/me',
+			               success: function (res) {
+			                  let kakaoId = res.id;
+			                  console.log("카카오ID: " + kakaoId);
+
+			                  $.ajax({
+			                     type: "post",
+			                     url: "/user/kakaoJoin",
+			                     data: {
+			                        kakaoId: kakaoId,
+			                        phoneNumber: phoneNumber,
+			                        nickname: nickname,
+			                        email: email
+			                     },
+			                     success(response) {
+			                        if (response.result == "success") {
+			                           alert("회원가입 되었습니다. 카카오로그인으로 로그인해주세요.");
+			                           location.href = "/user/login-view";
+			                        } else {
+			                           alert("회원가입 실패");
+			                        }
+			                     },
+			                     error() {
+			                        alert("회원가입 에러");
+			                     }
+			                  });
+			               },
+			               fail: function () {
+			                  alert("카카오 사용자 정보 조회 실패");
+			               }
+			            });
+			         },
+			         fail: function () {
+			            alert("카카오 로그인 실패");
+			         }
+			      });
+			   });
+			});
+
+		
+		
+		</script>
+		
+        
+        
+        
+        
+        
+</html>

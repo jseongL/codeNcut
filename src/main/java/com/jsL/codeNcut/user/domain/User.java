@@ -33,7 +33,7 @@ public class User {
 	private LocalDateTime updatedAt;
 	
 	
-
-	
+	private Long kakaoId;
+	private String loginType;
 
 }

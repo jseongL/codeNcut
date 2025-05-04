@@ -6,8 +6,7 @@ import com.jsL.codeNcut.user.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 	    public User findByLoginIdAndPassword(String loginId, String password);
-	    public int countByLoginId(String loginId);
-	   
+	    public int countByLoginId(String loginId);	   
 	    public User findByLoginId(String loginId);
-	   
+	    public User findByKakaoIdAndLoginType(long kakaoId, String loginType);
 }

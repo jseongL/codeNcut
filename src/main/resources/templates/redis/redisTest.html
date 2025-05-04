@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redis 테스트</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <input type="text" id="key" placeholder="Key" />
+  <input type="text" id="value" placeholder="Value" />
+  <button id="saveBtn">저장</button>
+  <button id="getBtn">가져오기</button>
+  <button id="deleteBtn">삭제</button>
+
+  <div id="result"></div> <!-- 값을 보여줄 영역 -->
+
+  <script>
+    // 저장 기능
+    $('#saveBtn').on('click', function () {
+      const key = $('#key').val();
+      const value = $('#value').val();
+
+      $.ajax({
+        type: 'POST',
+        url: '/redis/set',
+        data: { key: key, value: value },
+        success: function (response) {
+          alert("저장 성공: " + response);
+        },
+        error: function (xhr) {
+          alert("에러: " + xhr.status);
+        }
+      });
+    });
+
+    // 가져오기 기능
+    $('#getBtn').on('click', function () {
+      const key = $('#key').val();
+
+      $.ajax({
+        type: 'GET',
+        url: '/redis/get',
+        data: { key: key },
+        success: function (response) {
+          $('#result').text("저장된 값: " + response);
+        },
+        error: function (xhr) {
+          if (xhr.status === 404) {
+            $('#result').text("키에 해당하는 값이 없습니다.");
+          } else {
+            alert("에러: " + xhr.status);
+          }
+        }
+      });
+    });
+
+    // 삭제 기능
+    $('#deleteBtn').on('click', function () {
+      const key = $('#key').val();
+
+      $.ajax({
+        type: 'DELETE',
+        url: '/redis/delete',
+        data: { key: key },
+        success: function (response) {
+          $('#result').text("삭제 성공: " + response);
+        },
+        error: function (xhr) {
+          alert("에러: " + xhr.status);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

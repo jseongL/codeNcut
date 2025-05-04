@@ -2,7 +2,10 @@ package com.jsL.codeNcut.user;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +21,8 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
-	
+	@Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 	private final UserService userService;
 	
 	public UserRestController(UserService userService) {
@@ -64,7 +68,17 @@ public class UserRestController {
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userLoginId", user.getLoginId());
 			session.setAttribute("nickname", user.getNickname());
+			session.setAttribute("loginType", user.getLoginType());
 			resultMap.put("result", "success");
+		
+			String redisKey = "user:" + user.getId(); // Redis에 저장할 고유 키
+            redisTemplate.opsForHash().put(redisKey, "userId", user.getId());
+            redisTemplate.opsForHash().put(redisKey, "userLoginId", user.getLoginId());
+            redisTemplate.opsForHash().put(redisKey, "nickname", user.getNickname());
+            redisTemplate.opsForHash().put(redisKey, "loginType", user.getLoginType());
+
+            // 세션 정보 Redis에 저장 후 TTL 설정 (예: 30분)
+            redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
 		}
 		else {
 			resultMap.put("result", "fail");
@@ -165,6 +179,60 @@ public class UserRestController {
 		}
 		return new RedirectView("/user/fail");
 	}
+	
+	
+	@PostMapping("/kakaoLogin")
+	public Map<String, String>kakaoLogin(
+			@RequestParam long kakaoId
+			,HttpSession session
+			){
+		User user = userService.getUserByKakaoId(kakaoId);
+		Map<String, String> resultMap  = new HashMap<>();
+		if(user != null) {
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("loginType", user.getLoginType());
+			session.setAttribute("nickname", user.getNickname());
+			resultMap.put("result", "success");
+			
+			String redisKey = "user:" + user.getId(); // Redis에 저장할 고유 키
+            redisTemplate.opsForHash().put(redisKey, "userId", user.getId());
+            redisTemplate.opsForHash().put(redisKey, "nickname", user.getNickname());
+            redisTemplate.opsForHash().put(redisKey, "loginType", user.getLoginType());
+
+            // 세션 정보 Redis에 저장 후 TTL 설정 (예: 30분)
+            redisTemplate.expire(redisKey, 30, TimeUnit.MINUTES);
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		
+		return resultMap;
+	}
+	
+	
+	
+	@PostMapping("/kakaoJoin")
+	public Map<String, String> kakaoJoin(
+			@RequestParam long kakaoId,
+			@RequestParam String phoneNumber,
+			@RequestParam String nickname,
+			@RequestParam String email
+			){
+		boolean result = userService.addUserByKakao(kakaoId, phoneNumber, nickname, email);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
