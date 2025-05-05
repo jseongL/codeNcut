@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elasticsearch AJAX Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h2>문서 저장</h2>
+<input type="text" id="docId" placeholder="ID"><br>
+<input type="text" id="title" placeholder="Title"><br>
+<textarea id="content" placeholder="Content"></textarea><br>
+<button id="saveBtn">저장</button>
+
+<h2>전체 문서 조회</h2>
+<button id="loadBtn">불러오기</button>
+<ul id="resultList"></ul>
+
+<script>
+    // 저장
+    $('#saveBtn').click(function () {
+        const doc = {
+            id: $('#docId').val(),
+            title: $('#title').val(),
+            content: $('#content').val()
+        };
+        console.log("doc : " + doc.id);
+        $.ajax({
+            url: "/elastic/save",
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(doc),
+            success: function (res) {
+                alert('저장 완료: ' + JSON.stringify(res));
+            },
+            error: function () {
+                alert('저장 실패');
+            }
+        });
+    });
+
+    // 불러오기
+   $('#loadBtn').click(function () {
+        $.get('/elastic/get', function (data) {
+            $('#resultList').empty();
+
+            if (data.content && Array.isArray(data.content)) {
+                data.content.forEach(doc => {
+                    $('#resultList').append(`
+                        <li>
+                            ${doc.title}: ${doc.content}
+                            <button class="deleteBtn" data-id="${doc.id}">삭제</button>
+                        </li>
+                    `);
+                });
+
+                // 삭제 버튼 클릭 이벤트 처리
+                $('.deleteBtn').click(function () {
+                    const id = $(this).data('id');
+                    $.ajax({
+                        url: "/elastic/delete",
+                        data:{"id":id},
+                        method: 'DELETE',
+                        success: function () {
+                            alert('삭제 완료');
+                            $('#loadBtn').click(); // 삭제 후 목록 새로고침
+                        },
+                        error: function () {
+                            alert('삭제 실패');
+                        }
+                    });
+                });
+
+            } else {
+                $('#resultList').append('<li>데이터 형식 오류 또는 결과 없음</li>');
+                console.error('Unexpected response:', data);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
