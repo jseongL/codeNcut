@@ -9,4 +9,5 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	    public int countByLoginId(String loginId);	   
 	    public User findByLoginId(String loginId);
 	    public User findByKakaoIdAndLoginType(long kakaoId, String loginType);
+	    public User findByKakaoId(long kakaoId);
 }

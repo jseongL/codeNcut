@@ -38,43 +38,42 @@
         		
       
         		
-        		$("#kakaoLogin").on("click",function(){
-        			
-        			
-        			
-        			window.Kakao.Auth.login({
-        				scope:'profile_nickname',
-        				success:function(authObj){
-        					console.log(authObj);
-        					window.Kakao.API.request({
-        						url:'/v2/user/me',
-        						success:res => {
-        							const kakaoId = res.id;
-        							const nickname = res.kakao_account.profile.nickname;
-        							console.log("카카오아이디 : " + kakaoId + " 닉네임 : " + nickname);
-        							
-        							$.ajax({
-        								type:`post`
-        								,url:"/user/kakaoLogin"
-        								,data:{"kakaoId":kakaoId}
-        								,success(responce){
-        									if(responce.result == "success"){
-        										location.href="/main-view";
-        									}
-        									else{
-        										alert("계정이 없습니다.");
-        										location.href="/user/kakaoJoin-view";
-        									}
-        								}
-        								,error(){
-        									alert("카카오 로그인 에러");
-        								}
-        							});
-        							
-        						}
-        					});
-        				}
-        			});
+        		$("#kakaoLogin").on("click", function () {
+        		    window.Kakao.Auth.logout(function () {
+        		        console.log("카카오 세션 로그아웃 완료");
+
+        		        window.Kakao.Auth.login({
+        		            scope: 'profile_nickname',
+        		            success: function (authObj) {
+        		                console.log(authObj);
+        		                window.Kakao.API.request({
+        		                    url: '/v2/user/me',
+        		                    success: res => {
+        		                        const kakaoId = res.id;
+        		                        const nickname = res.kakao_account.profile.nickname;
+        		                        console.log("카카오아이디 : " + kakaoId + " 닉네임 : " + nickname);
+
+        		                        $.ajax({
+        		                            type: `post`,
+        		                            url: "/user/kakaoLogin",
+        		                            data: { "kakaoId": kakaoId },
+        		                            success(responce) {
+        		                                if (responce.result == "success") {
+        		                                    location.href = "/main-view";
+        		                                } else {
+        		                                    alert("계정이 없습니다.");
+        		                                    location.href = "/user/kakaoJoin-view";
+        		                                }
+        		                            },
+        		                            error() {
+        		                                alert("카카오 로그인 에러");
+        		                            }
+        		                        });
+        		                    }
+        		                });
+        		            }
+        		        });
+        		    });
         		});
         		
         		

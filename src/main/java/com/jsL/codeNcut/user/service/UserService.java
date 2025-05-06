@@ -4,6 +4,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.jsL.codeNcut.akbo.repository.AkboRepository;
+import com.jsL.codeNcut.band.form.repository.FormRepository;
+import com.jsL.codeNcut.band.repository.BandRepository;
+import com.jsL.codeNcut.buy.repository.BuyRepository;
+import com.jsL.codeNcut.daily.comment.repository.CommentRepository;
+import com.jsL.codeNcut.daily.like.repository.DailyLikeRepository;
+import com.jsL.codeNcut.daily.repository.DailyRepository;
 import com.jsL.codeNcut.user.common.MD5HashingEncoder;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.repository.UserRepository;
@@ -14,9 +21,11 @@ import jakarta.persistence.PersistenceException;
 public class UserService {
 
 	private final UserRepository userRepository;
+
+
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
-	}
+}
 	
 	public boolean addUser(String loginId, String password, String phoneNumber, String nickname, String email) {
 		
@@ -153,6 +162,33 @@ public class UserService {
 		return true;
 	}
 	
+	
+	
+	public boolean updateKakaoUser(long kakaoId, String phoneNumber, String nickname, String email) {
+		User user = userRepository.findByKakaoId(kakaoId);
+		user = user.toBuilder()
+				.phoneNumber(phoneNumber)
+				.nickname(nickname)
+				.email(email)
+				.build();
+		try {
+			userRepository.save(user);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	public boolean withdrawKakaoUser(long kakaoId) {
+		User user = userRepository.findByKakaoId(kakaoId);
+		try {
+			userRepository.delete(user);
+		}catch(PersistenceException e) {
+			return false;
+		}
+		return true;
+	}
 	
 	
 	

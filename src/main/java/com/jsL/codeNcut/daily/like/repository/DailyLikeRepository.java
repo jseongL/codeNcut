@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 
 public interface DailyLikeRepository extends JpaRepository<DailyLike, Integer>{
 
+	void deleteAllByUserId(int userId);
 	public int countByDailyId(int dailyId);
 	public boolean existsByDailyIdAndUserId(int dailyId, int userId);
 	@Transactional

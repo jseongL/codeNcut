@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -229,9 +230,38 @@ public class UserRestController {
 	}
 	
 	
+	@PostMapping("/kakaoChange")
+	public Map<String, String> kakaoChange(
+			@RequestParam long kakaoId,
+			@RequestParam String phoneNumber,
+			@RequestParam String nickname,
+			@RequestParam String email
+			){
+		boolean result = userService.updateKakaoUser(kakaoId, phoneNumber, nickname, email);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}
+		else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
-	
+	@DeleteMapping("/kakaoDelete")
+	public Map<String, String>kakaoDelete(
+			@RequestParam long kakaoId
+			){
+		boolean result = userService.withdrawKakaoUser(kakaoId);
+		Map<String, String> resultMap = new HashMap<>();
+		if(result) {
+			resultMap.put("result", "success");
+		}else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
 	
 	
 	

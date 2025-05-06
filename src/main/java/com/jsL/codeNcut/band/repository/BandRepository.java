@@ -11,4 +11,5 @@ public interface BandRepository extends JpaRepository<Band, Integer>{
 	public List<Band>findByUserId(int userId);
 	public List<Band>findByPlaceContainingOrTitleContainingOrPartContaining(String text1, String text2, String text3);
 	public List<Band>findByDateBetween(String start, String end);
+	void deleteAllByUserId(int userId);
 }

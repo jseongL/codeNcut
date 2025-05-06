@@ -39,7 +39,7 @@ public class ElasticsearchInitializer implements CommandLineRunner {
 
         if (buySearchRepository.count() == 0) {
             buySearchRepository.saveAll(documentsResult);
-            System.out.println("Elasticsearch에 초기 데이터 세팅 완료!");
+            System.out.println("Elasticsearch에 초기 데이터 세팅 완료");
         } else {
             System.out.println("이미 Elasticsearch에 데이터가 있습니다.");
         }

@@ -39,9 +39,12 @@
 		<div id="modalOverlay">
 		<div id="modal">
 			<div class="modal_up d-flex justify-content-center">
-				<ul>
-					<li><a href="/user/confirm-view">계정변경</a></li>
-					<li><a href="/user/deleteConfirm-view">계정탈퇴</a></li>
+				<ul th:if="${user != null}">
+					<li th:if="${user.loginType == 'LOCAL'}"><a href="/user/confirm-view">계정변경</a></li>
+					<li th:unless="${user.loginType == 'LOCAL'}"><a href="/user/kakao/changeUser-view">계정변경</a></li>
+					<li th:if="${user.loginType == 'LOCAL'}"><a href="/user/deleteConfirm-view">계정탈퇴</a></li>
+					<li th:unless="${user.loginType == 'LOCAL'}"><a href="#" id="kakaoDeleteBtn">계정탈퇴</a></li>
+					<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 				</ul>
 			</div>
 			<button class="btn btn-danger btn-block deleteBtn">닫기</button>
@@ -58,6 +61,53 @@
 		
 		
 		$(function(){
+			 window.Kakao.init("8e21d39e384fd47832f19c8f5c977cb2");
+			$("#kakaoDeleteBtn").on("click", function(){
+				
+				 window.Kakao.Auth.login({
+			         scope: 'profile_nickname',
+			         success: function (authObj) {
+			            window.Kakao.API.request({
+			               url: '/v2/user/me',
+			               success: function (res) {
+			                  let kakaoId = res.id;
+			                  console.log("카카오ID: " + kakaoId);
+			                  if(confirm("계정을 탈퇴하시겠습니까?")){
+			                	  window.Kakao.API.request({
+			                		    url: '/v1/user/unlink',
+			                		    success: function (res) {
+			                		        console.log("연결 끊기 성공", res);
+
+			                		        // 이 후에 서버에 사용자 탈퇴 요청
+			                		        $.ajax({
+			                		            type: `delete`,
+			                		            url: "/user/kakaoDelete",
+			                		            data: {"kakaoId":kakaoId},
+			                		            success(responce) {
+			                		                if (responce.result === "success") {
+			                		                    alert("탈퇴되었습니다.");
+			                		                    window.Kakao.Auth.logout(function () {
+			                		                        location.href = "/user/login-view"; // 로그인 페이지로 이동
+			                		                    });
+			                		                } else {
+			                		                    alert("탈퇴 실패");
+			                		                }
+			                		            },
+			                		            error() {
+			                		                alert("탈퇴 에러");
+			                		            }
+			                		        });
+			                		    },
+			                		    fail: function (error) {
+			                		        console.error("연결 끊기 실패", error);
+			                		    }
+			                		});
+			                  }
+			               }
+			            });
+			         }
+				 });
+			});
 			
 			$("#setting").on("click", function(){
 				$("#modalOverlay").show();

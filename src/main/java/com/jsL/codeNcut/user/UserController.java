@@ -72,5 +72,20 @@ public class UserController {
 	}
 	
 	
+	@GetMapping("/kakao/changeUser-view")
+	public String kakaoConfirmView() {
+		return "user/kakaoChangeUser";
+	}
+	
+	
+	@GetMapping("/kakao/deleteUser-view")
+	public String kakaoDeleteConfirmView() {
+		return "user/kakaoDeleteUser";
+	}
+	
+	
+	
+	
+	
 
 }
