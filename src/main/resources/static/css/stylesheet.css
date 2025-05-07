@@ -186,6 +186,10 @@ body{
 .buyFileInput{
 	margin-left:90px;
 }
+.buyShareBtn{
+	margin-left:850px;
+	position:absolute;
+}
 
 
 

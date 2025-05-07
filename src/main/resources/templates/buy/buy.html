@@ -101,6 +101,10 @@
 				  <span th:text="${buyCard.description}" class="ml-4 text-white" style="font-size: 1rem;">
 				    설명
 				  </span>
+				  <svg th:if="${buyCard.status == '판매중'}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share buyShareBtn" viewBox="0 0 16 16">
+				  <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+				</svg>
+				<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 				</div>
 				<main class="d-flex align-items-center">
 						<article class="buyImg">
@@ -128,7 +132,7 @@
 							    <span th:if="${buyCard.status == '판매중'}" class="text-danger font-weight-bold" th:text="${buyCard.status}">판매중</span>
 							    <span th:unless="${buyCard.status == '판매중'}" class="text-success font-weight-bold" th:text="${buyCard.status}">판매완료</span>
 							  </p>
-							   <button th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
+							   <button th:if="${buyCard.status == '판매중'}" th:data-buy-price="${buyCard.price}" th:data-buy-model="${buyCard.model}" th:data-buy-id="${buyCard.buyId}" type="button" class="btn btn-danger btn-block mt-3 font-weight-bold buyBtn">바로구매</button>
 							   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 							</div>	
 				</main>
@@ -153,8 +157,36 @@
 		
 		
 		$(function(){
+			window.Kakao.init("8e21d39e384fd47832f19c8f5c977cb2");
 			
-			
+			$(".buyShareBtn").on("click", function(){
+				const imgSrc = $(this).closest("div").next(".buyImg").find("img").attr("src");
+				const img = location.origin + imgSrc;
+			     const model = $(this).closest("div").find("span:nth-child(1)").text();
+			     const price = $(this).closest("div").find(".buyInfo span.text-success").text();
+			     
+			     Kakao.Link.sendDefault({
+			        objectType: 'feed',
+			        content: {
+			          title: `[${model}] 악기거래 상품`,
+			          description: `가격: ${price}만원`,
+			          imageUrl: img,
+			          link: {
+			            mobileWebUrl: location.href,
+			            webUrl: location.href
+			          }
+			        },
+			        buttons: [
+			          {
+			            title: '앱으로 보기',
+			            link: {
+			              mobileWebUrl: location.href,
+			              webUrl: location.href
+			            }
+			          }
+			        ]
+			      });
+			});
 			
 			
 			
