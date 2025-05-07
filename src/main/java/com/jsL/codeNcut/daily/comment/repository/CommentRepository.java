@@ -8,5 +8,5 @@ import com.jsL.codeNcut.daily.comment.domain.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer>{
 	public List<Comment>findByDailyId(int dailyId);
-	void deleteAllByUserId(int userId);
+	void deleteByUserId(int userId);
 }

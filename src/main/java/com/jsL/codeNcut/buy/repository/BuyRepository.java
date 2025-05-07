@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.jsL.codeNcut.buy.domain.Buy;
 
 public interface BuyRepository extends JpaRepository<Buy, Integer>{
-	void deleteAllByUserId(int userId);
+	void deleteByUserId(int userId);
 	public List<Buy>findByUserId(int userId);
 	//public List<Buy> findByModelContainingOrDescriptionContaining(String keyword1, String keyword2);
 }

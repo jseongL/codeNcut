@@ -8,5 +8,5 @@ import com.jsL.codeNcut.daily.domain.Daily;
 
 public interface DailyRepository extends JpaRepository<Daily, Integer>{
 	public List<Daily>findByUserId(int userId);
-	void deleteAllByUserId(int userId);
+	void deleteByUserId(int userId);
 }

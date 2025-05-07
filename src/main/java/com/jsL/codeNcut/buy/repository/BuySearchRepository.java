@@ -10,5 +10,6 @@ import com.jsL.codeNcut.buy.domain.BuyDocument;
 public interface BuySearchRepository extends ElasticsearchRepository<BuyDocument, Integer> {
 	@Query("{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"model\", \"description\"], \"fuzziness\": \"AUTO\"}}")
 	List<BuyDocument> search(String text);
-
+	
+	public List<BuyDocument>findByUserId(int userId);
 }

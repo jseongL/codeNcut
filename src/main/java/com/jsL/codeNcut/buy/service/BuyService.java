@@ -51,6 +51,7 @@ public class BuyService {
 	        // Elasticsearch에 저장
 	        BuyDocument document = BuyDocument.builder()
 	                .id(buy.getId())
+	                .userId(buy.getUserId())
 	                .model(buy.getModel())
 	                .description(buy.getDescription())
 	                .build();
@@ -137,6 +138,7 @@ public class BuyService {
 	            // Elasticsearch에도 업데이트
 	            BuyDocument doc = BuyDocument.builder()
 	                    .id(buy.getId())
+	                    .userId(buy.getUserId())
 	                    .description(buy.getDescription())
 	                    .model(buy.getModel())
 	                    .build();

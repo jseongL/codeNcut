@@ -19,6 +19,7 @@ public class BuyDocument {
 	
 	@Id
     private int id;
+	private int userId;
     private String model;
     private String description;
 
