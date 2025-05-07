@@ -1,6 +1,5 @@
 package com.jsL.codeNcut.user.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -8,9 +7,7 @@ import org.springframework.stereotype.Service;
 import com.jsL.codeNcut.akbo.repository.AkboRepository;
 import com.jsL.codeNcut.band.form.repository.FormRepository;
 import com.jsL.codeNcut.band.repository.BandRepository;
-import com.jsL.codeNcut.buy.domain.BuyDocument;
 import com.jsL.codeNcut.buy.repository.BuyRepository;
-import com.jsL.codeNcut.buy.repository.BuySearchRepository;
 import com.jsL.codeNcut.daily.comment.repository.CommentRepository;
 import com.jsL.codeNcut.daily.like.repository.DailyLikeRepository;
 import com.jsL.codeNcut.daily.repository.DailyRepository;
@@ -32,7 +29,7 @@ public class UserService {
 	private final CommentRepository commentRepository;
 	private final DailyLikeRepository dailyLikeRepository;
 	private final DailyRepository dailyRepository;
-	private final BuySearchRepository buySearchRepository;
+
 
 	public UserService(
 	    UserRepository userRepository,
@@ -42,8 +39,8 @@ public class UserService {
 	    BuyRepository buyRepository,
 	    CommentRepository commentRepository,
 	    DailyLikeRepository dailyLikeRepository,
-	    DailyRepository dailyRepository,
-	    BuySearchRepository buySearchRepository
+	    DailyRepository dailyRepository
+
 	) {
 	    this.userRepository = userRepository;
 	    this.akboRepository = akboRepository;
@@ -53,7 +50,7 @@ public class UserService {
 	    this.commentRepository = commentRepository;
 	    this.dailyLikeRepository = dailyLikeRepository;
 	    this.dailyRepository = dailyRepository;
-	    this.buySearchRepository = buySearchRepository;
+
 	}
 	
 	
@@ -185,8 +182,8 @@ public class UserService {
 	        
 	        
 	        //es 데이터 삭제
-	        List<BuyDocument> docs = buySearchRepository.findByUserId(userId);
-	        buySearchRepository.deleteAll(docs);
+//	        List<BuyDocument> docs = buySearchRepository.findByUserId(userId);
+//	        buySearchRepository.deleteAll(docs);
 
 	        
 	        

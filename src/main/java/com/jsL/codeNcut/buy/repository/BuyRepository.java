@@ -9,5 +9,5 @@ import com.jsL.codeNcut.buy.domain.Buy;
 public interface BuyRepository extends JpaRepository<Buy, Integer>{
 	void deleteByUserId(int userId);
 	public List<Buy>findByUserId(int userId);
-	//public List<Buy> findByModelContainingOrDescriptionContaining(String keyword1, String keyword2);
+	public List<Buy> findByModelContainingOrDescriptionContaining(String keyword1, String keyword2);
 }
