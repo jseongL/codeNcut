@@ -11,5 +11,5 @@
 //	@Query("{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"model\", \"description\"], \"fuzziness\": \"AUTO\"}}")
 //	List<BuyDocument> search(String text);
 //	
-//	public List<BuyDocument>findByUserId(int userId);
+//	public List<BuyDocument>rfindByUserId(int userId);
 //}
