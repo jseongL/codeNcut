@@ -56,7 +56,7 @@ public class UserRestController {
 			@RequestParam String loginId
 			,@RequestParam String password
 			,HttpSession session
-			){
+			) throws Exception{
 		
 		User user= userService.getUser(loginId, password);
 		
@@ -83,6 +83,10 @@ public class UserRestController {
 		}
 		return resultMap;
 	}
+	
+	
+	
+	
 	
 	
 	@GetMapping("/duplicate-id")

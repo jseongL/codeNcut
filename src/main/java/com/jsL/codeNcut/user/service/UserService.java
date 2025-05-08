@@ -12,6 +12,7 @@ import com.jsL.codeNcut.daily.comment.repository.CommentRepository;
 import com.jsL.codeNcut.daily.like.repository.DailyLikeRepository;
 import com.jsL.codeNcut.daily.repository.DailyRepository;
 import com.jsL.codeNcut.user.common.MD5HashingEncoder;
+import com.jsL.codeNcut.user.common.PasswordUtil;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.repository.UserRepository;
 
@@ -55,15 +56,24 @@ public class UserService {
 	
 	
 	
-	public boolean addUser(String loginId, String password, String phoneNumber, String nickname, String email) {
+	public boolean addUser(String loginId, String password, String phoneNumber, String nickname, String email) {	
+		//String encyptPassword = MD5HashingEncoder.encode(password);
 		
-		String encyptPassword = MD5HashingEncoder.encode(password);
-		
-		//String saltedPassword = Encrypt.main(password);//회원가입할 때 입력받은 비밀번호
+		String salt = PasswordUtil.generateSalt();
+		String hashedPassword;
+		try {
+			hashedPassword = PasswordUtil.hashPassword(password, salt);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	
 		
 		User user = User.builder()
 				.loginId(loginId)
-				.password(encyptPassword)
+				.password(hashedPassword)
+				.salt(salt)
 				.phoneNumber(phoneNumber)
 				.nickname(nickname)
 				.email(email)
@@ -79,11 +89,22 @@ public class UserService {
 		return true;
 	}
 		
-	public User getUser(String loginId, String password) {//로그인할 때 입력받은 비밀번호
-		String encyptPassword = MD5HashingEncoder.encode(password);
-		User user = userRepository.findByLoginIdAndPassword(loginId, encyptPassword);	
-		return user;	
+	
+	
+	public User getUser(String loginId, String password) throws Exception {
+	    User user = userRepository.findByLoginId(loginId);
+	    if (user == null) return null;
+
+	    String hashedInput = PasswordUtil.hashPassword(password, user.getSalt());
+
+	    if (hashedInput.equals(user.getPassword())) {//사용자가 입력한 비밀번호와 DB에 저장된 salt화 비번이랑 일치하면 유저객체 반환
+	        return user;
+	    }
+	    return null;
 	}
+	
+	
+	
 	
 	
 	public boolean isDuplicateByLoginId(String loginId) {
