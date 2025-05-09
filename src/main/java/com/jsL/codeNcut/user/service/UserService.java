@@ -125,35 +125,50 @@ public class UserService {
 	
 	public boolean userConfirm(int userId, String loginId, String password) {
 	    Optional<User> optionalUser = userRepository.findById(userId);
-	    if(optionalUser.isPresent()) {
+	    if (optionalUser.isPresent()) {
 	        User user = optionalUser.get();
-	        String encryptPassword = MD5HashingEncoder.encode(password);
-	        return user.getLoginId().equals(loginId) && user.getPassword().equals(encryptPassword);
+	        String salt = user.getSalt();
+	        try {
+	            String hashedPassword = PasswordUtil.hashPassword(password, salt);
+	            return user.getLoginId().equals(loginId) && user.getPassword().equals(hashedPassword);
+	        } catch (Exception e) {
+	            return false;
+	        }
 	    }
 	    return false;
 	}
 	
 	
+	
 	public boolean updateUser(int userId, String loginId, String password, String phoneNumber, String nickname, String email) {
-		Optional<User> optionalUser = userRepository.findById(userId);
-		String encyptPassword = MD5HashingEncoder.encode(password);
-		 if(optionalUser.isEmpty()) {		 
-			 return false;
-		 }
-		User user = optionalUser.get();
-		user = user.toBuilder()
-				.loginId(loginId)
-				.password(encyptPassword)
-				.phoneNumber(phoneNumber)
-				.nickname(nickname)
-				.email(email)
-				.build();
-		try {
-			userRepository.save(user);
-		}catch(PersistenceException e) {
-			return false;
-		}
-		return true;
+	    Optional<User> optionalUser = userRepository.findById(userId);
+	    if (optionalUser.isEmpty()) {
+	        return false;
+	    }
+
+	    User user = optionalUser.get();
+	    String salt = user.getSalt(); // 기존 salt 유지
+	    String hashedPassword;
+	    try {
+	        hashedPassword = PasswordUtil.hashPassword(password, salt);
+	    } catch (Exception e) {
+	        return false;
+	    }
+
+	    user = user.toBuilder()
+	        .loginId(loginId)
+	        .password(hashedPassword)
+	        .phoneNumber(phoneNumber)
+	        .nickname(nickname)
+	        .email(email)
+	        .build();
+
+	    try {
+	        userRepository.save(user);
+	    } catch (PersistenceException e) {
+	        return false;
+	    }
+	    return true;
 	}
 	
 	

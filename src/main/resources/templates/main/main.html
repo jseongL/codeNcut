@@ -125,8 +125,8 @@
 			    if(confirm("로그아웃 하시겠습니까?")){
 			    	if (loginType === "KAKAO") {
 			    		alert("'이 서비스만 로그아웃'을 클릭하시면 아이디 재입력 없이 로그인됩니다.\n보안을 위해 '카카오계정과 함께 로그아웃'을 클릭해주세요.");
-				        //const logoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=8e21d39e384fd47832f19c8f5c977cb2&logout_redirect_uri=http://localhost:8080/user/login-view";
-				        const logoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=8e21d39e384fd47832f19c8f5c977cb2&logout_redirect_uri=http://43.203.202.25:8080/user/login-view";
+	/*로컬호스트용*/		    //const logoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=8e21d39e384fd47832f19c8f5c977cb2&logout_redirect_uri=http://localhost:8080/user/login-view";
+	/*aws용*/			    const logoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=8e21d39e384fd47832f19c8f5c977cb2&logout_redirect_uri=http://43.203.202.25:8080/user/login-view";
 				        window.location.href = logoutUrl;
 				    } else {
 				        window.location.href = "/user/logout";
