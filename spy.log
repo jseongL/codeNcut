@@ -1,0 +1,2 @@
+1746870151055|34|statement|connection 44|url jdbc:mysql://localhost:3306/codencut|select b1_0.id,b1_0.buyYear,b1_0.createdAt,b1_0.description,b1_0.imgPath,b1_0.model,b1_0.price,b1_0.status,b1_0.updatedAt,b1_0.userId from `buy` b1_0|select b1_0.id,b1_0.buyYear,b1_0.createdAt,b1_0.description,b1_0.imgPath,b1_0.model,b1_0.price,b1_0.status,b1_0.updatedAt,b1_0.userId from `buy` b1_0
+1746870151065|0|rollback|connection 44|url jdbc:mysql://localhost:3306/codencut||

@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jsL.codeNcut.buy.domain.Buy;
+import com.jsL.codeNcut.buy.domain.BuyDocument;
 import com.jsL.codeNcut.buy.dto.BuyCardView;
 import com.jsL.codeNcut.buy.repository.BuyRepository;
+import com.jsL.codeNcut.buy.repository.BuySearchRepository;
 //import com.jsL.codeNcut.buy.repository.BuySearchRepository;
 import com.jsL.codeNcut.config.FileManager;
 import com.jsL.codeNcut.user.domain.User;
@@ -22,11 +24,11 @@ import jakarta.persistence.PersistenceException;
 public class BuyService {
 	private final BuyRepository buyRepository;
 	private final UserService userService;
-	//private final BuySearchRepository buySearchRepository;
-	public BuyService(BuyRepository buyRepository, UserService userService) {
+	private final BuySearchRepository buySearchRepository;
+	public BuyService(BuyRepository buyRepository, UserService userService, BuySearchRepository buySearchRepository) {
 		this.buyRepository = buyRepository;
 		this.userService = userService;
-		//this.buySearchRepository = buySearchRepository;
+		this.buySearchRepository = buySearchRepository;
 	}
 	
 	
@@ -47,14 +49,14 @@ public class BuyService {
 	    try {
 	        buy = buyRepository.save(buy);  // ID 생성됨
 
-//	        // Elasticsearch에 저장
-//	        BuyDocument document = BuyDocument.builder()
-//	                .id(buy.getId())
-//	                .userId(buy.getUserId())
-//	                .model(buy.getModel())
-//	                .description(buy.getDescription())
-//	                .build();
-//	        buySearchRepository.save(document);
+	        // Elasticsearch에 저장
+	        BuyDocument document = BuyDocument.builder()
+	                .id(buy.getId())
+	                .userId(buy.getUserId())
+	                .model(buy.getModel())
+	                .description(buy.getDescription())
+	                .build();
+	        buySearchRepository.save(document);
 
 	    } catch (PersistenceException e) {
 	        return false;
@@ -134,15 +136,15 @@ public class BuyService {
 	        try {
 	            buyRepository.save(buy);
 
-//	            // Elasticsearch에도 업데이트
-//	            BuyDocument doc = BuyDocument.builder()
-//	                    .id(buy.getId())
-//	                    .userId(buy.getUserId())
-//	                    .description(buy.getDescription())
-//	                    .model(buy.getModel())
-//	                    .build();
-//
-//	            buySearchRepository.save(doc);
+	            // Elasticsearch에도 업데이트
+	            BuyDocument doc = BuyDocument.builder()
+	                    .id(buy.getId())
+	                    .userId(buy.getUserId())
+	                    .description(buy.getDescription())
+	                    .model(buy.getModel())
+	                    .build();
+
+	            buySearchRepository.save(doc);
 	        } catch (PersistenceException e) {
 	            return false;
 	        }
@@ -165,7 +167,7 @@ public class BuyService {
 			
 			try {
 				buyRepository.delete(buy);
-				//buySearchRepository.deleteById(buy.getId());//es에서 삭제
+				buySearchRepository.deleteById(buy.getId());//es에서 삭제
 			}catch(PersistenceException e) {
 				return false;
 			}
@@ -199,28 +201,64 @@ public class BuyService {
 		return true;
 	}
 	
+//	//jpa like속성 으로 조회
+//	public List<BuyCardView> searchBuy(String text) {
+//		long start = System.currentTimeMillis(); // 시작 시간
+//		List<Buy>buyList = buyRepository.findByModelContainingOrDescriptionContaining(text, text);
+//		List<BuyCardView> buyCardList = new ArrayList<>();
+//		for(Buy buy:buyList) {
+//			User user = userService.getUserByUserId(buy.getUserId());
+//			BuyCardView buyCardView = BuyCardView.builder()
+//					.buyId(buy.getId())
+//					.nickname(user.getNickname())
+//					.description(buy.getDescription())
+//					.model(buy.getModel())
+//					.buyYear(buy.getBuyYear())
+//					.price(buy.getPrice())
+//					.imgPath(buy.getImgPath())
+//					.status(buy.getStatus())
+//					.build();
+//			buyCardList.add(buyCardView);
+//		}
+//		
+//		 long end = System.currentTimeMillis(); // 종료 시간
+//		 System.out.println("JPA LIKE 검색 시간: " + (end - start) + "ms");
+//		return buyCardList;
+//	}
 	
+	
+	
+	//elastic search로 조회
 	public List<BuyCardView> searchBuy(String text) {
-		List<Buy>buyList = buyRepository.findByModelContainingOrDescriptionContaining(text, text);
-		List<BuyCardView> buyCardList = new ArrayList<>();
-		for(Buy buy:buyList) {
-			User user = userService.getUserByUserId(buy.getUserId());
-			BuyCardView buyCardView = BuyCardView.builder()
-					.buyId(buy.getId())
-					.nickname(user.getNickname())
-					.description(buy.getDescription())
-					.model(buy.getModel())
-					.buyYear(buy.getBuyYear())
-					.price(buy.getPrice())
-					.imgPath(buy.getImgPath())
-					.status(buy.getStatus())
-					.build();
-			buyCardList.add(buyCardView);
-		}
-		return buyCardList;
+	    long start = System.currentTimeMillis(); // 시작 시간
+
+	    List<BuyDocument> documents = buySearchRepository.search(text);
+	    List<BuyCardView> result = new ArrayList<>();
+
+	    for (BuyDocument doc : documents) {
+	        Buy buy = buyRepository.findById(doc.getId()).orElse(null);
+	        if (buy == null) continue;
+
+	        User user = userService.getUserByUserId(buy.getUserId());
+
+	        BuyCardView view = BuyCardView.builder()
+	            .buyId(buy.getId())
+	            .nickname(user.getNickname())
+	            .description(buy.getDescription())
+	            .model(buy.getModel())
+	            .buyYear(buy.getBuyYear())
+	            .price(buy.getPrice())
+	            .imgPath(buy.getImgPath())
+	            .status(buy.getStatus())
+	            .build();
+	        result.add(view);
+	    }
+
+	    long end = System.currentTimeMillis(); // 종료 시간
+	    System.out.println("Elasticsearch 검색 시간: " + (end - start) + "ms");
+
+	    return result;
 	}
-	
-	
 	
 	
 	
