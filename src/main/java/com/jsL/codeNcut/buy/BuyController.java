@@ -80,6 +80,7 @@ import jakarta.servlet.http.HttpSession;
 			@RequestParam String text
 			,Model model
 			){
+ 		
 		List<BuyCardView> buyCardList  = buyService.searchBuy(text);
 		
 		model.addAttribute("buyCardList", buyCardList);

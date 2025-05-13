@@ -36,7 +36,6 @@
         	$(function(){
         		window.Kakao.init("8e21d39e384fd47832f19c8f5c977cb2");
         		
-      
         		
         		$("#kakaoLogin").on("click", function () {
         		    window.Kakao.Auth.logout(function () {
@@ -51,12 +50,16 @@
         		                    success: res => {
         		                        const kakaoId = res.id;
         		                        const nickname = res.kakao_account.profile.nickname;
-        		                        console.log("카카오아이디 : " + kakaoId + " 닉네임 : " + nickname);
-
+        		                        const accessToken = authObj.access_token;
+        		                        console.log("카카오아이디 : " + kakaoId + " 닉네임 : " + nickname + " 토큰 : " + accessToken);
+										
+        		                        
+        		                        
+        		                        
         		                        $.ajax({
         		                            type: `post`,
         		                            url: "/user/kakaoLogin",
-        		                            data: { "kakaoId": kakaoId },
+        		                            data: {"kakaoId": kakaoId},
         		                            success(responce) {
         		                                if (responce.result == "success") {
         		                                    location.href = "/main-view";
