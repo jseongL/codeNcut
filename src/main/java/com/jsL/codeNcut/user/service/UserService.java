@@ -1,5 +1,6 @@
 package com.jsL.codeNcut.user.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ import com.jsL.codeNcut.buy.repository.BuyRepository;
 import com.jsL.codeNcut.daily.comment.repository.CommentRepository;
 import com.jsL.codeNcut.daily.like.repository.DailyLikeRepository;
 import com.jsL.codeNcut.daily.repository.DailyRepository;
-import com.jsL.codeNcut.user.common.MD5HashingEncoder;
 import com.jsL.codeNcut.user.common.PasswordUtil;
+import com.jsL.codeNcut.user.common.VerifyKakaoAccessToken;
 import com.jsL.codeNcut.user.domain.User;
 import com.jsL.codeNcut.user.repository.UserRepository;
 
@@ -30,6 +31,7 @@ public class UserService {
 	private final CommentRepository commentRepository;
 	private final DailyLikeRepository dailyLikeRepository;
 	private final DailyRepository dailyRepository;
+	private final VerifyKakaoAccessToken verify;
 
 
 	public UserService(
@@ -40,8 +42,8 @@ public class UserService {
 	    BuyRepository buyRepository,
 	    CommentRepository commentRepository,
 	    DailyLikeRepository dailyLikeRepository,
-	    DailyRepository dailyRepository
-
+	    DailyRepository dailyRepository,
+	    VerifyKakaoAccessToken verify
 	) {
 	    this.userRepository = userRepository;
 	    this.akboRepository = akboRepository;
@@ -51,7 +53,7 @@ public class UserService {
 	    this.commentRepository = commentRepository;
 	    this.dailyLikeRepository = dailyLikeRepository;
 	    this.dailyRepository = dailyRepository;
-
+	    this.verify = verify;
 	}
 	
 	
@@ -233,17 +235,22 @@ public class UserService {
 	
 	
 	
-	
-	
-	
-	
-	public User getUserByKakaoId(long kakaoId){
-		User user = userRepository.findByKakaoIdAndLoginType(kakaoId, "KAKAO");
-		return user;
+	public User getUserByKakaoId(long kakaoId, String accessToken) {
+	    // 1. 카카오 API 호출해서 accessToken 검증
+	    Long verifiedId = verify.verifyKakaoAccessToken(accessToken);
+
+	    // 2. 프론트에서 보낸 kakaoId와 카카오 응답이 일치하는지 체크
+	    if (!Objects.equals(verifiedId, kakaoId)) {
+	        throw new RuntimeException("카카오 ID 불일치 - 위조된 토큰일 수 있음");
+	    }
+
+	    // 3. DB에서 유저 조회
+	    User user =  userRepository.findByKakaoIdAndLoginType(kakaoId, "KAKAO");
+	    return user;
 	}
 	
 	
-	public boolean addUserByKakao(long kakaoId, String phoneNumber, String nickname, String email) {
+	public boolean addUserByKakao(long kakaoId, String accessToken, String phoneNumber, String nickname, String email) {
 		User user = User.builder()
 				.kakaoId(kakaoId)
 				.phoneNumber(phoneNumber)

@@ -56,14 +56,16 @@
 			            window.Kakao.API.request({
 			               url: '/v2/user/me',
 			               success: function (res) {
-			                  let kakaoId = res.id;
-			                  console.log("카카오ID: " + kakaoId);
+			            	  const kakaoId = res.id;
+		                      const accessToken = authObj.access_token;
+			                  console.log("카카오ID: " + kakaoId + " 토큰 : " + accessToken);
 
 			                  $.ajax({
 			                     type: "post",
 			                     url: "/user/kakaoJoin",
 			                     data: {
 			                        kakaoId: kakaoId,
+			                        accessToken: accessToken,
 			                        phoneNumber: phoneNumber,
 			                        nickname: nickname,
 			                        email: email

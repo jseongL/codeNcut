@@ -59,7 +59,7 @@
         		                        $.ajax({
         		                            type: `post`,
         		                            url: "/user/kakaoLogin",
-        		                            data: {"kakaoId": kakaoId},
+        		                            data: {"kakaoId": kakaoId,"accessToken":accessToken},
         		                            success(responce) {
         		                                if (responce.result == "success") {
         		                                    location.href = "/main-view";

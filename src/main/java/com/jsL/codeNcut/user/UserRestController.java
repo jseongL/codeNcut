@@ -186,9 +186,10 @@ public class UserRestController {
 	@PostMapping("/kakaoLogin")
 	public Map<String, String>kakaoLogin(
 			@RequestParam long kakaoId
+			,@RequestParam String accessToken
 			,HttpSession session
 			){
-		User user = userService.getUserByKakaoId(kakaoId);
+		User user = userService.getUserByKakaoId(kakaoId, accessToken);
 		Map<String, String> resultMap  = new HashMap<>();
 		if(user != null) {
 			session.setAttribute("userId", user.getId());
@@ -216,11 +217,12 @@ public class UserRestController {
 	@PostMapping("/kakaoJoin")
 	public Map<String, String> kakaoJoin(
 			@RequestParam long kakaoId,
+			@RequestParam String accessToken,
 			@RequestParam String phoneNumber,
 			@RequestParam String nickname,
 			@RequestParam String email
 			){
-		boolean result = userService.addUserByKakao(kakaoId, phoneNumber, nickname, email);
+		boolean result = userService.addUserByKakao(kakaoId, accessToken, phoneNumber, nickname, email);
 		Map<String, String> resultMap = new HashMap<>();
 		if(result) {
 			resultMap.put("result", "success");
