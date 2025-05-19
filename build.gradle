@@ -47,9 +47,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	
 	
-	/*implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	
-	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'*/
+	//implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	
+	
+	 implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본 로그 (Logback 포함)
+     implementation 'org.slf4j:slf4j-api:2.0.9'
 }
 
 tasks.named('test') {

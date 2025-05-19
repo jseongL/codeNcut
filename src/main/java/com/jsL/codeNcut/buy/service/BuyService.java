@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import jakarta.persistence.PersistenceException;
 public class BuyService {
 	private final BuyRepository buyRepository;
 	private final UserService userService;
+	private static final Logger logger = LoggerFactory.getLogger(BuyService.class);
 	//private final BuySearchRepository buySearchRepository;
 	public BuyService(BuyRepository buyRepository, UserService userService) {
 		this.buyRepository = buyRepository;
@@ -199,8 +202,9 @@ public class BuyService {
 		return true;
 	}
 	
-	
+	//jpa like속성 으로 조회
 	public List<BuyCardView> searchBuy(String text) {
+		long start = System.currentTimeMillis(); // 시작 시간
 		List<Buy>buyList = buyRepository.findByModelContainingOrDescriptionContaining(text, text);
 		List<BuyCardView> buyCardList = new ArrayList<>();
 		for(Buy buy:buyList) {
@@ -217,10 +221,45 @@ public class BuyService {
 					.build();
 			buyCardList.add(buyCardView);
 		}
+		
+		 long end = System.currentTimeMillis(); // 종료 시간
+		 logger.info("JPA LIKE 검색 시간: {}ms", (end - start)); 
 		return buyCardList;
 	}
 	
 	
+	
+//	//elastic search로 조회
+//	public List<BuyCardView> searchBuy(String text) {
+//	    long start = System.currentTimeMillis(); // 시작 시간
+//
+//	    List<BuyDocument> documents = buySearchRepository.search(text);
+//	    List<BuyCardView> result = new ArrayList<>();
+//
+//	    for (BuyDocument doc : documents) {
+//	        Buy buy = buyRepository.findById(doc.getId()).orElse(null);
+//	        if (buy == null) continue;
+//
+//	        User user = userService.getUserByUserId(buy.getUserId());
+//
+//	        BuyCardView view = BuyCardView.builder()
+//	            .buyId(buy.getId())
+//	            .nickname(user.getNickname())
+//	            .description(buy.getDescription())
+//	            .model(buy.getModel())
+//	            .buyYear(buy.getBuyYear())
+//	            .price(buy.getPrice())
+//	            .imgPath(buy.getImgPath())
+//	            .status(buy.getStatus())
+//	            .build();
+//	        result.add(view);
+//	    }
+//
+//	    long end = System.currentTimeMillis(); // 종료 시간
+//	    logger.info("Elastic Search 검색 시간: {}ms", (end - start)); 
+//
+//	    return result;
+//	}
 	
 	
 	

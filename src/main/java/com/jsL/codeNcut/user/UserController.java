@@ -42,7 +42,7 @@ public class UserController {
 	    session.removeAttribute("loginType");
 
 	    // 로그아웃 후 메인 페이지로 리디렉션
-	    return "redirect:/main-view";
+	    return "redirect:/user/login-view";
 	}
 	
 	

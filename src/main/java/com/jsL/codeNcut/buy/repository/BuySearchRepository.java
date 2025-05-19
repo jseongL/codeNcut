@@ -1,5 +1,4 @@
 //package com.jsL.codeNcut.buy.repository;
-//
 //import java.util.List;
 //
 //import org.springframework.data.elasticsearch.annotations.Query;
@@ -8,8 +7,12 @@
 //import com.jsL.codeNcut.buy.domain.BuyDocument;
 //
 //public interface BuySearchRepository extends ElasticsearchRepository<BuyDocument, Integer> {
-//	@Query("{\"multi_match\": {\"query\": \"?0\", \"fields\": [\"model\", \"description\"], \"fuzziness\": \"AUTO\"}}")
-//	List<BuyDocument> search(String text);
-//	
-//	public List<BuyDocument>rfindByUserId(int userId);
+//
+//    @Query("{\"bool\": {\"should\": [" +
+//            "{\"match_phrase\": {\"model\": \"?0\"}}," +
+//            "{\"match_phrase\": {\"description\": \"?0\"}}" +
+//            "]}}")
+//    List<BuyDocument> search(String text);
+//
+//    List<BuyDocument> findByUserId(int userId);
 //}
